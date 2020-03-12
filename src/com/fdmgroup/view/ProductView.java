@@ -5,17 +5,20 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.fdmgroup.controller.ProductController;
-import com.fdmgroup.dao.ProductDao;
+import com.fdmgroup.dao.JDBCProductDao;
 import com.fdmgroup.model.Product;
+import com.fdmgroup.model.User;
 
 public class ProductView {
 
 	private Scanner scanner;
 	private ProductController productController;
+	private JDBCProductDao jdbcProductDao;
 	
 	public ProductView(Scanner scanner) {
 		super();
 		this.scanner = scanner;
+		this.jdbcProductDao = new JDBCProductDao();
 	}
 
 	public ProductController getProductController() {
@@ -26,17 +29,17 @@ public class ProductView {
 		this.productController = productController;
 	}
 
-	public void showAddForm() {
+	public void showAddForm(User user) {
 		System.out.println("Enter new Product Name: ");
-		Product product = new Product();
-		product.setName(scanner.nextLine());
-		productController.insertProduct(product);
+		String productName = scanner.nextLine();
+		productController.insertProduct(user, productName);
 	}
 	
-	public void showAll() {
-		ArrayList<Product> products = new ProductDao().findAll();
+	public void showAll(User user) {
+		ArrayList<Product> products = jdbcProductDao.findMine(user);
+		System.out.println("Product Id | Name");
 		for (Product product : products) {
-			System.out.println(product.getName());
+			System.out.println(product.getProduct_id() + "| " + product.getName());
 		}
 		
 	}

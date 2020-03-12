@@ -3,6 +3,7 @@ package com.fdmgroup.model;
 public class Product implements IStorable{
 	private String name;
 	private User owner, creator;
+	private int product_id;
 
 	public Product() {
 		super();
@@ -13,6 +14,14 @@ public class Product implements IStorable{
 	
 	public Product(String name, User owner, User creator) {
 		super();
+		this.name = name;
+		this.owner = owner;
+		this.creator = creator;
+	}
+	
+	public Product(int product_id, String name, User owner, User creator) {
+		super();
+		this.product_id = product_id;
 		this.name = name;
 		this.owner = owner;
 		this.creator = creator;
@@ -40,5 +49,13 @@ public class Product implements IStorable{
 
 	public void setCreator(User creator) {
 		this.creator = creator;
+	}
+	
+	public int getProduct_id() {
+		return product_id;
+	}
+
+	public void setProduct_id(int product_id) {
+		this.product_id = product_id;
 	}
 }

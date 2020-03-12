@@ -68,8 +68,17 @@ public class HomeView {
 	}
 	
 	public void showRegistrationOptions() {
-		// TODO Auto-generated method stub
+		System.out.println("----Register---------");
+		System.out.println("Enter a Username: ");
+		String username = scanner.nextLine();
+		System.out.println("Enter a Password: ");
+		String password = scanner.nextLine();
+		System.out.println("Enter First Name: ");
+		String fname = scanner.nextLine();
+		System.out.println("Enter Last name: ");
+		String lname = scanner.nextLine();
 		
+		authenticationController.register(username, password, fname, lname);
 	}
 	public void showLoginOptions() {
 		System.out.println("-----Login--------------");

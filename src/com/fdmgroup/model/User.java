@@ -3,23 +3,22 @@ package com.fdmgroup.model;
 public class User implements IStorable{
 	private int id;
 	private String username;
-	private String password;
 	private String firstname;
 	private String lastname;
-	private String role;
+	private String role, salt;
 	private double wallet;
 	public User() {
 		super();
 	}
-	public User(int id, String username, String password, String firstname, String lastname, String role, double wallet) {
+	public User(int id, String username, String firstname, String lastname, String role, double wallet, String salt) {
 		super();
 		this.id = id;
 		this.username = username;
-		this.password = password;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.wallet = wallet;
 		this.role = role;
+		this.salt = salt;
 	}
 	public int getId() {
 		return id;
@@ -32,12 +31,6 @@ public class User implements IStorable{
 	}
 	public void setUsername(String username) {
 		this.username = username;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
 	}
 	public String getFirstname() {
 		return firstname;
@@ -65,8 +58,11 @@ public class User implements IStorable{
 	}
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", firstname=" + firstname
+		return "User [id=" + id + ", username=" + username + ", firstname=" + firstname
 				+ ", lastname=" + lastname + "]";
+	}
+	public String getSalt() {
+		return salt;
 	}
 	
 }

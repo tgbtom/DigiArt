@@ -8,7 +8,8 @@ import com.fdmgroup.controller.HomeController;
 import com.fdmgroup.controller.ProductController;
 import com.fdmgroup.controller.UserController;
 import com.fdmgroup.dao.IUserDao;
-import com.fdmgroup.dao.UserCollectionDao;
+import com.fdmgroup.dao.JDBCConnection;
+import com.fdmgroup.dao.JDBCUserDao;
 import com.fdmgroup.view.AuctionView;
 import com.fdmgroup.view.DashboardView;
 import com.fdmgroup.view.HomeView;
@@ -16,9 +17,13 @@ import com.fdmgroup.view.ProductView;
 import com.fdmgroup.view.UserView;
 
 public class MainApp {
+	
 	public static void main(String[] args) {
+	
+		JDBCConnection.initDrivers();
+		
 		Scanner scanner = new Scanner(System.in);
-		IUserDao userDao = new UserCollectionDao();
+		IUserDao userDao = new JDBCUserDao();
 		
 		//views
 		HomeView hv = new HomeView(scanner);
@@ -32,7 +37,7 @@ public class MainApp {
 		AuthenticationController ac = new AuthenticationController();
 		ProductController pc = new ProductController();
 		UserController uc = new UserController();
-		AuctionController auc = new AuctionController();
+		AuctionController auc = new AuctionController(scanner);
 		
 		hc.setHomeView(hv);
 		ac.setHomeView(hv);
@@ -51,10 +56,10 @@ public class MainApp {
 		pv.setProductController(pc);
 		uv.setDashboardView(dv);
 		uv.setUserController(uc);
+		uv.setAuctionController(auc);
 		
 		hc.showHome();
 		scanner.close();
-		
 	}
 }
 

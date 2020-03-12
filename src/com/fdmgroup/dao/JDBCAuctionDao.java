@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fdmgroup.model.Auction;
-import com.fdmgroup.model.IStorable;
+import com.fdmgroup.model.Product;
+import com.fdmgroup.model.User;
 
-public class AuctionDao implements IStorage, IEditable{
+public class JDBCAuctionDao implements IAuctionDao{
 
 	public static ArrayList<Auction> getAll() {
 		ArrayList<Auction> auctions = new ArrayList<>();
@@ -16,25 +17,31 @@ public class AuctionDao implements IStorage, IEditable{
 	}
 
 	@Override
-	public IStorable create(IStorable t) {
+	public Auction update(Auction t) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public IStorable findById(int id) {
+	public Auction create(Auction t) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List findAll() {
+	public Auction findById(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public IStorable update(IStorable t) {
+	public List<Auction> findAll(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Product> findMine(User user) {
 		// TODO Auto-generated method stub
 		return null;
 	}

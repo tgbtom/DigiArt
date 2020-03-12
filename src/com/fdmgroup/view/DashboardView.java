@@ -61,34 +61,33 @@ public class DashboardView {
 		System.out.println("Please select one option : ");
 		System.out.println("1) Logout");
 		System.out.println("2) Add New Product");
-		System.out.println("3) View All Products");
-		System.out.println("4) User Profile");
-		System.out.println("5) View All Auctions");
+		System.out.println("3) View All My Products");
+		System.out.println("4) Create Auction");
+		System.out.println("5) User Profile");
+		System.out.println("6) View All Auctions");
 		String userInput = scanner.nextLine();
 		switch (userInput) {
 		case "1":
 			autheticationController.logout();
 			break;
-
 		case "2":
-			productController.addNewProduct();
+			productController.addNewProduct(user);
 			showDashboard(user);
 			break;
-			
 		case "3":
-			productController.showAll();
+			productController.showAll(user);
 			showDashboard(user);
 			break;
-			
 		case "4":
+			auctionController.createAuction(user);
+			break;
+		case "5":
 			userController.showProfile(user);
 			break;
-			
-		case "5":
+		case "6":
 			auctionController.showAll();
 			showDashboard(user);
 			break;
-			
 		default:
 			System.out.println("Please enter valid option");
 			showDashboard(user);

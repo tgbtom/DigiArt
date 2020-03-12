@@ -1,16 +1,17 @@
 package com.fdmgroup.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-public class Auction {
+public class Auction implements IStorable{
 	private Product product;
-	private Date start_time, end_time;
+	private LocalDateTime start_time, end_time;
 	private Bid current_bid;
 	private double min_increase;
+
 	public Auction() {
-		this(new Product(), new Date(), new Date(), new Bid(), 0.5d);
+		this(new Product(), LocalDateTime.now(), LocalDateTime.now(), new Bid(), 5.0d);
 	}
-	public Auction(Product product, Date start_time, Date end_time, Bid current_bid, double min_increase) {
+	public Auction(Product product, LocalDateTime start_time, LocalDateTime end_time, Bid current_bid, double min_increase) {
 		super();
 		this.product = product;
 		this.start_time = start_time;
@@ -24,16 +25,16 @@ public class Auction {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-	public Date getStart_time() {
+	public LocalDateTime getStart_time() {
 		return start_time;
 	}
-	public void setStart_time(Date start_time) {
+	public void setStart_time(LocalDateTime start_time) {
 		this.start_time = start_time;
 	}
-	public Date getEnd_time() {
+	public LocalDateTime getEnd_time() {
 		return end_time;
 	}
-	public void setEnd_time(Date end_time) {
+	public void setEnd_time(LocalDateTime end_time) {
 		this.end_time = end_time;
 	}
 	public Bid getCurrent_bid() {

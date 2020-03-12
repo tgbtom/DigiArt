@@ -1,17 +1,18 @@
 package com.fdmgroup.controller;
 
-import java.util.List;
-
-import com.fdmgroup.dao.ProductDao;
+import com.fdmgroup.dao.JDBCProductDao;
 import com.fdmgroup.model.Product;
+import com.fdmgroup.model.User;
 import com.fdmgroup.view.ProductView;
 
 public class ProductController {
 
 	private ProductView productView;
+	private JDBCProductDao jdbcProductDao;
 
 	public ProductController() {
 		super();
+		this.jdbcProductDao = new JDBCProductDao();
 	}
 
 	public ProductView getProductView() {
@@ -22,16 +23,17 @@ public class ProductController {
 		this.productView = productView;
 	}
 
-	public void addNewProduct() {
-		productView.showAddForm();
+	public void addNewProduct(User user) {
+		productView.showAddForm(user);
 	}
 	
-	public void insertProduct(Product product) {
-		new ProductDao().create(product);
+	public void insertProduct(User user, String productName) {
+		Product myProduct = new Product(productName, user, user);
+		jdbcProductDao.create(myProduct);
 	}
 
-	public void showAll() {
-		productView.showAll();
+	public void showAll(User user) {
+		productView.showAll(user);
 	}
 	
 }

@@ -20,7 +20,7 @@ public class JDBCUserDao implements IUserDao{
 
 	@Override
 	public User findById(int id) {
-		Connection conn = JDBCConnection.openConnection();
+		Connection conn = JDBCConnection.getInstance();
 		try {
 			String query = "SELECT user_id, username, first_name, last_name, wallet, salt FROM users WHERE user_id = ?";
 			PreparedStatement ps = conn.prepareStatement(query);
@@ -31,7 +31,7 @@ public class JDBCUserDao implements IUserDao{
 				User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), "member", rs.getDouble(5), rs.getString(6));
 				return user;
 			}
-			conn.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -53,7 +53,7 @@ public class JDBCUserDao implements IUserDao{
 
 	@Override
 	public Optional<User> findByUsername(String name) {
-		Connection conn = JDBCConnection.openConnection();
+		Connection conn = JDBCConnection.getInstance();
 		try {
 			String query = "SELECT user_id, username, first_name, last_name, wallet, salt FROM users WHERE username LIKE ?";
 			PreparedStatement ps = conn.prepareStatement(query);
@@ -64,12 +64,11 @@ public class JDBCUserDao implements IUserDao{
 				User user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), "member", rs.getDouble(5), rs.getString(6));
 				return Optional.ofNullable(user);
 			}
-			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Invalid Credentials, please try again");
+		System.out.println("Username did not exist in the database");
 		return Optional.empty();
 	}
 
@@ -82,7 +81,7 @@ public class JDBCUserDao implements IUserDao{
 	@Override
 	public void deposit(User user, double amountToDeposit) {
 		double newBalance = user.getWallet() + amountToDeposit;
-		Connection conn = JDBCConnection.openConnection();
+		Connection conn = JDBCConnection.getInstance();
 		
 		String query = "UPDATE users SET wallet = ? WHERE user_id = ?";
 		PreparedStatement ps;
@@ -94,7 +93,6 @@ public class JDBCUserDao implements IUserDao{
 			ps.executeUpdate();
 			
 			user.setWallet(newBalance);
-			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -103,7 +101,7 @@ public class JDBCUserDao implements IUserDao{
 	@Override
 	public void withdraw(User user, double amountToWithdraw) {
 		double newBalance = user.getWallet() - amountToWithdraw;
-		Connection conn = JDBCConnection.openConnection();
+		Connection conn = JDBCConnection.getInstance();
 		
 		String query = "UPDATE users SET wallet = ? WHERE user_id = ?";
 		PreparedStatement ps;
@@ -115,7 +113,6 @@ public class JDBCUserDao implements IUserDao{
 			ps.executeUpdate();
 			
 			user.setWallet(newBalance);
-			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

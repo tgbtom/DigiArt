@@ -64,7 +64,7 @@ public class AuthenticationController {
 	}
 
 	private boolean authenticateUser(String username, String hashedPass) {
-		Connection conn = JDBCConnection.openConnection();
+		Connection conn = JDBCConnection.getInstance();
 		
 		String query = "SELECT COUNT(*) FROM users WHERE username LIKE ? AND password LIKE ?";
 		try {
@@ -87,9 +87,8 @@ public class AuthenticationController {
 	}
 
 	public void register(String username, String password, String fname, String lname) {
-		Connection conn = JDBCConnection.openConnection();
-		Optional<User> user = userDao.findByUsername(username);
-		if(user.isPresent()) {
+		Connection conn = JDBCConnection.getInstance();
+		if(userDao.findByUsername(username).isPresent()) {
 			System.out.println("Username is already in use, please try something new!");
 		}
 		else {
@@ -111,7 +110,6 @@ public class AuthenticationController {
 				ps.executeUpdate();
 				conn.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

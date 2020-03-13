@@ -36,7 +36,7 @@ public class JDBCAuctionDao implements IAuctionDao{
 
 	@Override
 	public Auction create(Auction auction) {
-		Connection conn = JDBCConnection.openConnection();
+		Connection conn = JDBCConnection.getInstance();
 		
 		String query = "INSERT INTO auctions (auction_id, start_time, end_time, min_bid_increase, bid_holder, product_id, user_id, current_price) "
 				+ "VALUES (AUCTION_ID_SEQ.NEXTVAL, "
@@ -60,7 +60,6 @@ public class JDBCAuctionDao implements IAuctionDao{
 			ResultSet rs = ps.getGeneratedKeys();
 			rs.next();
 			auction.setAuctionId(rs.getInt(1));
-			conn.close();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -72,8 +71,8 @@ public class JDBCAuctionDao implements IAuctionDao{
 
 	@Override
 	public Auction findById(int id) {
-		Connection conn = JDBCConnection.openConnection();
-		String query = "SELECT start_time, end_time, min_bid_increase, bid_holder, product_id, user_id, current_price"
+		Connection conn = JDBCConnection.getInstance();
+		String query = "SELECT start_time, end_time, min_bid_increase, bid_holder, product_id, user_id, current_price "
 				+ "FROM auctions WHERE auction_id = ?";
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);
@@ -106,7 +105,7 @@ public class JDBCAuctionDao implements IAuctionDao{
 
 	@Override
 	public void updateStatus(Product product, String newStatus) {
-		Connection conn = JDBCConnection.openConnection();
+		Connection conn = JDBCConnection.getInstance();
 		String query = "UPDATE inventory SET status = ? WHERE product_id = ? AND user_id = ?";
 		
 		PreparedStatement ps;
@@ -117,7 +116,6 @@ public class JDBCAuctionDao implements IAuctionDao{
 			ps.setInt(3, product.getOwner().getId());
 			
 			ps.executeUpdate();
-			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -125,7 +123,11 @@ public class JDBCAuctionDao implements IAuctionDao{
 	}
 
 	public void testBid(Auction auction) {
-		Connection conn = JDBCConnection.openConnection();
+		
+		//Dont allow a user to bid on their own auction
+		//Validate funds when placing a bid, if enough, return previous bidder their funds before replacing the bid
+		
+		Connection conn = JDBCConnection.getInstance();
 		
 		double newAmount = auction.getCurrent_bid().getValue() + auction.getMin_increase();
 		
@@ -135,14 +137,40 @@ public class JDBCAuctionDao implements IAuctionDao{
 			ps.setDouble(1, newAmount);
 			ps.setInt(2, 9);
 			ps.setInt(3, auction.getAuctionId());
-			
 			ps.executeUpdate();
-			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+	}
+	
+	@Override
+	public void placeBid(Auction auction, User user, double bidAmount) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+
+	@Override
+	public boolean remove(Auction auction) {
+		Connection conn = JDBCConnection.getInstance();
+		
+		String query = "DELETE FROM auctions WHERE auction_id = ?";
+		try {
+			PreparedStatement ps = conn.prepareStatement(query);
+			ps.setInt(1, auction.getAuctionId());
+			
+			int affectedRows = ps.executeUpdate();
+			
+			return affectedRows == 1;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return false;
 	}
 
 }

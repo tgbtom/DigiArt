@@ -2,16 +2,20 @@ package com.fdmgroup.controller;
 
 
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import com.fdmgroup.dao.JDBCAuctionDao;
+import com.fdmgroup.dao.JDBCConnection;
 import com.fdmgroup.dao.JDBCProductDao;
 import com.fdmgroup.model.Auction;
 import com.fdmgroup.model.Bid;
@@ -41,8 +45,9 @@ public class AuctionController extends TimerTask{
 		super();
 		this.scanner = scanner;
 		this.auctionId = auctionId;
+		this.jdbcProductDao = new JDBCProductDao();
+		this.jdbcAuctionDao = new JDBCAuctionDao();
 	}
-
 
 
 	public AuctionView getAuctionView() {
@@ -76,16 +81,56 @@ public class AuctionController extends TimerTask{
 			jdbcAuctionDao.updateStatus(product, "Auctioned");
 			
 			Timer timer = new Timer();
-//			Comparator<Integer> sortByDesc = (o1, o2) -> o2.compareTo(o1);
 			System.out.println("Passed Auction id is: "+ auction.getAuctionId());
-			timer.schedule(new AuctionController(scanner, auction.getAuctionId()), Date.from(endTime.atZone(ZoneId.systemDefault()).toInstant()));
-			jdbcAuctionDao.testBid(auction);
+			scheduleJob(auction);
+//			timer.schedule(new AuctionController(scanner, auction.getAuctionId()), Date.from(endTime.atZone(ZoneId.systemDefault()).toInstant()));
+//			jdbcAuctionDao.testBid(auction);
 		}
 		else {
 			System.out.println("You are not able to auction this product");
 		}
 	}
 	
+	private void scheduleJob(Auction auction) {
+		Connection conn = JDBCConnection.getInstance();
+		System.out.println(auction.getEnd_time().truncatedTo(ChronoUnit.SECONDS).toString().replace('T', ' '));
+		
+		String query = "BEGIN\r\n" + 
+				"    DBMS_SCHEDULER.CREATE_JOB (\r\n" + 
+				"            job_name => '\"AUCTION_END"+ auction.getAuctionId() +"\"',\r\n" + 
+				"            job_type => 'PLSQL_BLOCK',\r\n" + 
+				"            job_action => '\r\n" + 
+				"  UPDATE inventory SET status = ''testaga'' WHERE product_id = "+ auction.getProduct().getProduct_id() +";\r\n" + 
+				"  \r\n" + 
+				"  commit;\r\n',\r\n" + 
+				"            number_of_arguments => 0,\r\n" + 
+				"            start_date => TO_TIMESTAMP('"+ auction.getEnd_time().truncatedTo(ChronoUnit.SECONDS).toString().replace('T', ' ') +"','YYYY-MM-DD HH24:MI:SS'),\r\n" + 
+				"            repeat_interval => NULL,\r\n" + 
+				"            end_date => NULL,\r\n" + 
+				"            enabled => FALSE,\r\n" + 
+				"            auto_drop => TRUE,\r\n" + 
+				"            comments => '');\r\n" + 
+				"\r\n" + 
+				"         \r\n" + 
+				"     \r\n" + 
+				" \r\n" + 
+				"    DBMS_SCHEDULER.SET_ATTRIBUTE( \r\n" + 
+				"             name => '\"AUCTION_END"+ auction.getAuctionId() +"\"', \r\n" + 
+				"             attribute => 'logging_level', value => DBMS_SCHEDULER.LOGGING_OFF);\r\n" + 
+				"    DBMS_SCHEDULER.enable(\r\n" + 
+				"             name => '\"AUCTION_END"+ auction.getAuctionId() +"\"');\r\n" + 
+				"END;";
+		
+		try {
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate(query);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	private void promptAuctionCreation() {
 		System.out.println("Enter the id of the product you wish to put up for auction: ");
 		productId = Integer.parseInt(scanner.nextLine());
@@ -99,14 +144,19 @@ public class AuctionController extends TimerTask{
 
 	@Override
 	public void run() {
-		System.out.println("Finding Auction #:"+ auctionId);
-		if(jdbcAuctionDao.equals(null)) {
-			System.out.println("jdbcauctiondao is null :(");
-		}
 		Auction updatedAuction = jdbcAuctionDao.findById(auctionId);
-		System.out.println(updatedAuction.getCurrent_bid().getValue());
-		System.out.println(updatedAuction.getCurrent_bid().getBidder().getUsername());
-		System.out.println("Auction Ended, sold for: "+ updatedAuction.getCurrent_bid().getValue() + ", bought by: "+ updatedAuction.getCurrent_bid().getBidder().getUsername());
+		
+		if (updatedAuction.getCurrent_bid().getBidder().getId() == updatedAuction.getProduct().getCreator().getId()) {
+			jdbcAuctionDao.updateStatus(updatedAuction.getProduct(), "Available");
+			
+			System.out.println("No bids were placed and the item was returned to creators inventory");
+		}
+		else {
+			jdbcAuctionDao.updateStatus(updatedAuction.getProduct(), "Sold");
+			jdbcProductDao.addToInventory(updatedAuction.getCurrent_bid().getBidder(), updatedAuction.getProduct(), "Bought");
+			
+			System.out.println("The item was bought by: "+ updatedAuction.getCurrent_bid().getBidder().getUsername() + ", for: "+ updatedAuction.getCurrent_bid().getValue());
+		}
 	}
 
 }

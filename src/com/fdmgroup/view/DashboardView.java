@@ -80,6 +80,7 @@ public class DashboardView {
 			break;
 		case "4":
 			auctionController.createAuction(user);
+			showDashboard(user);
 			break;
 		case "5":
 			userController.showProfile(user);

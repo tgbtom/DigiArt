@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public class Auction implements IStorable{
 	private Product product;
+	private int auctionId;
 	private LocalDateTime start_time, end_time;
 	private Bid current_bid;
 	private double min_increase;
@@ -50,6 +51,12 @@ public class Auction implements IStorable{
 		this.min_increase = min_increase;
 	}
 	
+	public int getAuctionId() {
+		return auctionId;
+	}
+	public void setAuctionId(int auctionId) {
+		this.auctionId = auctionId;
+	}
 	@Override
 	public String toString() {
 		return "Auction [product=" + product + ", start_time=" + start_time + ", end_time=" + end_time

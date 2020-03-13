@@ -10,10 +10,10 @@ import java.util.List;
 import com.fdmgroup.model.Product;
 import com.fdmgroup.model.User;
 
-public class JDBCProductDao implements IProductDao{
+public class JDBCProductDao implements IProductDao {
 
 	private JDBCUserDao jdbcUserDao;
-	
+
 	public JDBCProductDao() {
 		super();
 		this.jdbcUserDao = new JDBCUserDao();
@@ -22,35 +22,36 @@ public class JDBCProductDao implements IProductDao{
 	@Override
 	public ArrayList<Product> findMine(User user) {
 		ArrayList<Product> products = new ArrayList<>();
-		
+
 		Connection conn = JDBCConnection.openConnection();
-		
-		System.out.println("Finding products for user id: "+ user.getId());
-		
+
+		System.out.println("Finding products for user id: " + user.getId());
+
 		String query1 = "SELECT product_id, status FROM inventory WHERE user_id = ?";
 		String query2 = "SELECT product_id, name, creator_id FROM products WHERE product_id = ?";
 		PreparedStatement ps;
 		try {
 			ps = conn.prepareStatement(query1);
 			ps.setInt(1, user.getId());
-			
+
 			ResultSet rs = ps.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 
 				ps = conn.prepareStatement(query2);
 				ps.setInt(1, rs.getInt(1));
-				
+
 				ResultSet rs2 = ps.executeQuery();
-				
-				while(rs2.next()) {
+
+				while (rs2.next()) {
 					User owner = findOwner(rs2.getInt(1));
 					User creator = jdbcUserDao.findById(rs2.getInt(3));
-					products.add(new Product(rs2.getInt(1), rs2.getString(2), owner, creator));
+					Product product = new Product(rs2.getInt(1), rs2.getString(2), owner, creator);
+					product.setStatus(rs.getString(2));
+					products.add(product);
 				}
-				
+
 			}
-			
-		
+
 			conn.close();
 		} catch (SQLException e) {
 
@@ -61,21 +62,21 @@ public class JDBCProductDao implements IProductDao{
 
 	public User findOwner(int productId) {
 		Connection conn = JDBCConnection.openConnection();
-		
+
 		User result = new User();
-		
+
 		String query = "SELECT user_id FROM inventory WHERE product_id = ? AND status IN ('Available', 'Auctioned', 'Bought')";
 		PreparedStatement ps;
 		try {
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, productId);
-			
+
 			ResultSet rs = ps.executeQuery();
-			
+
 			rs.next();
 			int ownerId = rs.getInt(1);
 			result = jdbcUserDao.findById(ownerId);
-			
+
 			conn.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -87,34 +88,34 @@ public class JDBCProductDao implements IProductDao{
 	@Override
 	public Product create(Product product) {
 		Connection conn = JDBCConnection.openConnection();
-		
+
 		String query = "INSERT INTO products (product_id, name, creator_id) VALUES (PRODUCT_ID_SEQ.NEXTVAL, ?, ?)";
 		String query2 = "INSERT INTO inventory (user_id, product_id, status) VALUES (?, ?, 'Available')";
-		
+
 		PreparedStatement ps;
 		Product createdProduct = new Product();
 		createdProduct.setProduct_id(-1);
 		try {
-			ps = conn.prepareStatement(query, new String[]{"PRODUCT_ID"});
+			ps = conn.prepareStatement(query, new String[] { "PRODUCT_ID" });
 			ps.setString(1, product.getName());
 			ps.setInt(2, product.getCreator().getId());
-			
+
 			ps.executeUpdate();
-			
+
 			ResultSet rs = ps.getGeneratedKeys();
 			rs.next();
 			int productId = rs.getInt(1);
-			
+
 			ps = conn.prepareStatement(query2);
 			ps.setInt(1, product.getOwner().getId());
 			ps.setInt(2, productId);
 			ps.executeUpdate();
-			
+
 			conn.close();
-			
+
 			createdProduct = product;
 			createdProduct.setProduct_id(productId);
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -129,10 +130,10 @@ public class JDBCProductDao implements IProductDao{
 		try {
 			PreparedStatement ps = conn.prepareStatement(query);
 			ps.setInt(1, id);
-			
+
 			ResultSet rs = ps.executeQuery();
-			
-			if(rs.next()) {
+
+			if (rs.next()) {
 				productToReturn.setProduct_id(id);
 				productToReturn.setName(rs.getString(1));
 				productToReturn.setCreator(jdbcUserDao.findById(rs.getInt(2)));
@@ -149,5 +150,30 @@ public class JDBCProductDao implements IProductDao{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
+	public String getStatus(Product product) {
+		Connection conn = JDBCConnection.openConnection();
+		
+		String query = "SELECT status FROM inventory WHERE product_id = ? AND user_id = ?";
+		String result = "";
+		PreparedStatement ps;
+		try {
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, product.getProduct_id());
+			ps.setInt(2, product.getOwner().getId());
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				result = rs.getString(1);
+			}
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
 }

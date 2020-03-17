@@ -10,4 +10,6 @@ public interface IUserDao extends IStorage<User>, IEditable<User>, IRemovable<Us
 	public List<User> findByFirstname(String firstname);
 	public void deposit(User user, double amountToDeposit);
 	public void withdraw(User user, double amountToWithdraw);
+	
+	//Test multiple commit
 }

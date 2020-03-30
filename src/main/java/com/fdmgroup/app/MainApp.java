@@ -57,7 +57,7 @@ public class MainApp {
 		uv.setDashboardView(dv);
 		uv.setUserController(uc);
 		uv.setAuctionController(auc);
-		
+			
 		hc.showHome();
 		scanner.close();
 	}

@@ -39,7 +39,7 @@ public class ProductView {
 		ArrayList<Product> products = jdbcProductDao.findMine(user);
 		System.out.println("Product Id | Name");
 		for (Product product : products) {
-			System.out.println(product.getProduct_id() + "| " + product.getName());
+			System.out.println(product.getProduct_id() + "| " + product.getName() + " {"+ product.getStatus() +"}");
 		}
 		
 	}

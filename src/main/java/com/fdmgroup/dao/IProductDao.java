@@ -8,4 +8,5 @@ import com.fdmgroup.model.User;
 
 public interface IProductDao extends IStorage<Product>{
 	public ArrayList<Product> findMine(User user);
+	public boolean addToInventory(User user, Product product, String status);
 }

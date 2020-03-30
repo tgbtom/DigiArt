@@ -1,5 +1,8 @@
 package com.fdmgroup.app;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 
 import com.fdmgroup.controller.AuctionController;
@@ -19,7 +22,7 @@ import com.fdmgroup.view.UserView;
 public class MainApp {
 	
 	public static void main(String[] args) {
-	
+		
 		JDBCConnection.initDrivers();
 		
 		Scanner scanner = new Scanner(System.in);
@@ -62,7 +65,3 @@ public class MainApp {
 		scanner.close();
 	}
 }
-
-
-
-

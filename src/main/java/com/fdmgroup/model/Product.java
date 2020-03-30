@@ -1,7 +1,7 @@
 package com.fdmgroup.model;
 
 public class Product implements IStorable{
-	private String name;
+	private String name, status;
 	private User owner, creator;
 	private int product_id;
 
@@ -57,5 +57,13 @@ public class Product implements IStorable{
 
 	public void setProduct_id(int product_id) {
 		this.product_id = product_id;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getStatus() {
+		return this.status;
 	}
 }

@@ -1,8 +1,5 @@
 package com.fdmgroup.app;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Scanner;
 
 import com.fdmgroup.controller.AuctionController;

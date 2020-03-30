@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Optional;
 
 import com.fdmgroup.dao.IUserDao;
@@ -54,12 +55,13 @@ public class AuthenticationController {
 	public void login(String username, String password) {
 		Optional<User> user = userDao.findByUsername(username);
 		if (user.isPresent()) {
-			Password hashedPass = checkHash(password, user.get().getSalt());
+			Password hashedPass = checkHash(password, toByteArray(user.get().getSalt()));
 			if(authenticateUser(username, hashedPass.getHashedPass())) {
 				dashboradView.showDashboard(user.get());
 				return;
 			}
 		}
+		System.out.println("Error Logging in");
 		homeView.showLoginOptions();
 	}
 
@@ -86,14 +88,43 @@ public class AuthenticationController {
 		homeView.showInitialOptions();
 	}
 
+//	public void register(String username, String password, String fname, String lname) {
+//		Connection conn = JDBCConnection.getInstance();
+//		if(userDao.findByUsername(username).isPresent()) {
+//			System.out.println("Username is already in use, please try something new!");
+//		}
+//		else {
+//			try {
+//				
+//				Password passwd = hashPassword(password);
+//				String hashedPassword = passwd.getHashedPass();
+//				String salt = passwd.getSalt();
+//				
+//				String query = "INSERT INTO users (user_id, username, password, salt, first_name, last_name, wallet) VALUES ("
+//						+ "user_id_seq.NEXTVAL, ?, ?, ?, ?, ?, 0.0)";
+//				PreparedStatement ps = conn.prepareStatement(query);
+//				ps.setString(1, username);
+//				ps.setString(2, hashedPassword);
+//				ps.setString(3, salt);
+//				ps.setString(4, fname);
+//				ps.setString(5, lname);
+//				
+//				ps.executeUpdate();
+//				conn.close();
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		homeView.showInitialOptions();
+//	}
+	
 	public void register(String username, String password, String fname, String lname) {
 		Connection conn = JDBCConnection.getInstance();
 		if(userDao.findByUsername(username).isPresent()) {
 			System.out.println("Username is already in use, please try something new!");
 		}
 		else {
-			try {
-				
+			try {				
 				Password passwd = hashPassword(password);
 				String hashedPassword = passwd.getHashedPass();
 				String salt = passwd.getSalt();
@@ -135,7 +166,7 @@ public class AuthenticationController {
 				sb.append(String.format("%02x", b));
 			}
 			
-			output = new Password(sb.toString(), new String(salt));
+			output = new Password(sb.toString(), Arrays.toString(salt));
 			return output;
 			
 		} catch (NoSuchAlgorithmException e) {
@@ -145,15 +176,13 @@ public class AuthenticationController {
 		return null;
 	}
 	
-	public Password checkHash(String password, String salt) {
+	private Password checkHash(String password, byte[] salt) {
 		MessageDigest md;
 		Password output;
 		try {
 			md = MessageDigest.getInstance("SHA-256");
 			
-			byte[] saltB = salt.getBytes();
-			
-			md.update(saltB);
+			md.update(salt);
 			
 			byte[] hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
 			
@@ -162,7 +191,7 @@ public class AuthenticationController {
 				sb.append(String.format("%02x", b));
 			}
 			
-			output = new Password(sb.toString(), new String(saltB));
+			output = new Password(sb.toString(), Arrays.toString(salt));
 			return output;
 			
 		} catch (NoSuchAlgorithmException e) {
@@ -172,4 +201,17 @@ public class AuthenticationController {
 		return null;
 	}
 
+	private static byte[] toByteArray(String salt) {
+		String brokenSalt = salt.replace('[', 'A');
+		brokenSalt = brokenSalt.replace(']', 'A');
+		brokenSalt = brokenSalt.replaceAll("[A ]", "");
+		
+		String[] bytes = brokenSalt.split(",");
+		byte[] newBytes = new byte[bytes.length];
+		
+		for (int i = 0; i < bytes.length; i++) {
+			newBytes[i] = (byte) Integer.parseInt(bytes[i]);
+		}
+		return newBytes;
+	}
 }

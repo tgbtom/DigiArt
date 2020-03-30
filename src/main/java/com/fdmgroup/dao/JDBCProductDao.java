@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Persistence;
+
 import com.fdmgroup.model.Product;
 import com.fdmgroup.model.User;
 
@@ -53,46 +55,6 @@ public class JDBCProductDao implements IProductDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-//		String query1 = "SELECT product_id, status FROM inventory WHERE user_id = ?";
-//		String query2 = "SELECT product_id, name, creator_id FROM products WHERE product_id = ?";
-//		PreparedStatement ps;
-//		try {
-//			ps = conn.prepareStatement(query1);
-//			ps.setInt(1, user.getId());
-//
-//			ResultSet rs = ps.executeQuery();
-//			while (rs.next()) {
-//				String status = rs.getString(2);
-//				
-//				ps = conn.prepareStatement(query2);
-//				ps.setInt(1, rs.getInt(1));
-//
-//				
-//				ResultSet rs2 = ps.executeQuery();
-//
-//				while (rs2.next()) {
-//
-//					int ownerId = rs2.getInt(1);
-//					int creatorId = rs2.getInt(3);
-//					String name = rs2.getString(2);
-//					
-//					User owner = findOwner(ownerId);
-//					User creator = jdbcUserDao.findById(creatorId);
-//					
-//					
-//					Product product = new Product(ownerId, name, owner, creator);
-//					product.setStatus(status);
-//					products.add(product);
-//				}
-//			}
-//			if(conn.isClosed()) {
-//				System.out.println("Connection is closed");
-//			}
-//		} catch (SQLException e) {
-//			System.out.println("Here Error 565");
-//			e.printStackTrace();
-//		}
 		JDBCConnection.closeConnection();
 		return products;
 	}

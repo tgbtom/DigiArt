@@ -1,11 +1,28 @@
 package com.fdmgroup.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity(name = "user")
+@Table(name = "users")
 public class User implements IStorable{
+	
+	@Id
+	@Column(name = "user_id")
 	private int id;
+	@Column
 	private String username;
+	@Column(name = "first_name")
 	private String firstname;
+	@Column(name = "last_name")
 	private String lastname;
-	private String role, salt;
+	@Column
+	private String role;
+	@Column
+	private String salt;
+	@Column
 	private double wallet;
 	public User() {
 		super();

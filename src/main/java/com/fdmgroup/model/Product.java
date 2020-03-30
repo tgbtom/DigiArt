@@ -1,9 +1,23 @@
 package com.fdmgroup.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity(name = "product")
+@Table(name = "products")
 public class Product implements IStorable{
-	private String name, status;
+	private String status;
 	private User owner, creator;
+	
+	@Id
+	@Column
 	private int product_id;
+	@Column
+	private int ownerId;
+	@Column
+	private String name;
 
 	public Product() {
 		super();
@@ -16,6 +30,7 @@ public class Product implements IStorable{
 		super();
 		this.name = name;
 		this.owner = owner;
+		this.ownerId = owner.getId();
 		this.creator = creator;
 	}
 	
@@ -24,6 +39,7 @@ public class Product implements IStorable{
 		this.product_id = product_id;
 		this.name = name;
 		this.owner = owner;
+		this.ownerId = owner.getId();
 		this.creator = creator;
 	}
 
@@ -41,6 +57,7 @@ public class Product implements IStorable{
 
 	public void setOwner(User owner) {
 		this.owner = owner;
+		this.ownerId = owner.getId();
 	}
 
 	public User getCreator() {

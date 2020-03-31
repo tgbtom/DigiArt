@@ -11,8 +11,11 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
 import com.fdmgroup.dao.IUserDao;
-import com.fdmgroup.dao.JDBCConnection;
+import com.fdmgroup.dao.JPAConnection;
 import com.fdmgroup.dao.JPAUserDao;
 import com.fdmgroup.model.Password;
 import com.fdmgroup.model.User;
@@ -69,22 +72,39 @@ public class AuthenticationController {
 		homeView.showLoginOptions();
 	}
 
+//	private boolean authenticateUser(String username, String hashedPass) {
+//		Connection conn = JDBCConnection.getInstance();
+//		
+//		String query = "SELECT COUNT(*) FROM users WHERE username LIKE ? AND password LIKE ?";
+//		try {
+//			PreparedStatement ps = conn.prepareStatement(query);
+//			ps.setString(1, username);
+//			ps.setString(2, hashedPass);
+//			
+//			ResultSet rs = ps.executeQuery();
+//			rs.next();
+//			
+//			return rs.getInt(1) == 1;
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return false;
+//	}
+	
 	private boolean authenticateUser(String username, String hashedPass) {
-		Connection conn = JDBCConnection.getInstance();
-		
-		String query = "SELECT COUNT(*) FROM users WHERE username LIKE ? AND password LIKE ?";
+		EntityManager em = JPAConnection.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		TypedQuery<Long> query = em.createNamedQuery("user.authenticate", java.lang.Long.class);
+		query.setParameter("username", username);
+		query.setParameter("password", hashedPass);
 		try {
-			PreparedStatement ps = conn.prepareStatement(query);
-			ps.setString(1, username);
-			ps.setString(2, hashedPass);
-			
-			ResultSet rs = ps.executeQuery();
-			rs.next();
-			
-			return rs.getInt(1) == 1;
-		} catch (SQLException e) {
-			e.printStackTrace();
+			if (query.getSingleResult() > 0) {
+				return true;
+			}
+		} catch (Exception e) {
+			return false;
 		}
+		em.close();
 		return false;
 	}
 

@@ -1,17 +1,18 @@
 package com.fdmgroup.controller;
 
-import com.fdmgroup.dao.JDBCUserDao;
+
+import com.fdmgroup.dao.JPAUserDao;
 import com.fdmgroup.model.User;
 import com.fdmgroup.view.UserView;
 
 public class UserController {
 	
 	private UserView userView;
-	private JDBCUserDao jdbcUserDao;
+	private JPAUserDao jpaUserDao;
 	
 	public UserController() {
 		super();
-		this.jdbcUserDao = new JDBCUserDao();
+		this.jpaUserDao = new JPAUserDao();
 	}
 
 	public void showProfile(User user) {
@@ -27,13 +28,13 @@ public class UserController {
 	}
 
 	public void deposit(User user, double depositAmount) {
-		jdbcUserDao.deposit(user, depositAmount);
+		jpaUserDao.deposit(user, depositAmount);
 		System.out.println("You deposited "+ depositAmount + " into your wallet.");
 	}
 
 	public void withdraw(User user, double withdrawAmount) {
 		if(user.getWallet() - withdrawAmount >= 0) {
-			jdbcUserDao.withdraw(user, withdrawAmount);
+			jpaUserDao.withdraw(user, withdrawAmount);
 			System.out.println("You withdrew "+ withdrawAmount + " from your wallet.");
 		}
 		else {

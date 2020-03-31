@@ -4,20 +4,16 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
 import com.fdmgroup.model.User;
 
 public class JPAUserDao implements IUserDao{
-
-	EntityManagerFactory emf = Persistence.createEntityManagerFactory("DigiArtPU");
 	
 	@Override
 	public User create(User user) {
-		EntityManager em = emf.createEntityManager();
+		EntityManager em = JPAConnection.getInstance().createEntityManager();
 		em.getTransaction().begin();
 		em.persist(user);
 		em.getTransaction().commit();
@@ -33,7 +29,7 @@ public class JPAUserDao implements IUserDao{
 	}
 
 	@Override
-	public List<User> findAll(User user) {
+	public List<User> findAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -52,7 +48,7 @@ public class JPAUserDao implements IUserDao{
 
 	@Override
 	public Optional<User> findByUsername(String name) {
-		EntityManager em = emf.createEntityManager();
+		EntityManager em = JPAConnection.getInstance().createEntityManager();
 		em.getTransaction().begin();
 		TypedQuery<User> query = em.createNamedQuery("user.findByUsername", User.class);
 		query.setParameter("username", name);

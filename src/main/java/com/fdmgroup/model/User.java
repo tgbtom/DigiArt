@@ -1,6 +1,5 @@
 package com.fdmgroup.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -9,12 +8,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-@NamedQuery(name="user.findByUsername", query="SELECT u FROM user u WHERE u.username = :username")
+@NamedQueries({
+	@NamedQuery(name="user.findByUsername", query="SELECT u FROM user u WHERE u.username = :username"),
+	@NamedQuery(name="user.authenticate", query="SELECT COUNT(u) FROM user u WHERE u.username = :username AND u.password = :password")
+})
+
 
 @Entity(name = "user")
 @Table(name = "users")
@@ -47,8 +52,14 @@ public class User implements IStorable{
 	@Column
 	private double wallet;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "creator")
-	private List<Product> products;
+	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	private List<Product> productsOwned;
+	
+	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "creator")
+	private List<Product> productsCreated;
+	
+	@OneToMany(mappedBy = "bidder")
+	private List<Bid> bids;
 
 	public User() {
 		super();
@@ -128,18 +139,14 @@ public class User implements IStorable{
 		return salt;
 	}
 	
-	public List<Product> getProducts() {
-		return products;
+	public List<Product> getProductsOwned() {
+		return productsOwned;
 	}
 
-	public void setProducts(ArrayList<Product> products) {
-		this.products = products;
+	public List<Product> getProductsCreated() {
+		return productsCreated;
 	}
-	
-	public void addProduct(Product product) {
-		products.add(product);
-	}
-	
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", firstname=" + firstname

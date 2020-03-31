@@ -1,52 +1,45 @@
 package com.fdmgroup.controller;
 
 
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import com.fdmgroup.dao.JDBCAuctionDao;
-import com.fdmgroup.dao.JDBCConnection;
-import com.fdmgroup.dao.JDBCProductDao;
+import com.fdmgroup.dao.JPAAuctionDao;
+import com.fdmgroup.dao.JPAProductDao;
 import com.fdmgroup.model.Auction;
 import com.fdmgroup.model.Bid;
 import com.fdmgroup.model.Product;
+import com.fdmgroup.model.ProductStatus;
 import com.fdmgroup.model.User;
 import com.fdmgroup.view.AuctionView;
 
-public class AuctionController extends TimerTask{
+public class AuctionController{
 
 	private AuctionView auctionView;
 	private Scanner scanner;
-	private JDBCProductDao jdbcProductDao;
-	private JDBCAuctionDao jdbcAuctionDao;
+	private JPAProductDao jpaProductDao;
+	private JPAAuctionDao jpaAuctionDao;
 
 	private double startingPrice, bidIncrease;
 	private int productId, duration, auctionId;
-	private LocalDateTime startTime, endTime;
+	private Date startTime, endTime;
 
 	public AuctionController(Scanner scanner) {
 		super();
 		this.scanner = scanner;
-		this.jdbcProductDao = new JDBCProductDao();
-		this.jdbcAuctionDao = new JDBCAuctionDao();
+		this.jpaProductDao = new JPAProductDao();
+		this.jpaAuctionDao = new JPAAuctionDao();
 	}
 	
 	public AuctionController(Scanner scanner, int auctionId) {
 		super();
 		this.scanner = scanner;
 		this.auctionId = auctionId;
-		this.jdbcProductDao = new JDBCProductDao();
-		this.jdbcAuctionDao = new JDBCAuctionDao();
+		this.jpaProductDao = new JPAProductDao();
+		this.jpaAuctionDao = new JPAAuctionDao();
 	}
 
 
@@ -59,7 +52,7 @@ public class AuctionController extends TimerTask{
 	}
 
 	public void showAll() {
-		ArrayList<Auction> auctions = JDBCAuctionDao.getAll();
+		List<Auction> auctions = jpaAuctionDao.findAll();
 		auctionView.displayAll(auctions);
 	}
 	
@@ -70,21 +63,19 @@ public class AuctionController extends TimerTask{
 	public void createAuction(User user) {
 		promptAuctionCreation();
 		
-		Product product = jdbcProductDao.findById(productId);
-		if(product.getOwner().getId() == user.getId() && jdbcProductDao.getStatus(product).equals("Available")) {
-			this.startTime = LocalDateTime.now(); 
-			this.endTime = LocalDateTime.now().plusSeconds(duration);
+		Product product = jpaProductDao.findById(productId);
+		if(product.getOwner().getId() == user.getId() && product.getStatus() == ProductStatus.AVAILABLE) {
+			this.startTime = new Date(); 
+			this.endTime = new Date(); //ADD 'duration' to this date variable
 			
 			Auction auction = new Auction(product, startTime, endTime, new Bid(startingPrice, user), bidIncrease);
 			
 			auction = jdbcAuctionDao.create(auction);
 			jdbcAuctionDao.updateStatus(product, "Auctioned");
 			
-			Timer timer = new Timer();
 			System.out.println("Passed Auction id is: "+ auction.getAuctionId());
 			scheduleJob(auction);
-//			timer.schedule(new AuctionController(scanner, auction.getAuctionId()), Date.from(endTime.atZone(ZoneId.systemDefault()).toInstant()));
-//			jdbcAuctionDao.testBid(auction);
+
 		}
 		else {
 			System.out.println("You are not able to auction this product");

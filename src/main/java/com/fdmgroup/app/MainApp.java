@@ -8,8 +8,6 @@ import com.fdmgroup.controller.HomeController;
 import com.fdmgroup.controller.ProductController;
 import com.fdmgroup.controller.UserController;
 import com.fdmgroup.dao.IUserDao;
-import com.fdmgroup.dao.JDBCConnection;
-import com.fdmgroup.dao.JDBCUserDao;
 import com.fdmgroup.dao.JPAUserDao;
 import com.fdmgroup.view.AuctionView;
 import com.fdmgroup.view.DashboardView;
@@ -20,8 +18,6 @@ import com.fdmgroup.view.UserView;
 public class MainApp {
 	
 	public static void main(String[] args) {
-		
-		JDBCConnection.initDrivers();
 		
 		Scanner scanner = new Scanner(System.in);
 		IUserDao userDao = new JPAUserDao();
@@ -38,7 +34,7 @@ public class MainApp {
 		AuthenticationController ac = new AuthenticationController();
 		ProductController pc = new ProductController();
 		UserController uc = new UserController();
-		AuctionController auc = new AuctionController(scanner);
+//		AuctionController auc = new AuctionController(scanner);
 		
 		hc.setHomeView(hv);
 		ac.setHomeView(hv);
@@ -46,18 +42,18 @@ public class MainApp {
 		ac.setUserDao(userDao);
 		pc.setProductView(pv);
 		uc.setUserView(uv);
-		auc.setAuctionView(aucv);
+//		auc.setAuctionView(aucv);
 		
 		hv.setAuthenticationController(ac);
 		hv.setHomeController(hc);
 		dv.setAutheticationController(ac);
 		dv.setProductController(pc);
 		dv.setUserController(uc);
-		dv.setAuctionController(auc);
+//		dv.setAuctionController(auc);
 		pv.setProductController(pc);
 		uv.setDashboardView(dv);
 		uv.setUserController(uc);
-		uv.setAuctionController(auc);
+//		uv.setAuctionController(auc);
 			
 		hc.showHome();
 		scanner.close();

@@ -1,6 +1,6 @@
 package com.fdmgroup.controller;
 
-import com.fdmgroup.dao.JDBCProductDao;
+import com.fdmgroup.dao.JPAProductDao;
 import com.fdmgroup.model.Product;
 import com.fdmgroup.model.User;
 import com.fdmgroup.view.ProductView;
@@ -8,11 +8,11 @@ import com.fdmgroup.view.ProductView;
 public class ProductController {
 
 	private ProductView productView;
-	private JDBCProductDao jdbcProductDao;
+	private JPAProductDao jpaProductDao;
 
 	public ProductController() {
 		super();
-		this.jdbcProductDao = new JDBCProductDao();
+		this.jpaProductDao = new JPAProductDao();
 	}
 
 	public ProductView getProductView() {
@@ -28,8 +28,8 @@ public class ProductController {
 	}
 	
 	public void insertProduct(User user, String productName) {
-		Product myProduct = new Product(productName, user, user);
-		jdbcProductDao.create(myProduct);
+		Product myProduct = new Product(productName, user);
+		jpaProductDao.create(myProduct);
 	}
 
 	public void showAll(User user) {

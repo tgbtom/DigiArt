@@ -10,6 +10,7 @@ import com.fdmgroup.controller.UserController;
 import com.fdmgroup.dao.IUserDao;
 import com.fdmgroup.dao.JDBCConnection;
 import com.fdmgroup.dao.JDBCUserDao;
+import com.fdmgroup.dao.JPAUserDao;
 import com.fdmgroup.view.AuctionView;
 import com.fdmgroup.view.DashboardView;
 import com.fdmgroup.view.HomeView;
@@ -23,7 +24,7 @@ public class MainApp {
 		JDBCConnection.initDrivers();
 		
 		Scanner scanner = new Scanner(System.in);
-		IUserDao userDao = new JDBCUserDao();
+		IUserDao userDao = new JPAUserDao();
 		
 		//views
 		HomeView hv = new HomeView(scanner);

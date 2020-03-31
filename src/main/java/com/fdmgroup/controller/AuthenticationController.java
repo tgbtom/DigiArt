@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import com.fdmgroup.dao.IUserDao;
 import com.fdmgroup.dao.JDBCConnection;
+import com.fdmgroup.dao.JPAUserDao;
 import com.fdmgroup.model.Password;
 import com.fdmgroup.model.User;
 import com.fdmgroup.view.DashboardView;
@@ -24,8 +25,11 @@ public class AuthenticationController {
 	private DashboardView dashboradView;
 	private HomeView homeView;
 	
+	private JPAUserDao jpaUserDao;
+	
 	public AuthenticationController() {
 		super();
+		this.jpaUserDao = new JPAUserDao();
 	}
 
 	public IUserDao getUserDao() {
@@ -87,62 +91,19 @@ public class AuthenticationController {
 	public void logout() {
 		homeView.showInitialOptions();
 	}
-
-//	public void register(String username, String password, String fname, String lname) {
-//		Connection conn = JDBCConnection.getInstance();
-//		if(userDao.findByUsername(username).isPresent()) {
-//			System.out.println("Username is already in use, please try something new!");
-//		}
-//		else {
-//			try {
-//				
-//				Password passwd = hashPassword(password);
-//				String hashedPassword = passwd.getHashedPass();
-//				String salt = passwd.getSalt();
-//				
-//				String query = "INSERT INTO users (user_id, username, password, salt, first_name, last_name, wallet) VALUES ("
-//						+ "user_id_seq.NEXTVAL, ?, ?, ?, ?, ?, 0.0)";
-//				PreparedStatement ps = conn.prepareStatement(query);
-//				ps.setString(1, username);
-//				ps.setString(2, hashedPassword);
-//				ps.setString(3, salt);
-//				ps.setString(4, fname);
-//				ps.setString(5, lname);
-//				
-//				ps.executeUpdate();
-//				conn.close();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		homeView.showInitialOptions();
-//	}
 	
 	public void register(String username, String password, String fname, String lname) {
-		Connection conn = JDBCConnection.getInstance();
+
 		if(userDao.findByUsername(username).isPresent()) {
 			System.out.println("Username is already in use, please try something new!");
 		}
 		else {
-			try {				
-				Password passwd = hashPassword(password);
-				String hashedPassword = passwd.getHashedPass();
-				String salt = passwd.getSalt();
-				
-				String query = "INSERT INTO users (user_id, username, password, salt, first_name, last_name, wallet) VALUES ("
-						+ "user_id_seq.NEXTVAL, ?, ?, ?, ?, ?, 0.0)";
-				PreparedStatement ps = conn.prepareStatement(query);
-				ps.setString(1, username);
-				ps.setString(2, hashedPassword);
-				ps.setString(3, salt);
-				ps.setString(4, fname);
-				ps.setString(5, lname);
-				
-				ps.executeUpdate();
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			Password passwd = hashPassword(password);
+			String hashedPassword = passwd.getHashedPass();
+			String salt = passwd.getSalt();
+			
+			User user = new User(username, hashedPassword, fname, lname, "Member", 0.00d, salt);
+			jpaUserDao.create(user);
 		}
 		homeView.showInitialOptions();
 	}

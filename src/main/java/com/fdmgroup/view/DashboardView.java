@@ -6,6 +6,7 @@ import com.fdmgroup.controller.AuctionController;
 import com.fdmgroup.controller.AuthenticationController;
 import com.fdmgroup.controller.ProductController;
 import com.fdmgroup.controller.UserController;
+import com.fdmgroup.dao.JPAUserDao;
 import com.fdmgroup.model.User;
 
 public class DashboardView {
@@ -14,9 +15,17 @@ public class DashboardView {
 	private ProductController productController;
 	private UserController userController;
 	private AuctionController auctionController;
+	private JPAUserDao jpaUserDao;
 
 	public DashboardView() {
 		super();
+		this.jpaUserDao = new JPAUserDao();
+	}
+	
+	public DashboardView(Scanner scanner) {
+		super();
+		this.scanner = scanner;
+		this.jpaUserDao = new JPAUserDao();
 	}
 
 	public ProductController getProductController() {
@@ -25,11 +34,6 @@ public class DashboardView {
 
 	public void setProductController(ProductController productController) {
 		this.productController = productController;
-	}
-
-	public DashboardView(Scanner scanner) {
-		super();
-		this.scanner = scanner;
 	}
 
 	public AuthenticationController getAutheticationController() {
@@ -56,7 +60,8 @@ public class DashboardView {
 		this.auctionController = auctionController;
 	}
 
-	public void showDashboard(User user) {
+	public void showDashboard(int userId) {
+		User user = jpaUserDao.findById(userId);
 		System.out.println("Welcome to the Dashboard");
 		System.out.println("Please select one option : ");
 		System.out.println("1) Logout");
@@ -72,26 +77,26 @@ public class DashboardView {
 			break;
 		case "2":
 			productController.addNewProduct(user);
-			showDashboard(user);
+			showDashboard(userId);
 			break;
 		case "3":
 			productController.showAll(user);
-			showDashboard(user);
+			showDashboard(userId);
 			break;
 		case "4":
 			auctionController.createAuction(user);
-			showDashboard(user);
+			showDashboard(userId);
 			break;
 		case "5":
-			userController.showProfile(user);
+			userController.showProfile(userId);
 			break;
 		case "6":
 			auctionController.showAll();
-			showDashboard(user);
+			showDashboard(userId);
 			break;
 		default:
 			System.out.println("Please enter valid option");
-			showDashboard(user);
+			showDashboard(userId);
 		}
 	}
 

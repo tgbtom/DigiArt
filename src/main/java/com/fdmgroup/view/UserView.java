@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.fdmgroup.controller.AuctionController;
 import com.fdmgroup.controller.UserController;
+import com.fdmgroup.dao.JPAUserDao;
 import com.fdmgroup.model.User;
 
 public class UserView {
@@ -12,10 +13,12 @@ public class UserView {
 	private DashboardView dashboardView;
 	private UserController userController;
 	private AuctionController auctionController;
+	private JPAUserDao jpaUserDAo;
 
 	public UserView(Scanner scanner) {
 		super();
 		this.scanner = scanner;
+		this.jpaUserDAo = new JPAUserDao();
 	}
 	
 	public DashboardView getDashboardView() {
@@ -42,7 +45,8 @@ public class UserView {
 		this.auctionController = auctionController;
 	}
 
-	public void showProfile(User user) {
+	public void showProfile(int userId) {
+		User user = jpaUserDAo.findById(userId);
 		System.out.println("==================================");
 		System.out.println("Username is: "+ user.getUsername());
 		System.out.println("First name is: "+ user.getFirstname());
@@ -63,23 +67,23 @@ public class UserView {
 		case "2":
 			double depositAmount = promptDeposit();
 			userController.deposit(user, depositAmount);
-			showProfile(user);
+			showProfile(userId);
 			break;
 		case "3":
 			double withdrawAmount = promptWithdraw();
 			userController.withdraw(user, withdrawAmount);
-			showProfile(user);
+			showProfile(userId);
 			break;
 		case "4":
 			auctionController.showMine(user);
-			showProfile(user);
+			showProfile(userId);
 			break;
 		case "5":
-			dashboardView.showDashboard(user);
+			dashboardView.showDashboard(userId);
 			break;
 		default:
 			System.out.println("Please enter a valid option");
-			showProfile(user);
+			showProfile(userId);
 			break;
 		}
 	}

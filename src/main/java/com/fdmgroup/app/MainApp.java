@@ -1,8 +1,5 @@
 package com.fdmgroup.app;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Scanner;
 
 import com.fdmgroup.controller.AuctionController;
@@ -11,8 +8,7 @@ import com.fdmgroup.controller.HomeController;
 import com.fdmgroup.controller.ProductController;
 import com.fdmgroup.controller.UserController;
 import com.fdmgroup.dao.IUserDao;
-import com.fdmgroup.dao.JDBCConnection;
-import com.fdmgroup.dao.JDBCUserDao;
+import com.fdmgroup.dao.JPAUserDao;
 import com.fdmgroup.view.AuctionView;
 import com.fdmgroup.view.DashboardView;
 import com.fdmgroup.view.HomeView;
@@ -23,10 +19,8 @@ public class MainApp {
 	
 	public static void main(String[] args) {
 		
-		JDBCConnection.initDrivers();
-		
 		Scanner scanner = new Scanner(System.in);
-		IUserDao userDao = new JDBCUserDao();
+		IUserDao userDao = new JPAUserDao();
 		
 		//views
 		HomeView hv = new HomeView(scanner);

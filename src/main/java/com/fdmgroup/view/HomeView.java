@@ -86,7 +86,7 @@ public class HomeView {
 		String username = scanner.nextLine();
 		System.out.println("Please Enter password: ");
 		String password = scanner.nextLine();
-		authenticationController.login(username,password);
+		authenticationController.login(username, password);
 	}
 
 }

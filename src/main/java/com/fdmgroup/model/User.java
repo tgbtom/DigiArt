@@ -60,6 +60,9 @@ public class User implements IStorable{
 	
 	@OneToMany(mappedBy = "bidder")
 	private List<Bid> bids;
+	
+	@OneToMany(mappedBy = "seller")
+	private List<Auction> auctions;
 
 	public User() {
 		super();
@@ -145,6 +148,18 @@ public class User implements IStorable{
 
 	public List<Product> getProductsCreated() {
 		return productsCreated;
+	}
+
+	public List<Auction> getAuctions() {
+		return auctions;
+	}
+
+	public void setAuctions(List<Auction> auctions) {
+		this.auctions = auctions;
+	}
+	
+	public void addAuction(Auction auction) {
+		auctions.add(auction);
 	}
 
 	@Override

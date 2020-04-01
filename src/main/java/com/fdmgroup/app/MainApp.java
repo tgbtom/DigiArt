@@ -34,7 +34,7 @@ public class MainApp {
 		AuthenticationController ac = new AuthenticationController();
 		ProductController pc = new ProductController();
 		UserController uc = new UserController();
-//		AuctionController auc = new AuctionController(scanner);
+		AuctionController auc = new AuctionController(scanner);
 		
 		hc.setHomeView(hv);
 		ac.setHomeView(hv);
@@ -42,18 +42,18 @@ public class MainApp {
 		ac.setUserDao(userDao);
 		pc.setProductView(pv);
 		uc.setUserView(uv);
-//		auc.setAuctionView(aucv);
+		auc.setAuctionView(aucv);
 		
 		hv.setAuthenticationController(ac);
 		hv.setHomeController(hc);
 		dv.setAutheticationController(ac);
 		dv.setProductController(pc);
 		dv.setUserController(uc);
-//		dv.setAuctionController(auc);
+		dv.setAuctionController(auc);
 		pv.setProductController(pc);
 		uv.setDashboardView(dv);
 		uv.setUserController(uc);
-//		uv.setAuctionController(auc);
+		uv.setAuctionController(auc);
 			
 		hc.showHome();
 		scanner.close();

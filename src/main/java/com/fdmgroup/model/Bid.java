@@ -35,10 +35,11 @@ public class Bid implements IStorable{
 		super();
 	}
 	
-	public Bid(double value, User bidder) {
+	public Bid(double value, User bidder, Auction auction) {
 		super();
 		this.value = value;
 		this.bidder = bidder;
+		this.auction = auction;
 	}
 	
 	public double getValue() {

@@ -15,8 +15,8 @@ public class UserController {
 		this.jpaUserDao = new JPAUserDao();
 	}
 
-	public void showProfile(User user) {
-		userView.showProfile(user);
+	public void showProfile(int userId) {
+		userView.showProfile(userId);
 	}
 
 	public UserView getUserView() {

@@ -12,10 +12,14 @@ import com.fdmgroup.model.User;
 public class JPAAuctionDao implements IAuctionDao{
 
 	@Override
-	public Auction create(Auction t) {
+	public Auction create(Auction auction) {
 		EntityManager em = JPAConnection.getInstance().createEntityManager();
-		
-		return null;
+		em.getTransaction().begin();
+		em.persist(auction);
+		em.persist(auction.getBids().get(0));
+		em.getTransaction().commit();
+		em.close();
+		return auction;
 	}
 
 	@Override
@@ -46,12 +50,6 @@ public class JPAAuctionDao implements IAuctionDao{
 	public ArrayList<Product> findMine(User user) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void updateStatus(Product product, String newStatus) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

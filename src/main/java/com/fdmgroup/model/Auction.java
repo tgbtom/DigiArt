@@ -1,6 +1,6 @@
 package com.fdmgroup.model;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -44,13 +45,27 @@ public class Auction implements IStorable{
 
 	@OneToMany(mappedBy = "auction")
 	private List<Bid> bids;
+	
+	@ManyToOne
+	@JoinColumn(name = "seller_id", referencedColumnName = "user_id")
+	private User seller;
 
 	public Auction() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Auction(Product product, Date startTime, Date endTime, double minIncrease, User seller) {
+		super();
+		this.product = product;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.minIncrease = minIncrease;
+		this.bids = new ArrayList<Bid>();
+		this.seller = seller;
+	}
 
-	public Auction(Product product, Date startTime, Date endTime, double minIncrease, List<Bid> bids) {
+	public Auction(Product product, Date startTime, Date endTime, double minIncrease, List<Bid> bids, User seller) {
 		super();
 		this.product = product;
 		this.startTime = startTime;
@@ -105,6 +120,18 @@ public class Auction implements IStorable{
 
 	public void setBids(List<Bid> bids) {
 		this.bids = bids;
+	}
+	
+	public void addBid(Bid bid) {
+		bids.add(bid);
+	}
+
+	public User getSeller() {
+		return seller;
+	}
+
+	public void setSeller(User seller) {
+		this.seller = seller;
 	}
 	
 }

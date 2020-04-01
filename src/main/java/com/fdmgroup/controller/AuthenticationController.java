@@ -4,10 +4,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -25,7 +21,7 @@ import com.fdmgroup.view.HomeView;
 public class AuthenticationController {
 
 	private IUserDao userDao;
-	private DashboardView dashboradView;
+	private DashboardView dashboardView;
 	private HomeView homeView;
 	
 	private JPAUserDao jpaUserDao;
@@ -44,11 +40,11 @@ public class AuthenticationController {
 	}
 
 	public DashboardView getDashboradView() {
-		return dashboradView;
+		return dashboardView;
 	}
 
 	public void setDashboradView(DashboardView dashboradView) {
-		this.dashboradView = dashboradView;
+		this.dashboardView = dashboradView;
 	}
 
 	public HomeView getHomeView() {
@@ -64,7 +60,7 @@ public class AuthenticationController {
 		if (user.isPresent()) {
 			Password hashedPass = checkHash(password, toByteArray(user.get().getSalt()));
 			if(authenticateUser(username, hashedPass.getHashedPass())) {
-				dashboradView.showDashboard(user.get());
+				dashboardView.showDashboard(user.get().getId());
 				return;
 			}
 		}

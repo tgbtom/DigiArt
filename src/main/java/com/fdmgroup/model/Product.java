@@ -11,10 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
-import javax.persistence.SecondaryTable;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @NamedQuery(name="product.findMine", query="SELECT p FROM product p WHERE p.creator = :creator")
 

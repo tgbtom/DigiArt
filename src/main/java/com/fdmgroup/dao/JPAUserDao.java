@@ -24,8 +24,9 @@ public class JPAUserDao implements IUserDao{
 
 	@Override
 	public User findById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		EntityManager em = JPAConnection.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		return em.find(User.class, id);
 	}
 
 	@Override
@@ -67,14 +68,27 @@ public class JPAUserDao implements IUserDao{
 
 	@Override
 	public void deposit(User user, double amountToDeposit) {
-		// TODO Auto-generated method stub
-		
+		EntityManager em = JPAConnection.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		User userPersist = em.find(User.class, user.getId());
+		userPersist.setWallet(userPersist.getWallet() + amountToDeposit);
+		em.getTransaction().commit();
+		em.close();
 	}
 
 	@Override
 	public void withdraw(User user, double amountToWithdraw) {
-		// TODO Auto-generated method stub
-		
+		EntityManager em = JPAConnection.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		User userPersist = em.find(User.class, user.getId());
+		if (userPersist.getWallet() - amountToWithdraw >= 0) {
+			userPersist.setWallet(userPersist.getWallet() - amountToWithdraw);
+			em.getTransaction().commit();
+		}
+		else {
+			System.out.println("Not enough funds to withdraw the amount specified");
+		}
+		em.close();
 	}
 
 }

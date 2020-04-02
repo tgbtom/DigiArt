@@ -58,7 +58,7 @@ public class AuthenticationController {
 	public void login(String username, String password) {
 		Optional<User> user = userDao.findByUsername(username);
 		if (user.isPresent()) {
-			Password hashedPass = checkHash(password, toByteArray(user.get().getSalt()));
+			Password hashedPass = hashPassword(password, toByteArray(user.get().getSalt()));
 			if(authenticateUser(username, hashedPass.getHashedPass())) {
 				dashboardView.showDashboard(user.get().getId());
 				return;
@@ -153,7 +153,7 @@ public class AuthenticationController {
 		return null;
 	}
 	
-	private Password checkHash(String password, byte[] salt) {
+	private Password hashPassword(String password, byte[] salt) {
 		MessageDigest md;
 		Password output;
 		try {

@@ -2,13 +2,11 @@ package com.fdmgroup.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -52,10 +50,10 @@ public class User implements IStorable{
 	@Column
 	private double wallet;
 	
-	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	@OneToMany(mappedBy = "owner")
 	private List<Product> productsOwned;
 	
-	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "creator")
+	@OneToMany(mappedBy = "creator")
 	private List<Product> productsCreated;
 	
 	@OneToMany(mappedBy = "bidder")

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import com.fdmgroup.model.Auction;
 import com.fdmgroup.model.Product;
@@ -11,6 +12,16 @@ import com.fdmgroup.model.User;
 
 public class JPAAuctionDao implements IAuctionDao{
 
+	public List<Auction> findByProduct(Product p){
+		EntityManager em = JPAConnection.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		TypedQuery<Auction> query = em.createNamedQuery("auction.findByProduct", Auction.class);
+		query.setParameter("product", p);
+		List<Auction> auctions = query.getResultList();
+		em.close();
+		return auctions;
+	}
+	
 	@Override
 	public Auction create(Auction auction) {
 		EntityManager em = JPAConnection.getInstance().createEntityManager();
@@ -24,32 +35,46 @@ public class JPAAuctionDao implements IAuctionDao{
 
 	@Override
 	public Auction findById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		EntityManager em = JPAConnection.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		Auction auction = em.find(Auction.class, id);
+		em.close();
+		return auction;
+		
 	}
 
 	@Override
 	public List<Auction> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		EntityManager em = JPAConnection.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		TypedQuery<Auction> query = em.createNamedQuery("auction.findAll", Auction.class);
+		List<Auction> auctions = query.getResultList();
+		return auctions;
 	}
 
 	@Override
 	public Auction update(Auction t) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean remove(Auction t) {
-		// TODO Auto-generated method stub
-		return false;
+	public void remove(Auction auction) {
+		EntityManager em = JPAConnection.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		auction = em.merge(auction);
+		em.remove(auction);
+		em.getTransaction().commit();
+		em.close();
 	}
 
 	@Override
-	public ArrayList<Product> findMine(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Auction> findMine(User user) {
+		EntityManager em = JPAConnection.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		TypedQuery<Auction> query = em.createNamedQuery("auction.findMine", Auction.class);
+		query.setParameter("seller", user);
+		List<Auction> auctions = query.getResultList();
+		return auctions;
 	}
 
 	@Override

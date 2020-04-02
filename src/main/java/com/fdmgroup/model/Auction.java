@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -20,12 +22,17 @@ import javax.persistence.TemporalType;
 
 @Entity(name = "auction")
 @Table(name = "auctions")
+@NamedQueries({
+	@NamedQuery(name = "auction.findAll", query = "SELECT a from auction a"),
+	@NamedQuery(name = "auction.findMine", query = "SELECT a from auction a WHERE a.seller = :seller"),
+	@NamedQuery(name = "auction.findByProduct", query = "SELECT a from auction a WHERE a.product = :product")
+})
 public class Auction implements IStorable{
 	
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "auction_seq")
-	@SequenceGenerator(name = "auction_seq", sequenceName = "auction_id_seq", allocationSize = 1)
 	@Id
 	@Column(name = "auction_id")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "auction_seq")
+	@SequenceGenerator(name = "auction_seq", sequenceName = "auction_id_seq", allocationSize = 1)
 	private int auctionId;
 	
 	@OneToOne

@@ -42,9 +42,8 @@ public class JPAUserDao implements IUserDao{
 	}
 
 	@Override
-	public boolean remove(User t) {
+	public void remove(User t) {
 		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override
@@ -61,17 +60,11 @@ public class JPAUserDao implements IUserDao{
 	}
 
 	@Override
-	public List<User> findByFirstname(String firstname) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void deposit(User user, double amountToDeposit) {
 		EntityManager em = JPAConnection.getInstance().createEntityManager();
 		em.getTransaction().begin();
-		User userPersist = em.find(User.class, user.getId());
-		userPersist.setWallet(userPersist.getWallet() + amountToDeposit);
+		user = em.merge(user);
+		user.setWallet(user.getWallet() + amountToDeposit);
 		em.getTransaction().commit();
 		em.close();
 	}
@@ -80,9 +73,9 @@ public class JPAUserDao implements IUserDao{
 	public void withdraw(User user, double amountToWithdraw) {
 		EntityManager em = JPAConnection.getInstance().createEntityManager();
 		em.getTransaction().begin();
-		User userPersist = em.find(User.class, user.getId());
-		if (userPersist.getWallet() - amountToWithdraw >= 0) {
-			userPersist.setWallet(userPersist.getWallet() - amountToWithdraw);
+		user = em.merge(user);
+		if (user.getWallet() - amountToWithdraw >= 0) {
+			user.setWallet(user.getWallet() - amountToWithdraw);
 			em.getTransaction().commit();
 		}
 		else {

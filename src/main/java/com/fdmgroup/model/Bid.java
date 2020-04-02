@@ -14,10 +14,10 @@ import javax.persistence.Table;
 @Table(name = "bids")
 public class Bid implements IStorable{
 	
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bid_seq")
-	@SequenceGenerator(name = "bid_seq", sequenceName = "bid_id_seq", allocationSize = 1)
 	@Id
 	@Column(name = "bid_id")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bid_seq")
+	@SequenceGenerator(name = "bid_seq", sequenceName = "bid_id_seq", allocationSize = 1)
 	private int id;
 	
 	@Column(name = "amount")

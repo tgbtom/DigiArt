@@ -42,6 +42,9 @@ public class User implements IStorable{
 	private String lastname;
 	
 	@Column
+	private String email;
+	
+	@Column
 	private String role;
 	
 	@Column
@@ -77,12 +80,13 @@ public class User implements IStorable{
 		this.salt = salt;
 	}
 	
-	public User(String username, String password, String firstname, String lastname, String role, double wallet, String salt) {
+	public User(String username, String password, String firstname, String lastname, String email, String role, double wallet, String salt) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.firstname = firstname;
 		this.lastname = lastname;
+		this.email = email;
 		this.wallet = wallet;
 		this.role = role;
 		this.salt = salt;
@@ -158,6 +162,14 @@ public class User implements IStorable{
 	
 	public void addAuction(Auction auction) {
 		auctions.add(auction);
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	@Override

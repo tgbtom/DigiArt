@@ -1,7 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Homepage - DigiArt</title>
@@ -13,18 +15,18 @@
     <link rel="stylesheet" href="mainStyle.css" />
 
     <script src="js/home.js"></script>
-    <script src="js/auction.js"></script>
+    <script src="js/auctiontime.js"></script>
   </head>
   <body>
     <nav id="navigate">
-      <a href="indexLogged.html" class="left">
+      <a href="" class="left">
         <img class="small-logo" src="img/sub-logo-clear-back.png" alt="Logo" />
         <p>DigiArt</p>
       </a>
       <!-- <a href="">Auctions</a>
           <a href="">Products</a> -->
-      <a class="right" id="logout-btn" href="index.html">Logout</a>
-      <a class="right" href="profile.html">Profile</a>
+      <a class="right" id="logout-btn" href="Navigate?loc=logout">Logout</a>
+      <a class="right" href="Navigate?loc=profile">Profile</a>
       <a class="right dropdown-btn"
         >Products
         <div class="dropdown-content">
@@ -51,59 +53,39 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-12"><div class="subtitle">Upload a Product</div></div>
-      </div>
-      <div class="row">
-        <div class="col-1"><!-- Spacer --></div>
-        <div class="col-5">
-          <div class="card card-float">
-            <div class="card-top">
-              <p>Product 1</p>
-            </div>
+        <div class="col-12">
+          <p class="subtitle">My Profile</p>
+          <div class="card">
             <div class="card-content">
-              <img src="" alt="product 1" class="product" id="uploadedProd" />
-            </div>
-          </div>
-        </div>
-        <div class="col-1"><!-- spacer --></div>
-        <div class="col-4"><input type="file" accept="image/*" name="" id="file-up" /></div>
-        <div class="col-1"><!-- spacer --></div>
-      </div>
-
-      <div class="row">
-        <div class="col-2"><!-- Spacer --></div>
-        <div class="col-8">
-          <div class="card card-float">
-            <div class="card-top">
-              <p>Product Details</p>
-            </div>
-            <div class="card-content extandable">
               <table class="table-details">
                 <tbody>
                   <tr>
-                    <td>Product Name</td>
-                    <td>
-                      <input type="text" name="" id="" />
-                    </td>
+                    <td>Name</td>
+                    <td>Thomas Baldwin</td>
                   </tr>
-                    <td>Tags (Separated by ";")</td>
-                    <td><input type="text" name="" id="" /></td>
+                  <tr>
+                    <td>Username</td>
+                    <td>thomas.baldwin</td>
+                  </tr>
+                  <tr>
+                    <td>Email</td>
+                    <td>thomas.baldwin@fdmgroup.com</td>
+                  </tr>
+                  <tr>
+                    <td>Wallet (CAD)</td>
+                    <td>$459.00</td>
                   </tr>
                 </tbody>
               </table>
-            </tr>
             </div>
             <div class="card-bottom">
-              <p class="desc-title">Description</p>
-              <textarea name="" id=""></textarea>
-
-              <button class="bid-btn green-text">
-                Save Product
-              </button>
+              <button class="bid-btn">Change My Email</button>
+              <button class="bid-btn">Change my Password</button>
+              <button class="bid-btn">Deposit Funds</button>
+              <button class="bid-btn">Withdraw Funds</button>
             </div>
           </div>
         </div>
-        <div class="col-2"><!-- Spacer --></div>
       </div>
     </div>
 

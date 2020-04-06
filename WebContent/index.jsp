@@ -1,7 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8 /" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Homepage - DigiArt</title>
@@ -16,6 +18,13 @@
     <script src="js/auctiontime.js"></script>
   </head>
   <body>
+    <% if (request.getSession().getAttribute("message") != null){  %>
+    <div class="page-message" id="page-message">
+      <%= request.getSession().getAttribute("message") %>
+      <img src="img/small-x.png" id="msg-close" alt="close message" />
+    </div>
+    <% request.getSession().removeAttribute("message");} %>
+
     <nav id="navigate">
       <a href="" class="left">
         <img class="small-logo" src="img/sub-logo-clear-back.png" alt="Logo" />
@@ -263,7 +272,7 @@
             <div class="card-float card-modal">
               <div class="card-top"><h4>Login</h4></div>
               <div class="card-content">
-                <form action="indexLogged.html">
+                <form action="Login" method="POST">
                   <div class="input-group">
                     <div class="col-4">
                       <label for="login-user">Username: </label>
@@ -272,7 +281,7 @@
                       <input
                         type="text"
                         name="login-user"
-                        id=""
+                        id="login-username"
                         placeholder="Username"
                         required
                       />
@@ -286,7 +295,7 @@
                       <input
                         type="password"
                         name="login-pass"
-                        id=""
+                        id="login-password"
                         placeholder="Password"
                         required
                       />
@@ -309,7 +318,7 @@
             <div class="card-float card-modal">
               <div class="card-top"><h4>Register</h4></div>
               <div class="card-bottom">
-                <form action="">
+                <form action="Register" method="POST">
                   <div class="input-group">
                     <div class="col-4">
                       <label for="fname">First Name:</label>
@@ -350,16 +359,19 @@
                       <input
                         type="password"
                         name="pswd1"
+                        id="pswd1"
                         placeholder="Password"
                       />
                     </div>
                   </div>
                   <div class="input-group">
+                    <span><small id="pass-warning"></small></span>
                     <div class="col-4"><label for="pswd2">Repeat:</label></div>
                     <div class="col-8">
                       <input
                         type="password"
                         name="pswd2"
+                        id="pswd2"
                         placeholder="Repeat Password"
                       />
                     </div>
@@ -370,7 +382,7 @@
                       <input
                         type="email"
                         name="email"
-                        id=""
+                        id="email"
                         placeholder="Email Address"
                       />
                     </div>

@@ -44,6 +44,7 @@ body {
   border: 1px solid #b2b2b2;
   border-radius: 3px;
   position: relative;
+  margin-top: -5px;
   display: none;
 }
 
@@ -416,4 +417,30 @@ span.left {
 
 .content-center {
   text-align: center;
+}
+
+.page-message {
+  /* position: absolute; */
+  /* z-index: 101; */
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #fde073;
+  text-align: center;
+  line-height: 1.6;
+  height: 35px;
+  overflow: hidden;
+  -webkit-box-shadow: 0 0 5px black;
+  -moz-box-shadow: 0 0 5px black;
+  box-shadow: 0 0 5px black;
+}
+
+#img-close {
+  display: inline-block;
+  position: relative;
+  top: 3px;
+}
+
+#img-close:hover {
+  cursor: pointer;
 }

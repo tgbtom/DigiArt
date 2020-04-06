@@ -1,7 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Homepage - DigiArt</title>
@@ -23,8 +25,8 @@
       </a>
       <!-- <a href="">Auctions</a>
           <a href="">Products</a> -->
-      <a class="right" id="logout-btn" href="index.html">Logout</a>
-      <a class="right" href="profile.html">Profile</a>
+      <a class="right" id="logout-btn" href="Navigate?loc=logout">Logout</a>
+      <a class="right" href="Navigate?loc=profile">Profile</a>
       <a class="right dropdown-btn"
         >Products
         <div class="dropdown-content">
@@ -59,7 +61,7 @@
         <div class="col-4">
           <div class="card">
             <div class="card-top">
-              <p><a href="product.html">Product 1</a></p>
+              <p><a href="Navigate?loc=product">Product 1</a></p>
             </div>
             <div class="card-content">
               <img src="img/sample1.png" alt="product 1" class="product" />

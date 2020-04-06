@@ -1,4 +1,4 @@
-window.onload = function() {
+window.onload = function () {
   var loginBtn = document.getElementById("login-btn");
   var registerBtn = document.getElementById("register-btn");
   var products = document.getElementsByClassName("product");
@@ -9,6 +9,10 @@ window.onload = function() {
   var exitModal = document.getElementById("exit-modal");
   var image = document.getElementById("img-for-modal");
   var fileUp = document.getElementById("file-up");
+  var pswd1 = document.getElementById("pswd1");
+  var pswd2 = document.getElementById("pswd2");
+  var pswdWarn = document.getElementById("pass-warning");
+  var pageMessage = document.getElementById("page-message");
 
   if (typeof showTimes === "function") {
     showTimes();
@@ -18,8 +22,33 @@ window.onload = function() {
     auctionHandler();
   }
 
+  if (pageMessage != null) {
+    var msgClose = document.getElementById("msg-close");
+    msgClose.addEventListener("click", function () {
+      pageMessage.style.display = "none";
+    });
+  }
+
+  if (pswd2 != null) {
+    pswd1.addEventListener("change", function () {
+      if (pswd1.value == pswd2.value) {
+        pswdWarn.innerHTML = "";
+      } else {
+        pswdWarn.innerHTML = "*passwords must match*";
+      }
+    });
+
+    pswd2.addEventListener("change", function () {
+      if (pswd1.value == pswd2.value) {
+        pswdWarn.innerHTML = "";
+      } else {
+        pswdWarn.innerHTML = "*passwords must match*";
+      }
+    });
+  }
+
   if (fileUp != null) {
-    fileUp.addEventListener("input", function(e) {
+    fileUp.addEventListener("input", function (e) {
       console.log(fileUp);
       console.log(e);
       console.log(e.target.files[0]);
@@ -30,14 +59,14 @@ window.onload = function() {
   }
 
   if (loginBtn != null) {
-    loginBtn.addEventListener("click", function() {
+    loginBtn.addEventListener("click", function () {
       imgModal.style.display = "none";
       registerModal.style.display = "none";
       fullModal.style.display = "block";
       loginModal.style.display = "block";
     });
 
-    registerBtn.addEventListener("click", function() {
+    registerBtn.addEventListener("click", function () {
       imgModal.style.display = "none";
       loginModal.style.display = "none";
       fullModal.style.display = "block";
@@ -46,7 +75,7 @@ window.onload = function() {
   }
 
   for (let i = 0; i < products.length; i++) {
-    products[i].addEventListener("click", function(e) {
+    products[i].addEventListener("click", function (e) {
       if (loginModal != null) {
         loginModal.style.display = "none";
         registerModal.style.display = "none";
@@ -57,7 +86,7 @@ window.onload = function() {
     });
   }
 
-  exitModal.addEventListener("click", function() {
+  exitModal.addEventListener("click", function () {
     if (loginModal != null) {
       registerModal.style.display = "none";
       loginModal.style.display = "none";
@@ -71,10 +100,10 @@ function product(menuNum) {
   let loc = "";
   switch (menuNum) {
     case 1:
-      loc = "products.html?cat=mine";
+      loc = "Navigate?loc=products";
       break;
     case 2:
-      loc = "uploadproduct.html";
+      loc = "Navigate?loc=uploadproduct";
       break;
     case 3:
       loc = "products.html?cat=sold";
@@ -96,7 +125,7 @@ function auction(menuNum) {
   let loc = "";
   switch (menuNum) {
     case 1:
-      loc = "auctions.html?cat=mine";
+      loc = "Navigate?loc=auctions";
       break;
     case 2:
       loc = "auctions.html?cat=all";

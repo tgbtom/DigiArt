@@ -1,10 +1,12 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>HEdit Product</title>
+    <title>Edit Product</title>
 
     <link
       href="https://fonts.googleapis.com/css?family=Khand"
@@ -17,14 +19,12 @@
   </head>
   <body>
     <nav id="navigate">
-      <a href="indexLogged.html" class="left">
+      <a href="" class="left">
         <img class="small-logo" src="img/sub-logo-clear-back.png" alt="Logo" />
         <p>DigiArt</p>
       </a>
-      <!-- <a href="">Auctions</a>
-            <a href="">Products</a> -->
-      <a class="right" id="logout-btn" href="index.html">Logout</a>
-      <a class="right" href="profile.html">Profile</a>
+      <a class="right" id="logout-btn" href="Navigate?loc=logout">Logout</a>
+      <a class="right" href="Navigate?loc=profile">Profile</a>
       <a class="right dropdown-btn"
         >Products
         <div class="dropdown-content">

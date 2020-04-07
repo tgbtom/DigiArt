@@ -84,7 +84,7 @@ public class DashboardView {
 			showDashboard(userId);
 			break;
 		case "4":
-			auctionController.createAuction(user);
+//			auctionController.createAuction(user);
 			showDashboard(userId);
 			break;
 		case "5":

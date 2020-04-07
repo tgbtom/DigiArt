@@ -20,7 +20,6 @@ import com.fdmgroup.view.AuctionView;
 public class AuctionController{
 
 	private AuctionView auctionView;
-	private Scanner scanner;
 	private JPAProductDao jpaProductDao;
 	private JPAAuctionDao jpaAuctionDao;
 
@@ -28,13 +27,11 @@ public class AuctionController{
 	private int productId;
 	private Date startTime, endTime;
 
-	public AuctionController(Scanner scanner) {
+	public AuctionController() {
 		super();
-		this.scanner = scanner;
 		this.jpaProductDao = new JPAProductDao();
 		this.jpaAuctionDao = new JPAAuctionDao();
 	}
-
 
 	public AuctionView getAuctionView() {
 		return auctionView;
@@ -53,20 +50,10 @@ public class AuctionController{
 		
 	}
 	
-	public void createAuction(User user) {
-		promptAuctionCreation();
+	public void createAuction(Auction auction, User user) {
 		
-		Product product = jpaProductDao.findById(productId);
+		Product product = jpaProductDao.findById(auction.getProduct().getProduct_id());
 		if(product.getOwner().getId() == user.getId() && product.getStatus() == ProductStatus.AVAILABLE) {
-			this.startTime = new Date(); 
-			//end 45 seconds later
-			this.endTime = new Date(System.currentTimeMillis() + 45000);
-			
-			System.out.println(endTime);
-			//Wed Apr 01 11:47:24 EDT 2020
-			
-			Auction auction = new Auction(product, startTime, endTime, bidIncrease, user);
-			auction.addBid(new Bid(startingPrice, user, auction));
 			
 			auction = jpaAuctionDao.create(auction);
 			jpaProductDao.updateStatus(product.getProduct_id(), ProductStatus.AUCTIONED);
@@ -109,14 +96,5 @@ public class AuctionController{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private void promptAuctionCreation() {
-		System.out.println("Enter the id of the product you wish to put up for auction: ");
-		productId = Integer.parseInt(scanner.nextLine());
-		System.out.println("Enter starting price: ");
-		startingPrice = Double.parseDouble(scanner.nextLine());
-		System.out.println("Enter minimum bid increase: ");
-		bidIncrease = Double.parseDouble(scanner.nextLine());
 	}
 }

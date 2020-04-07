@@ -29,9 +29,9 @@ public class ProductView {
 	}
 
 	public void showAddForm(User user) {
-		System.out.println("Enter new Product Name: ");
-		String productName = scanner.nextLine();
-		productController.insertProduct(user, productName);
+//		System.out.println("Enter new Product Name: ");
+//		String productName = scanner.nextLine();
+//		productController.insertProduct(user, productName, image);
 	}
 	
 	public void showAll(User user) {

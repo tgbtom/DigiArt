@@ -46,7 +46,7 @@ public class Login extends HttpServlet {
 		
 		RequestDispatcher dispatcher;
 		if (ac.login(username, password)) {
-			request.getSession().setAttribute("user_id", jud.findByUsername(username).get().getId());
+			request.getSession().setAttribute("user", jud.findByUsername(username).get());
 			request.getSession().setAttribute("message", "Logged in as " + username);
 			dispatcher = request.getRequestDispatcher("/WEB-INF/dashboard.jsp");
 			dispatcher.forward(request, response);

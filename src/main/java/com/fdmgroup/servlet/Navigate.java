@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fdmgroup.dao.JPAProductDao;
+
 /**
  * Servlet implementation class Navigate
  */
@@ -30,6 +32,7 @@ public class Navigate extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("");
+		JPAProductDao jpd = new JPAProductDao();
 		
 		if(request.getParameter("loc").equals("profile")) {
 			dispatcher = request.getRequestDispatcher("/WEB-INF/profile.jsp");
@@ -44,9 +47,13 @@ public class Navigate extends HttpServlet {
 			dispatcher = request.getRequestDispatcher("/WEB-INF/auctions.jsp");
 		}
 		else if(request.getParameter("loc").equals("product")) {
+			request.setAttribute("product", jpd.findById(Integer.parseInt(request.getParameter("pid"))));
 			dispatcher = request.getRequestDispatcher("/WEB-INF/product.jsp");
 		}
-		
+		else if(request.getParameter("loc").equals("createAuction")) {
+			request.setAttribute("product", jpd.findById(Integer.parseInt(request.getParameter("pid"))));
+			dispatcher = request.getRequestDispatcher("/WEB-INF/createAuction.jsp");
+		}
 		dispatcher.forward(request, response);
 		
 	}

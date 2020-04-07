@@ -17,8 +17,8 @@ public class ProductTest {
 	}
 	
 	private static void create() {
-		Product product = new Product("Test Product 1", jpaUserDao.findById(1));
-		jpaProductDao.create(product);
+//		Product product = new Product("Test Product 1", jpaUserDao.findById(1));
+//		jpaProductDao.create(product);
 	}
 	
 	private static void update() {

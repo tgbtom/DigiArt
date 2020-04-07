@@ -16,6 +16,15 @@
 
     <script src="js/home.js"></script>
     <script src="js/auction.js"></script>
+    
+    
+    <%@ page import="com.fdmgroup.model.Product" %>
+    <%@ page import="java.util.Base64" %>
+    <% 
+    Product product = (Product) request.getAttribute("product"); 
+    String imageBase64 = new String(Base64.getEncoder().encode(product.getImage()));
+    %>
+    
   </head>
   <body>
     <nav id="navigate">
@@ -55,10 +64,10 @@
         <div class="col-6">
           <div class="card card-float">
             <div class="card-top">
-              <p>Product 8</p>
+              <p><%= product.getName() %></p>
             </div>
             <div class="card-content">
-              <img src="img/sample8.png" alt="product 1" class="product" />
+              <img src="data:image/png;base64,<%= imageBase64 %>" class="product" alt="Product Image"/>
             </div>
           </div>
         </div>
@@ -77,7 +86,7 @@
                         <tr>
                         <td>Product Name</td>
                         <td>
-                            <input type="text" name="" id="" />
+                            <input type="text" name="name" value="<%= product.getName() %>" />
                         </td>
                         </tr>
                         <td>Tags (Separated by ";")</td>
@@ -89,7 +98,7 @@
                 </div>
                 <div class="card-bottom">
                     <p class="desc-title">Description</p>
-                    <textarea name="" id=""></textarea>
+                    <textarea name="" id=""><%= product.getDescription() %></textarea>
     
                     <button class="bid-btn green-text">
                     Update Product

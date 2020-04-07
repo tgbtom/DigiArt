@@ -23,8 +23,6 @@
         <img class="small-logo" src="img/sub-logo-clear-back.png" alt="Logo" />
         <p>DigiArt</p>
       </a>
-      <!-- <a href="">Auctions</a>
-          <a href="">Products</a> -->
       <a class="right" id="logout-btn" href="Navigate?loc=logout">Logout</a>
       <a class="right" href="Navigate?loc=profile">Profile</a>
       <a class="right dropdown-btn"
@@ -52,172 +50,71 @@
     </header>
 
     <div class="container">
+      <%@ page import="com.fdmgroup.model.Product" %>
+      <%@ page import="com.fdmgroup.model.User" %>
+      <%@ page import="java.util.List" %>
+      <%@ page import="java.util.Base64" %>
+      <%@ page import="com.fdmgroup.dao.JPAProductDao" %>
+      <%! JPAProductDao jpd = new JPAProductDao(); %>
+      <%! int counter = 0; %>
+      <!-- JSP OUTPUT ROWS OF UP TO 3 PRODUCTS --> 
+      <% 
+      User user = (User) request.getSession().getAttribute("user");
+      List<Product> products = jpd.findMine(user);
+      %>
+      
       <div class="row">
         <div class="col-12">
           <p class="subtitle">My Products</p>
         </div>
       </div>
+      
       <div class="row">
-        <div class="col-4">
-          <div class="card">
-            <div class="card-top">
-              <p><a href="Navigate?loc=product">Product 1</a></p>
-            </div>
-            <div class="card-content">
-              <img src="img/sample1.png" alt="product 1" class="product" />
-            </div>
-            <div class="card-bottom">
-              <a href="createauction.html?pid=3">
-                <button class="bid-btn green-text">
-                  Start Auction
-                </button>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="card">
-            <div class="card-top">
-              <p><a href="product.html">Product 2</a></p>
-            </div>
-            <div class="card-content">
-              <img src="img/sample2.png" alt="product 2" class="product" />
-            </div>
-            <div class="card-bottom">
-              <a href="auctionpage.html?pid=3">
-                <button class="bid-btn red-text">
-                  <span class="time-left"></span>
-                </button>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="card">
-            <div class="card-top">
-              <p>Product 3</p>
-            </div>
-            <div class="card-content">
-              <img src="img/sample3.png" alt="product 3" class="product" />
-            </div>
-            <div class="card-bottom">
-              <a href="auctionpage.html?pid=3">
-                <button class="bid-btn red-text">
-                  <span class="time-left"></span>
-                </button>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-4">
-          <div class="card">
-            <div class="card-top">
-              <p>Product 4</p>
-            </div>
-            <div class="card-content">
-              <img src="img/sample4.png" alt="product 4" class="product" />
-            </div>
-            <div class="card-bottom">
-              <a href="createauction.html?pid=3">
-                <button class="bid-btn green-text">
-                  Start Auction
-                </button>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="card">
-            <div class="card-top">
-              <p>Product 5</p>
-            </div>
-            <div class="card-content">
-              <img src="img/sample5.png" alt="product 5" class="product" />
-            </div>
-            <div class="card-bottom">
-              <a href="auctionpage.html?pid=3">
-                <button class="bid-btn red-text">
-                  <span class="time-left"></span>
-                </button>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="card">
-            <div class="card-top">
-              <p>Product 6</p>
-            </div>
-            <div class="card-content">
-              <img src="img/sample6.png" alt="product 6" class="product" />
-            </div>
-            <div class="card-bottom">
-              <a href="createauction.html?pid=3">
-                <button class="bid-btn green-text">
-                  Start Auction
-                </button>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-4">
-          <div class="card">
-            <div class="card-top">
-              <p>Product 9</p>
-            </div>
-            <div class="card-content">
-              <img src="img/sample9.png" alt="product 4" class="product" />
-            </div>
-            <div class="card-bottom">
-              <a href="createauction.html?pid=3">
-                <button class="bid-btn green-text">
-                  Start Auction
-                </button>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="card">
-            <div class="card-top">
-              <p>Product 11</p>
-            </div>
-            <div class="card-content">
-              <img src="img/sample11.png" alt="product 5" class="product" />
-            </div>
-            <div class="card-bottom">
-              <a href="auctionpage.html?pid=3">
-                <button class="bid-btn red-text">
-                  <span class="time-left"></span>
-                </button>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="card">
-            <div class="card-top">
-              <p>Product 8</p>
-            </div>
-            <div class="card-content">
-              <img src="img/sample8.png" alt="product 6" class="product" />
-            </div>
-            <div class="card-bottom">
-              <a href="createauction.html?pid=3">
-                <button class="bid-btn green-text">
-                  Start Auction
-                </button>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
+      <% for (Product p : products){ 
+    	  String imageBase64 = new String(Base64.getEncoder().encode(p.getImage()));
+    	  if(counter % 3 != 0 && counter != 0){%>
+			<div class="col-4">
+				<div class="card">
+					<div class="card-top">
+						<p><a href="Navigate?loc=product&pid=<%= p.getProduct_id() %>"><%= p.getName() %></a></p>
+					</div>
+					<div class="card-content">
+						<img src="data:image/png;base64,<%= imageBase64 %>" class="product" alt="Product Image"/>
+					</div>
+					<div class="card-bottom">
+						<a href="Navigate?loc=createAuction&pid=<%= p.getProduct_id() %>">
+						<button class="bid-btn green-text">
+						Start Auction
+						</button>
+						</a>
+					</div>
+				</div>
+			</div>
+    	  <% }
+    	  else{%>
+    	  </div>
+    	  <div class="row">
+  			<div class="col-4">
+				<div class="card">
+					<div class="card-top">
+						<p><a href="Navigate?loc=product&pid=<%= p.getProduct_id() %>"><%= p.getName() %></a></p>
+					</div>
+					<div class="card-content">
+						<img src="data:image/png;base64,<%= imageBase64 %>" class="product" alt="Product Image"/>
+					</div>
+					<div class="card-bottom">
+						<a href="Navigate?loc=createAuction&pid=<%= p.getProduct_id() %>">
+						<button class="bid-btn green-text">
+						Start Auction
+						</button>
+						</a>
+					</div>
+				</div>
+			</div>
+    	  <%}
+    	  counter++;
+      	} counter = 0; %>
+      	
     </div>
 
     <div class="full-modal" id="full-modal">

@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -37,12 +38,19 @@ public class Product implements IStorable{
 	@JoinColumn(name = "owner_id", referencedColumnName = "user_id", nullable = false)
 	private User owner;
 	
+	@Column
+	private String description;
+	
 	@Enumerated(EnumType.STRING)
 	@Column
 	private ProductStatus status;
 	
 	@OneToOne(mappedBy = "product")
 	private Auction auction;
+	
+	@Lob
+	@Column(name = "image")
+	private byte[] image;
 
 	public Product() {
 		super();
@@ -50,12 +58,14 @@ public class Product implements IStorable{
 		this.creator = (new User());
 	}
 	
-	public Product(String name, User creator) {
+	public Product(String name, User creator, byte[] image, String description) {
 		super();
 		this.name = name;
 		this.creator = creator;
 		this.owner = creator;
 		this.status = ProductStatus.AVAILABLE;
+		this.image = image;
+		this.description = description;
 	}
 
 	public Product(String name, User creator, User owner) {
@@ -118,6 +128,22 @@ public class Product implements IStorable{
 
 	public void setOwner(User owner) {
 		this.owner = owner;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 }

@@ -6,7 +6,7 @@
     <meta charset="ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Homepage - DigiArt</title>
+    <title>My Profile</title>
 
     <link
       href="https://fonts.googleapis.com/css?family=Khand"
@@ -16,6 +16,11 @@
 
     <script src="js/home.js"></script>
     <script src="js/auctiontime.js"></script>
+    <%@ page import="com.fdmgroup.model.User" %>
+    <% 
+    User user = (User) request.getSession().getAttribute("user"); 
+    %>
+    
   </head>
   <body>
     <nav id="navigate">
@@ -23,8 +28,6 @@
         <img class="small-logo" src="img/sub-logo-clear-back.png" alt="Logo" />
         <p>DigiArt</p>
       </a>
-      <!-- <a href="">Auctions</a>
-          <a href="">Products</a> -->
       <a class="right" id="logout-btn" href="Navigate?loc=logout">Logout</a>
       <a class="right" href="Navigate?loc=profile">Profile</a>
       <a class="right dropdown-btn"
@@ -61,19 +64,19 @@
                 <tbody>
                   <tr>
                     <td>Name</td>
-                    <td>Thomas Baldwin</td>
+                    <td><%= user.getFirstname() %> <%= user.getLastname() %></td>
                   </tr>
                   <tr>
                     <td>Username</td>
-                    <td>thomas.baldwin</td>
+                    <td><%= user.getUsername() %></td>
                   </tr>
                   <tr>
                     <td>Email</td>
-                    <td>thomas.baldwin@fdmgroup.com</td>
+                    <td>t<%= user.getEmail() %></td>
                   </tr>
                   <tr>
                     <td>Wallet (CAD)</td>
-                    <td>$459.00</td>
+                    <td>$45<%= user.getWallet() %></td>
                   </tr>
                 </tbody>
               </table>

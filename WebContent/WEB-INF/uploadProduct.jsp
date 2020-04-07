@@ -13,7 +13,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="mainStyle.css" />
-
+    
     <script src="js/home.js"></script>
     <script src="js/auction.js"></script>
   </head>
@@ -63,12 +63,13 @@
               <p>Product 1</p>
             </div>
             <div class="card-content">
-              <img src="" alt="product 1" class="product" id="uploadedProd" />
+              <img src="img/placeholder.png" alt="product 1" class="product" id="uploadedProd" />
             </div>
           </div>
         </div>
         <div class="col-1"><!-- spacer --></div>
-        <div class="col-4"><input type="file" accept="image/*" name="" id="file-up" /></div>
+        <form action="CreateProduct" method="POST" enctype="multipart/form-data" runat="server">
+        <div class="col-4"><input type="file" accept="image/*" name="image" id="file-up" /></div>
         <div class="col-1"><!-- spacer --></div>
       </div>
 
@@ -85,11 +86,11 @@
                   <tr>
                     <td>Product Name</td>
                     <td>
-                      <input type="text" name="" id="" />
+                      <input type="text" name="name" id="" />
                     </td>
                   </tr>
                     <td>Tags (Separated by ";")</td>
-                    <td><input type="text" name="" id="" /></td>
+                    <td><input type="text" name="tags" id="" /></td>
                   </tr>
                 </tbody>
               </table>
@@ -97,11 +98,9 @@
             </div>
             <div class="card-bottom">
               <p class="desc-title">Description</p>
-              <textarea name="" id=""></textarea>
-
-              <button class="bid-btn green-text">
-                Save Product
-              </button>
+              <textarea name="description" id=""></textarea>
+				<input class="bid-btn green-text" type="submit" value="Save Product">
+              </form>
             </div>
           </div>
         </div>

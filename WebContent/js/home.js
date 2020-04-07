@@ -55,7 +55,16 @@ window.onload = function () {
 
       document.getElementById("uploadedProd").src =
         "img/" + e.target.files[0].name;
+      
+      readURL(fileUp);
     });
+    
+  //idk
+
+//    $("#file-up").input(function () {
+//      readURL(this);
+//    });
+
   }
 
   if (loginBtn != null) {
@@ -95,6 +104,18 @@ window.onload = function () {
     fullModal.style.display = "none";
   });
 };
+
+function readURL(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    
+    reader.onload = function (e) {
+      $("#uploadedProd").attr("src", e.target.result);
+    };
+
+    reader.readAsDataURL(input.files[0]); // convert to base64 string
+  }
+}
 
 function product(menuNum) {
   let loc = "";

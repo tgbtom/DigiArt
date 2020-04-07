@@ -1,10 +1,12 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Homepage - DigiArt</title>
+    <title>Create Auction</title>
 
     <link
       href="https://fonts.googleapis.com/css?family=Khand"
@@ -14,6 +16,16 @@
 
     <script src="js/home.js"></script>
     <script src="js/auction.js"></script>
+    
+   	<%@ page import="com.fdmgroup.model.Product" %>
+   	<%@ page import="com.fdmgroup.dao.JPAProductDao" %>
+   	<%@ page import="java.util.Base64" %>
+   	<% 
+   	JPAProductDao jpd = new JPAProductDao();
+   	Product product = (Product) request.getAttribute("product");
+   	String base64String = new String(Base64.getEncoder().encode(product.getImage()));
+   	%>
+    
   </head>
   <body>
     <nav id="navigate">
@@ -21,10 +33,8 @@
         <img class="small-logo" src="img/sub-logo-clear-back.png" alt="Logo" />
         <p>DigiArt</p>
       </a>
-      <!-- <a href="">Auctions</a>
-            <a href="">Products</a> -->
-      <a class="right" id="logout-btn" href="index.html">Logout</a>
-      <a class="right" href="profile.html">Profile</a>
+      <a class="right" id="logout-btn" href="Navigate?loc=logout">Logout</a>
+      <a class="right" href="Navigate?loc=profile">Profile</a>
       <a class="right dropdown-btn"
         >Products
         <div class="dropdown-content">
@@ -55,10 +65,10 @@
         <div class="col-5">
           <div class="card card-float">
             <div class="card-top">
-              <p>Product 8</p>
+              <p><%= product.getName() %></p>
             </div>
             <div class="card-content">
-              <img src="img/sample8.png" alt="product 1" class="product" />
+            	<img src="data:img/png;base64,<%= base64String %>" alt="Product Image" class="product">
             </div>
           </div>
         </div>
@@ -68,6 +78,8 @@
             <div class="card-top">
               <p>Auction Details</p>
             </div>
+            <form action="CreateAuction" method="POST">
+            <input type="hidden" name="product-id" value="<%=product.getProduct_id()%>">
             <div class="card-content extendable">
               <table class="table-details">
                 <tbody>
@@ -77,6 +89,7 @@
                       <input
                         type="number"
                         class="create-num price"
+                        name="start-price"
                         step="0.01"
                         value="1.00"
                         min="1.00"
@@ -89,6 +102,7 @@
                       <input
                         type="number"
                         class="create-num price"
+                        name="min-increase"
                         step="0.01"
                         value="0.10"
                         min="0.01"
@@ -103,8 +117,15 @@
                 <label for="change-start">Custom <u>Start Date/Time</u></label>
                 <input type="checkbox" name="change-start" id="change-start" />
                 <div class="hidden-field" id="start-time-box">
-                  <input type="date" name="" id="start-date" class="datetime" />
-                  <input type="time" name="" id="start-time" class="datetime" />
+                
+                <%@ page import="java.time.LocalDateTime" %>
+                <% 
+                LocalDateTime d1 = LocalDateTime.now();
+        		String time = d1.getHour() + ":" + d1.getMinute();
+        		%>
+                
+                  <input type="date" name="start-date" id="start-date" class="datetime" />
+                  <input type="time" name="start-time" id="start-time" value="<%=time %>" class="datetime" />
                 </div>
               </div>
 
@@ -117,7 +138,7 @@
                   id="end-date"
                   class="datetime"
                 />
-                <input type="time" name="" id="end-time" class="datetime" />
+                <input type="time" name="end-time" id="end-time" value="<%=time %>" class="datetime" />
                 <p>* default auction will be 24 hours long*</p>
               </div>
             </div>
@@ -164,6 +185,7 @@
               <button class="bid-btn green-text">
                 Create Auction
               </button>
+              </form>
             </div>
           </div>
         </div>

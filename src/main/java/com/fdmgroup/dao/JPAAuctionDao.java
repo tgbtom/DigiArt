@@ -1,12 +1,12 @@
 package com.fdmgroup.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import com.fdmgroup.model.Auction;
+import com.fdmgroup.model.Bid;
 import com.fdmgroup.model.Product;
 import com.fdmgroup.model.User;
 
@@ -53,8 +53,17 @@ public class JPAAuctionDao implements IAuctionDao{
 	}
 
 	@Override
-	public Auction update(Auction t) {
-		return null;
+	public Auction update(Auction auction) {
+		EntityManager em = JPAConnection.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		for (Bid b : auction.getBids()) {
+			em.merge(b);
+		}
+		auction = em.merge(auction);
+		em.getTransaction().commit();
+		em.close();
+		
+		return auction;
 	}
 
 	@Override
@@ -62,6 +71,7 @@ public class JPAAuctionDao implements IAuctionDao{
 		EntityManager em = JPAConnection.getInstance().createEntityManager();
 		em.getTransaction().begin();
 		auction = em.merge(auction);
+
 		em.remove(auction);
 		em.getTransaction().commit();
 		em.close();
@@ -79,8 +89,28 @@ public class JPAAuctionDao implements IAuctionDao{
 
 	@Override
 	public void placeBid(Auction auction, User user, double bidAmount) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
-
+	
+	public double getInitialPrice(Auction auction) {
+		List<Bid> bids = auction.getBids();
+		double lowestBid = bids.get(0).getValue();
+		for (Bid b : bids) {
+			lowestBid = Math.min(lowestBid, b.getValue());
+		}
+		return lowestBid;
+	}
+	
+	public Bid getHighestBid(Auction auction) {
+		List<Bid> bids = auction.getBids();
+		double highestValue = bids.get(0).getValue();
+		Bid highestBid = bids.get(0);
+		for (Bid b : bids) {
+			if(b.getValue() > highestValue) {
+				highestValue = b.getValue();
+				highestBid = b;
+			}
+		}
+		return highestBid;
+	}
 }

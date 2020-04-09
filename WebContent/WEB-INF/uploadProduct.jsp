@@ -6,7 +6,7 @@
     <meta charset="ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Homepage - DigiArt</title>
+    <title>Upload Product - DigiArt</title>
 
     <link
       href="https://fonts.googleapis.com/css?family=Khand"
@@ -16,6 +16,7 @@
     
     <script src="js/home.js"></script>
     <script src="js/auction.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   </head>
   <body>
     <nav id="navigate">
@@ -89,8 +90,21 @@
                       <input type="text" name="name" id="" />
                     </td>
                   </tr>
-                    <td>Tags (Separated by ";")</td>
-                    <td><input type="text" name="tags" id="" /></td>
+                  <tr>
+                    <td>Category</td>
+                    <td>
+                    <%@ page import="com.fdmgroup.model.ProductCategory" %>
+                    	<select name="category">
+                    		<% 
+                    		for(ProductCategory cat: ProductCategory.values()){
+                    		%>
+                    			<option value="<%= cat %>"><%= cat %></option>
+                    		<%	
+                    		}
+                    		%>
+                    	</select>
+ 
+                    </td>
                   </tr>
                 </tbody>
               </table>

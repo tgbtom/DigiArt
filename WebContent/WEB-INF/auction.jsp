@@ -1,10 +1,13 @@
+<%@page import="com.fdmgroup.model.Product"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Homepage - DigiArt</title>
+    <title>Auction x - DigiArt</title>
 
     <link
       href="https://fonts.googleapis.com/css?family=Khand"
@@ -14,17 +17,25 @@
 
     <script src="js/home.js"></script>
     <script src="js/auction.js"></script>
+    
+    
+    <%@ page import="com.fdmgroup.model.Auction" %>
+    <%@ page import="com.fdmgroup.dao.JPAAuctionDao" %>
+    <%@ page import="java.util.Base64" %>
+    <% 
+    JPAAuctionDao jad = new JPAAuctionDao();
+    Auction auction = (Auction) request.getAttribute("auction");
+    String base64Image = new String(Base64.getEncoder().encode(auction.getProduct().getImage()));
+    %>
   </head>
   <body>
     <nav id="navigate">
-      <a href="indexLogged.html" class="left">
+      <a href="Navigate?loc=dashboard" class="left">
         <img class="small-logo" src="img/sub-logo-clear-back.png" alt="Logo" />
         <p>DigiArt</p>
       </a>
-      <!-- <a href="">Auctions</a>
-          <a href="">Products</a> -->
-      <a class="right" id="logout-btn" href="index.html">Logout</a>
-      <a class="right" href="profile.html">Profile</a>
+      <a class="right" id="logout-btn" href="Navigate?loc=logout">Logout</a>
+      <a class="right" href="Navigate?loc=profile">Profile</a>
       <a class="right dropdown-btn"
         >Products
         <div class="dropdown-content">
@@ -55,15 +66,15 @@
         <div class="col-5">
           <div class="card card-float">
             <div class="card-top">
-              <p>Product 1</p>
+              <p><%= auction.getProduct().getName() %></p>
             </div>
             <div class="card-content">
-              <img src="img/sample4.png" alt="product 1" class="product" />
+              <img src="data:image/png;base64,<%=base64Image%>" alt="Product Image" class="product">
             </div>
             <div class="card-bottom">
               <p>
-                <strong><u>Thomas Baldwin</u></strong> |
-                <b>tbaldw02</b>
+                <strong><%= auction.getSeller().getFirstname() + " " + auction.getSeller().getLastname() %></strong> |
+                <b><%= auction.getSeller().getUsername() %></b>
               </p>
             </div>
           </div>
@@ -79,37 +90,40 @@
                 <tbody>
                   <tr>
                     <td>Listed Price</td>
-                    <td>$ 5.00</td>
+                    <td>$ <%= jad.getInitialPrice(auction) + auction.getMinIncrease() %></td>
                   </tr>
                   <tr>
                     <td>Current Bid</td>
-                    <td>$ 5.50</td>
+                    <td>$ <%= jad.getHighestBid(auction).getValue() %></td>
                   </tr>
                   <tr>
                     <td>Bid Holder</td>
-                    <td>Aurora Baldwin</td>
+                    <td><%= jad.getHighestBid(auction).getBidder().getUsername() %></td>
                   </tr>
                   <tr>
                     <td>Min. Increase</td>
-                    <td>$ 0.25</td>
+                    <td>$ <%= auction.getMinIncrease() %></td>
                   </tr>
                   <tr>
                     <td>Min. Bid</td>
-                    <td>$ 5.75</td>
+                    <td>$ <%= jad.getHighestBid(auction).getValue() + auction.getMinIncrease() %></td>
                   </tr>
                 </tbody>
               </table>
               <div class="card-bottom">
+              <form action="PlaceBid" method="POST">
+              <input type="hidden" name="auction_id" value="<%=auction.getAuctionId()%>">
                 <span class="left">$</span
                 ><input
                   type="number"
+                  name="bid_amt"
                   id="bidAmt"
-                  value="6.00"
-                  precision="2"
-                  step="0.25"
-                  min="5.75"
+                  value="<%= jad.getHighestBid(auction).getValue() + auction.getMinIncrease() %>"
+                  step="0.01"
+                  min="<%= jad.getHighestBid(auction).getValue() + auction.getMinIncrease() %>"
                 />
-                <button class="bid-sm bid-btn" id="placeBid">Place Bid</button>
+                <input type="submit" value="Place Bid" id="placeBid" class="bid-sm bid-dtn">
+              </form>
               </div>
             </div>
           </div>
@@ -128,19 +142,15 @@
                 <tbody>
                   <tr>
                     <td>Contract Details</td>
-                    <td>Permanent & Exclusive</td>
+                    <td><%= auction.getContractString() %></td>
                   </tr>
                   <tr>
                     <td>File Extension</td>
                     <td>PNG</td>
                   </tr>
                   <tr>
-                    <td>Dimensions</td>
-                    <td>400 x 500 Px</td>
-                  </tr>
-                  <tr>
                     <td>Category</td>
-                    <td>Fantasy</td>
+                    <td><%= auction.getProduct().getCategory() %></td>
                   </tr>
                 </tbody>
               </table>
@@ -148,36 +158,7 @@
             <div class="card-bottom">
               <p class="desc-title">Comments from Seller</p>
               <p class="desc-content">
-                Lorem ipsum dolor sit amet, habeo animal placerat mea in, te
-                malorum accumsan usu, postea vidisse scriptorem ex est. Mea cu
-                minim dictas percipitur, in apeirian sadipscing vim, eius
-                delicatissimi ei nam. Novum aeque oratio in his. Has oporteat
-                tractatos incorrupte an, iuvaret nusquam menandri pro in.
-                Sanctus omittam id vel. Pro id amet fuisset. Summo vidisse
-                tamquam ea per. Usu saepe voluptatum ne, ne nec imperdiet
-                efficiendi suscipiantur, in eam ludus labitur eripuit. Id
-                labitur aliquid convenire qui. Ut debitis feugait splendide quo,
-                percipit tacimates complectitur in sea.
-              </p>
-              <p class="desc-content">
-                Amet graecis pertinax mel ad. Ne nam modus exerci, euismod
-                assentior has ad. Munere repudiare ullamcorper cu has, pro ut
-                maiorum delicatissimi. Ut dolores luptatum duo. Eam et oratio
-                delenit, augue laudem eos ex. No debet consequat reformidans
-                nec. Epicuri erroribus vix in, at qui brute abhorreant, te est
-                perpetua referrentur. Iusto tritani suscipit at eum, pro no
-                deserunt antiopam, per ea nonumy euismod. Alia facete omittantur
-                in quo. An vix wisi ornatus, ea eam justo tritani temporibus,
-                his ubique vocibus cu. Ei pro nibh laudem imperdiet, vitae
-                impedit vituperatoribus ex vix. No epicuri pertinax antiopam
-                duo, magna lobortis ne sit. Mea ex vitae deserunt adversarium,
-                et cum illum summo, ne odio tantas iracundia est. Animal
-                incorrupte vim ut, eum esse facer ad, ea decore gubergren his.
-                Eos numquam delectus in, illum elaboraret eloquentiam ea vis. Ad
-                qui liber splendide gloriatur. Iuvaret corpora disputationi mel
-                ne. Modo constituto est te, usu solum quando eu. Id iusto
-                ancillae ullamcorper eos. Falli intellegam vel ea, at liber
-                menandri per.
+					<%= auction.getProduct().getDescription() %>
               </p>
             </div>
           </div>

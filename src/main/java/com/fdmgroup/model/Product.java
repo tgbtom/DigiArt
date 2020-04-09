@@ -45,6 +45,10 @@ public class Product implements IStorable{
 	@Column
 	private ProductStatus status;
 	
+	@Enumerated(EnumType.STRING)
+	@Column
+	private ProductCategory category;
+	
 	@OneToOne(mappedBy = "product")
 	private Auction auction;
 	
@@ -58,7 +62,7 @@ public class Product implements IStorable{
 		this.creator = (new User());
 	}
 	
-	public Product(String name, User creator, byte[] image, String description) {
+	public Product(String name, User creator, byte[] image, String description, ProductCategory cat) {
 		super();
 		this.name = name;
 		this.creator = creator;
@@ -66,6 +70,19 @@ public class Product implements IStorable{
 		this.status = ProductStatus.AVAILABLE;
 		this.image = image;
 		this.description = description;
+		this.category = cat;
+	}
+	
+	public Product(int id, String name, User creator, byte[] image, String description, ProductCategory cat) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.creator = creator;
+		this.owner = creator;
+		this.status = ProductStatus.AVAILABLE;
+		this.image = image;
+		this.description = description;
+		this.category = cat;
 	}
 
 	public Product(String name, User creator, User owner) {
@@ -144,6 +161,14 @@ public class Product implements IStorable{
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public ProductCategory getCategory() {
+		return category;
+	}
+
+	public void setCategory(ProductCategory category) {
+		this.category = category;
 	}
 	
 }

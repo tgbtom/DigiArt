@@ -1,3 +1,4 @@
+<%@page import="com.fdmgroup.model.ProductStatus"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -6,7 +7,7 @@
     <meta charset="ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Homepage - DigiArt</title>
+    <title>Products - DigiArt</title>
 
     <link
       href="https://fonts.googleapis.com/css?family=Khand"
@@ -19,7 +20,7 @@
   </head>
   <body>
     <nav id="navigate">
-      <a href="indexLogged.html" class="left">
+      <a href="Navigate?loc=dashboard" class="left">
         <img class="small-logo" src="img/sub-logo-clear-back.png" alt="Logo" />
         <p>DigiArt</p>
       </a>
@@ -52,6 +53,7 @@
     <div class="container">
       <%@ page import="com.fdmgroup.model.Product" %>
       <%@ page import="com.fdmgroup.model.User" %>
+      <%@ page import="com.fdmgroup.model.ProductStatus" %>
       <%@ page import="java.util.List" %>
       <%@ page import="java.util.Base64" %>
       <%@ page import="com.fdmgroup.dao.JPAProductDao" %>
@@ -82,11 +84,41 @@
 						<img src="data:image/png;base64,<%= imageBase64 %>" class="product" alt="Product Image"/>
 					</div>
 					<div class="card-bottom">
+					
+					
+					<% 
+					if(p.getStatus() == ProductStatus.AVAILABLE){
+						%>
+							
 						<a href="Navigate?loc=createAuction&pid=<%= p.getProduct_id() %>">
-						<button class="bid-btn green-text">
-						Start Auction
-						</button>
+							<button class="bid-btn green-text">
+								Start Auction
+							</button>
 						</a>
+							
+						<%
+					} else if(p.getStatus() == ProductStatus.AUCTIONED) {
+						%>
+						
+						<a href="Navigate?loc=auction&aid=<%= p.getAuction().getAuctionId() %>">
+							<button class="bid-btn green-text">
+								View Auction
+							</button>
+						</a>
+						
+						<%
+					} else {
+						%>
+						
+						<a>
+							<button class="bid-btn green-text">
+								<%= p.getStatus() %>
+							</button>
+						</a>
+						
+						<%
+					}
+					%>			
 					</div>
 				</div>
 			</div>
@@ -103,11 +135,40 @@
 						<img src="data:image/png;base64,<%= imageBase64 %>" class="product" alt="Product Image"/>
 					</div>
 					<div class="card-bottom">
+											
+					<% 
+					if(p.getStatus() == ProductStatus.AVAILABLE){
+						%>
+							
 						<a href="Navigate?loc=createAuction&pid=<%= p.getProduct_id() %>">
-						<button class="bid-btn green-text">
-						Start Auction
-						</button>
+							<button class="bid-btn green-text">
+								Start Auction
+							</button>
 						</a>
+							
+						<%
+					} else if(p.getStatus() == ProductStatus.AUCTIONED) {
+						%>
+						
+						<a href="Navigate?loc=createAuction&pid=<%= p.getProduct_id() %>">
+							<button class="bid-btn green-text">
+								View Auction
+							</button>
+						</a>
+						
+						<%
+					} else {
+						%>
+						
+						<a>
+							<button class="bid-btn green-text">
+								<%= p.getStatus() %>
+							</button>
+						</a>
+						
+						<%
+					}
+					%>	
 					</div>
 				</div>
 			</div>

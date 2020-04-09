@@ -6,7 +6,7 @@
     <meta charset="ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Homepage - DigiArt</title>
+    <title>Auctions - DigiArt</title>
 
     <link
       href="https://fonts.googleapis.com/css?family=Khand"
@@ -18,13 +18,20 @@
     <script src="js/auctiontime.js"></script>
   </head>
   <body>
+  
+    <% if (request.getSession().getAttribute("message") != null){  %>
+   		<div class="page-message" id="page-message">
+    <%= request.getSession().getAttribute("message") %>
+   			<img src="img/small-x.png" id="msg-close" alt="close message" />
+   		</div>
+   	<% request.getSession().removeAttribute("message");} %>
+  
     <nav id="navigate">
-      <a href="indexLogged.html" class="left">
+      <a href="Navigate?loc=dashboard" class="left">
         <img class="small-logo" src="img/sub-logo-clear-back.png" alt="Logo" />
         <p>DigiArt</p>
       </a>
-      <!-- <a href="">Auctions</a>
-          <a href="">Products</a> -->
+
       <a class="right" id="logout-btn" href="Navigate?loc=logout">Logout</a>
       <a class="right" href="Navigate?loc=profile">Profile</a>
       <a class="right dropdown-btn"
@@ -54,7 +61,19 @@
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <p class="subtitle">My Auctions</p>
+        <%
+        if(request.getParameter("as").equals("mine")){
+        	%>
+        	 <p class="subtitle">My Auctions</p>
+        <%
+        }
+        else{
+        	%>
+        	 <p class="subtitle">Browse Auctions</p>
+        <%
+        }
+        %>
+        
           <div class="col-6">
             <div class="input-group content-center">
               <label for="sort-by">Sort By: </label>
@@ -72,7 +91,71 @@
           </div>
         </div>
       </div>
+      
+      <%@ page import="java.util.List" %>
+      <%@ page import="java.util.Base64" %>
+      <%@ page import="com.fdmgroup.model.Auction" %>
+      <%@ page import="com.fdmgroup.dao.JPAAuctionDao" %>
+      
+      <!-- Loop through auctions request.getAttribute("auctions") -->
       <div class="row">
+      <%
+      JPAAuctionDao jad = new JPAAuctionDao();
+      List<Auction> auctions = (List<Auction>) request.getAttribute("auctions"); 
+      int counter = 0;
+      for (Auction a : auctions){
+    	  
+    	  String base64Image = new String(Base64.getEncoder().encode(a.getProduct().getImage()));
+    	  
+    	  if(counter % 3 != 0 || counter == 0){
+    		  %>
+    		  <div class="col-4">
+		          <div class="card">
+		            <div class="card-top">
+		              <p><%= a.getProduct().getName() %></p>
+		            </div>
+		            <div class="card-content">
+		              <img src="data:image/png;base64,<%=base64Image%>" alt="Product Image" class="product" />
+		            </div>
+		            <div class="card-bottom">
+		              <span class="time-left"></span>
+		              <a href="Navigate?loc=auction&aid=<%=a.getAuctionId()%>">
+		                <button class="bid-btn">
+		                  $<%= jad.getHighestBid(a).getValue() + a.getMinIncrease() %>
+		                </button>
+		              </a>
+		            </div>
+		          </div>
+		        </div>
+    		  <%
+    	  }
+    	  else{
+    		  %>
+    		    <div class="col-4">
+		          <div class="card">
+		            <div class="card-top">
+		              <p><%= a.getProduct().getName() %></p>
+		            </div>
+		            <div class="card-content">
+		              <img src="img/sample1.png" alt="product 1" class="product" />
+		            </div>
+		            <div class="card-bottom">
+		              <span class="time-left"></span>
+		              <a href="Navigate?loc=auction&aid=<%=a.getAuctionId()%>">
+		                <button class="bid-btn">
+		                  $<%= jad.getHighestBid(a).getValue() + a.getMinIncrease() %>
+		                </button>
+		              </a>
+		            </div>
+		          </div>
+		        </div>
+    		<%
+    	  	}
+    	  	counter++;
+      	}%>
+      
+      
+<!--       <div class="row">
         <div class="col-4">
           <div class="card">
             <div class="card-top">
@@ -127,64 +210,7 @@
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="row">
-        <div class="col-4">
-          <div class="card">
-            <div class="card-top">
-              <p>Product 4</p>
-            </div>
-            <div class="card-content">
-              <img src="img/sample4.png" alt="product 4" class="product" />
-            </div>
-            <div class="card-bottom">
-              <span class="time-left"></span>
-              <a href="auctionpage.html?pid=3">
-                <button class="bid-btn">
-                  $1.25
-                </button>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="card">
-            <div class="card-top">
-              <p>Product 5</p>
-            </div>
-            <div class="card-content">
-              <img src="img/sample5.png" alt="product 5" class="product" />
-            </div>
-            <div class="card-bottom">
-              <span class="time-left"></span>
-              <a href="auctionpage.html?pid=3">
-                <button class="bid-btn">
-                  $29.00
-                </button>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="card">
-            <div class="card-top">
-              <p>Product 6</p>
-            </div>
-            <div class="card-content">
-              <img src="img/sample6.png" alt="product 6" class="product" />
-            </div>
-            <div class="card-bottom">
-              <span class="time-left"></span>
-              <a href="auctionpage.html?pid=3">
-                <button class="bid-btn">
-                  $31.50
-                </button>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
+      </div> -->
     </div>
 
     <div class="full-modal" id="full-modal">

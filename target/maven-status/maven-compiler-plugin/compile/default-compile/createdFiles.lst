@@ -2,8 +2,10 @@ com\fdmgroup\app\MainApp.class
 com\fdmgroup\dao\IRemovable.class
 com\fdmgroup\view\AuctionView.class
 com\fdmgroup\dao\JPAConnection.class
+com\fdmgroup\model\ContractType.class
 com\fdmgroup\model\Bid.class
 com\fdmgroup\servlet\Register.class
+com\fdmgroup\model\ProductCategory.class
 com\fdmgroup\dao\IBidDao.class
 com\fdmgroup\controller\UserController.class
 com\fdmgroup\controller\HomeController.class

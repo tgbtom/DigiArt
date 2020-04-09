@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -50,6 +52,10 @@ public class Auction implements IStorable{
 	@Column(name = "min_bid_increase")
 	private double minIncrease;
 
+	@Enumerated(EnumType.STRING)
+	@Column
+	private ContractType contract;
+	
 	@OneToMany(mappedBy = "auction")
 	private List<Bid> bids;
 	
@@ -62,7 +68,7 @@ public class Auction implements IStorable{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Auction(Product product, Date startTime, Date endTime, double minIncrease, User seller) {
+	public Auction(Product product, Date startTime, Date endTime, double minIncrease, User seller, ContractType contract) {
 		super();
 		this.product = product;
 		this.startTime = startTime;
@@ -70,6 +76,7 @@ public class Auction implements IStorable{
 		this.minIncrease = minIncrease;
 		this.bids = new ArrayList<Bid>();
 		this.seller = seller;
+		this.contract = contract;
 	}
 
 	public Auction(Product product, Date startTime, Date endTime, double minIncrease, List<Bid> bids, User seller) {
@@ -139,6 +146,31 @@ public class Auction implements IStorable{
 
 	public void setSeller(User seller) {
 		this.seller = seller;
+	}
+
+	public ContractType getContract() {
+		return contract;
+	}
+
+	public void setContract(ContractType contract) {
+		this.contract = contract;
+	}
+	
+	public String getContractString() {
+		switch (this.contract) {
+		case one :
+			return "1 Year / Exclusive";
+		case three :
+			return "3 Years / Exclusive";
+		case five :
+			return "5 Years / Exclusive";
+		case ten :
+			return "10 Years / Exclusive";
+		case unlimited :
+			return "Permanent / Exclusive";
+		default:
+			return "Permanent / Exclusive";
+		}
 	}
 	
 }

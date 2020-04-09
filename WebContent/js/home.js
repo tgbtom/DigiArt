@@ -146,10 +146,10 @@ function auction(menuNum) {
   let loc = "";
   switch (menuNum) {
     case 1:
-      loc = "Navigate?loc=auctions";
+      loc = "Navigate?loc=auctions&as=mine";
       break;
     case 2:
-      loc = "auctions.html?cat=all";
+      loc = "Navigate?loc=auctions&as=all";
       break;
     default:
       break;

@@ -4,8 +4,11 @@ C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\dao\IStorage
 C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\dao\IProductDao.java
 C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\dao\JPAProductDao.java
 C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\model\Bid.java
+C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\model\ContractType.java
 C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\model\IStorable.java
 C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\model\Password.java
+C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\model\ProductCategory.java
+C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\servlet\CreateAuction.java
 C:\Users\Dingo\eclipse-workspace\DigiArt\src\test\java\com\fdmgroup\test\ProductTest.java
 C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\controller\AuthenticationController.java
 C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\view\ProductView.java

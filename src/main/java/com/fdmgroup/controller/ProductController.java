@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import com.fdmgroup.dao.JPAConnection;
 import com.fdmgroup.dao.JPAProductDao;
 import com.fdmgroup.model.Product;
+import com.fdmgroup.model.ProductCategory;
 import com.fdmgroup.model.User;
 import com.fdmgroup.view.ProductView;
 
@@ -36,8 +37,8 @@ public class ProductController {
 		productView.showAddForm(user);
 	}
 	
-	public void insertProduct(User user, String productName, byte[] image, String description) {
-		Product myProduct = new Product(productName, user, image, description);
+	public void insertProduct(User user, String productName, byte[] image, String description, ProductCategory cat) {
+		Product myProduct = new Product(productName, user, image, description, cat);
 		jpaProductDao.create(myProduct);
 	}
 	

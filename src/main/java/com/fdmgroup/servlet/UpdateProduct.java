@@ -4,28 +4,27 @@ import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fdmgroup.controller.ProductController;
+import com.fdmgroup.dao.JPAProductDao;
+import com.fdmgroup.model.Product;
 import com.fdmgroup.model.ProductCategory;
 import com.fdmgroup.model.User;
 
 /**
- * Servlet implementation class CreateProduct
+ * Servlet implementation class UpdateProduct
  */
-@WebServlet("/CreateProduct")
-@MultipartConfig
-public class CreateProduct extends HttpServlet {
+@WebServlet("/UpdateProduct")
+public class UpdateProduct extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CreateProduct() {
+    public UpdateProduct() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -42,21 +41,25 @@ public class CreateProduct extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		User loggedUser = (User) request.getSession().getAttribute("user");
-		if(loggedUser == null) {
+		User user = (User) request.getSession().getAttribute("user");
+		if(user == null) {
 			response.sendRedirect("index.jsp");
 		}
 		else {
-			String productName = request.getParameter("name");
+			int id = Integer.parseInt(request.getParameter("id"));
+			String name = request.getParameter("name");
+			ProductCategory category = ProductCategory.valueOf(request.getParameter("category"));
 			String description = request.getParameter("description");
-			ProductCategory cat = ProductCategory.valueOf(request.getParameter("category"));
-			byte[] image = request.getPart("image").getInputStream().readAllBytes();
-			
-			ProductController pc = new ProductController();
-			pc.insertProduct(loggedUser, productName, image, description, cat);
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("Navigate?loc=products");
-			dispatcher.forward(request, response);
+			JPAProductDao jpd = new JPAProductDao();
+			Product product = jpd.findById(id);
+			product.setName(name);
+			product.setCategory(category);
+			product.setDescription(description);
+			jpd.update(product);
 		}
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("Navigate?loc=products");
+		dispatcher.forward(request, response);
 	}
+
 }

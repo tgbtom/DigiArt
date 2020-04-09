@@ -26,7 +26,9 @@ public class JPAUserDao implements IUserDao{
 	public User findById(int id) {
 		EntityManager em = JPAConnection.getInstance().createEntityManager();
 		em.getTransaction().begin();
-		return em.find(User.class, id);
+		User user = em.find(User.class, id);
+		em.close();
+		return user;
 	}
 
 	@Override
@@ -36,9 +38,13 @@ public class JPAUserDao implements IUserDao{
 	}
 
 	@Override
-	public User update(User t) {
-		// TODO Auto-generated method stub
-		return null;
+	public User update(User user) {
+		EntityManager em = JPAConnection.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		em.merge(user);
+		em.getTransaction().commit();
+		em.close();
+		return user;
 	}
 
 	@Override

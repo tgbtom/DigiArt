@@ -6,7 +6,7 @@
     <meta charset="ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Create Auction</title>
+    <title>Create Auction - DigiArt</title>
 
     <link
       href="https://fonts.googleapis.com/css?family=Khand"
@@ -159,11 +159,12 @@
                   <tr>
                     <td>Contract Details</td>
                     <td>
-                      <select name="" id="">
-                        <option value="" default>Exclusive / Permanent</option>
-                        <option value="" default>Exclusive / 10 Years</option>
-                        <option value="" default>Exclusive / 5 Years</option>
-                        <option value="" default>Exclusive / 3 Years</option>
+                      <select name="contract">
+                        <option value="unlimited" default>Exclusive / Permanent</option>
+                        <option value="ten" default>Exclusive / 10 Years</option>
+                        <option value="five" default>Exclusive / 5 Years</option>
+                        <option value="three" default>Exclusive / 3 Years</option>
+                        <option value="one" default>Exclusive / 1 Year</option>
                       </select>
                     </td>
                   </tr>

@@ -6,7 +6,7 @@
     <meta charset="ISO-8859-1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Edit Product</title>
+    <title>Edit Product - DigiArt</title>
 
     <link
       href="https://fonts.googleapis.com/css?family=Khand"
@@ -81,6 +81,8 @@
                     <p>Product Details</p>
                 </div>
                 <div class="card-content extandable">
+                <form action="UpdateProduct" method="POST">
+                <input type="hidden" name="id" value="<%=product.getProduct_id()%>">
                     <table class="table-details">
                     <tbody>
                         <tr>
@@ -88,21 +90,37 @@
                         <td>
                             <input type="text" name="name" value="<%= product.getName() %>" />
                         </td>
-                        </tr>
-                        <td>Tags (Separated by ";")</td>
-                        <td><input type="text" name="" id="" /></td>
-                        </tr>
+                		<tr>
+	                    <td>Category</td>
+		                    <td>
+		                    <%@ page import="com.fdmgroup.model.ProductCategory" %>
+		                    	<select name="category">
+		                    		<% 
+		                    		for(ProductCategory cat: ProductCategory.values()){
+		                    			if( product.getCategory() == cat){
+				                    	%>
+			                    			<option value="<%= cat %>" selected="selected"><%= cat %></option>
+			                    		<%	
+		                    			}
+		                    			else{
+				                    	%>
+			                    			<option value="<%= cat %>"><%= cat %></option>
+			                    		<%	
+		                    			}
+		                    		}
+		                    		%>
+		                    	</select>
+		                    </td>
+                  		</tr>
                     </tbody>
                     </table>
                 </tr>
                 </div>
                 <div class="card-bottom">
                     <p class="desc-title">Description</p>
-                    <textarea name="" id=""><%= product.getDescription() %></textarea>
-    
-                    <button class="bid-btn green-text">
-                    Update Product
-                    </button>
+                    <textarea name="description"><%= product.getDescription() %></textarea>
+    				<input type="submit" value="Update Product" class="bid-btn green-text">
+                    </form>
                 </div>
               </div>
           </div>

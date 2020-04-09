@@ -20,12 +20,10 @@
   </head>
   <body>
     <nav id="navigate">
-      <a href="indexLogged.html" class="left">
+      <a href="Navigate?loc=dashboard" class="left">
         <img class="small-logo" src="img/sub-logo-clear-back.png" alt="Logo" />
         <p>DigiArt</p>
       </a>
-      <!-- <a href="">Auctions</a>
-          <a href="">Products</a> -->
       <a class="right" id="logout-btn" href="Navigate?loc=logout">Logout</a>
       <a class="right" href="Navigate?loc=profile">Profile</a>
       <a class="right dropdown-btn"
@@ -33,11 +31,6 @@
         <div class="dropdown-content">
           <div class="dropdown-link" onclick="product(1)">My Products</div>
           <div class="dropdown-link" onclick="product(2)">Upload Product</div>
-          <div class="dropdown-link" onclick="product(3)">
-            Available Products
-          </div>
-          <div class="dropdown-link" onclick="product(4)">Sold Products</div>
-          <div class="dropdown-link" onclick="product(5)">Bought Products</div>
         </div>
       </a>
       <a class="right dropdown-btn"
@@ -70,7 +63,7 @@
         </div>
         <div class="col-1"><!-- spacer --></div>
         <form action="CreateProduct" method="POST" enctype="multipart/form-data" runat="server">
-        <div class="col-4"><input type="file" accept="image/*" name="image" id="file-up" /></div>
+        <div class="col-4"><input type="file" accept="image/png" name="image" id="file-up" /></div>
         <div class="col-1"><!-- spacer --></div>
       </div>
 

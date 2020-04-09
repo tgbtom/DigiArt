@@ -68,7 +68,7 @@ public class AuctionController{
 	
 	private void scheduleJob(Auction auction) {
 		Connection conn = JDBCConnection.openConnection();
-		String actionQuery = "UPDATE products SET status = ''SOLD'' WHERE product_id = " + auction.getProduct().getProduct_id() + ";";
+		String actionQuery = "EXEC end_this_auction("+ auction.getAuctionId() +");";
 		String jobQuery = "BEGIN " + 
 			"    DBMS_SCHEDULER.CREATE_JOB (" + 
 			"            job_name => '\"AUCTION_END"+ auction.getAuctionId() +"\"'," + 

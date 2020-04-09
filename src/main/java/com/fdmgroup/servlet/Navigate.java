@@ -71,7 +71,7 @@ public class Navigate extends HttpServlet {
 					auctionsToShow = jad.findMine(user);
 				}
 				else {
-					auctionsToShow = jad.findAll();
+					auctionsToShow = jad.allAuctionsOrderedByProductName();
 				}
 				request.setAttribute("auctions", auctionsToShow);
 				dispatcher = request.getRequestDispatcher("/WEB-INF/auctions.jsp");

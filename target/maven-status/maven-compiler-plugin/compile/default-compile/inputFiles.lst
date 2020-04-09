@@ -24,6 +24,7 @@ C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\dao\IUserDao
 C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\dao\IRemovable.java
 C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\dao\JPAConnection.java
 C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\app\MainApp.java
+C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\servlet\UpdateProduct.java
 C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\dao\JDBCConnection.java
 C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\model\ProductStatus.java
 C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\servlet\Navigate.java
@@ -31,8 +32,10 @@ C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\controller\P
 C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\dao\IBidDao.java
 C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\model\Product.java
 C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\model\User.java
+C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\servlet\PlaceBid.java
 C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\view\DashboardView.java
 C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\dao\IEditable.java
+C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\servlet\SortAuctions.java
 C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\controller\HomeController.java
 C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\view\AuctionView.java
 C:\Users\Dingo\eclipse-workspace\DigiArt\src\main\java\com\fdmgroup\dao\JPAAuctionDao.java

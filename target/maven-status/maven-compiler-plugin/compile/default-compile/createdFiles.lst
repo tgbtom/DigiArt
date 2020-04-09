@@ -1,8 +1,10 @@
 com\fdmgroup\app\MainApp.class
 com\fdmgroup\dao\IRemovable.class
+com\fdmgroup\servlet\UpdateProduct.class
 com\fdmgroup\view\AuctionView.class
 com\fdmgroup\dao\JPAConnection.class
 com\fdmgroup\model\ContractType.class
+com\fdmgroup\dao\JPAAuctionDao$2.class
 com\fdmgroup\model\Bid.class
 com\fdmgroup\servlet\Register.class
 com\fdmgroup\model\ProductCategory.class
@@ -14,8 +16,11 @@ com\fdmgroup\dao\JDBCConnection.class
 com\fdmgroup\dao\IEditable.class
 com\fdmgroup\model\User.class
 com\fdmgroup\view\DashboardView.class
+com\fdmgroup\model\Auction$1.class
 com\fdmgroup\model\Auction.class
+com\fdmgroup\servlet\PlaceBid.class
 com\fdmgroup\view\ProductView.class
+com\fdmgroup\dao\JPAAuctionDao$1.class
 com\fdmgroup\dao\JPAProductDao.class
 com\fdmgroup\dao\IStorage.class
 com\fdmgroup\model\Product.class
@@ -23,6 +28,7 @@ com\fdmgroup\model\IStorable.class
 com\fdmgroup\controller\ProductController.class
 com\fdmgroup\dao\JPAUserDao.class
 com\fdmgroup\dao\IAuctionDao.class
+com\fdmgroup\dao\JPAAuctionDao$3.class
 com\fdmgroup\model\ProductStatus.class
 com\fdmgroup\dao\IProductDao.class
 com\fdmgroup\dao\IUserDao.class

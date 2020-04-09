@@ -39,11 +39,6 @@
         <div class="dropdown-content">
           <div class="dropdown-link" onclick="product(1)">My Products</div>
           <div class="dropdown-link" onclick="product(2)">Upload Product</div>
-          <div class="dropdown-link" onclick="product(3)">
-            Available Products
-          </div>
-          <div class="dropdown-link" onclick="product(4)">Sold Products</div>
-          <div class="dropdown-link" onclick="product(5)">Bought Products</div>
         </div>
       </a>
       <a class="right dropdown-btn"
@@ -77,10 +72,10 @@
           <div class="col-6">
             <div class="input-group content-center">
               <label for="sort-by">Sort By: </label>
-              <select name="sort-by" id="">
-                <option value="">Product Name</option>
-                <option value="">Time Remaining (low to high)</option>
-                <option value="">Time Remaining (high to low)</option>
+              <select name="sort-by" id="sort-by">
+                <option value="name">Product Name</option>
+                <option value="timeasc">Time Remaining (low to high)</option>
+                <option value="timedesc">Time Remaining (high to low)</option>
               </select>
             </div>
           </div>
@@ -96,8 +91,9 @@
       <%@ page import="java.util.Base64" %>
       <%@ page import="com.fdmgroup.model.Auction" %>
       <%@ page import="com.fdmgroup.dao.JPAAuctionDao" %>
-      
+      <!-- comment of nothing -->
       <!-- Loop through auctions request.getAttribute("auctions") -->
+      <div id="auction-container">
       <div class="row">
       <%
       JPAAuctionDao jad = new JPAAuctionDao();
@@ -118,7 +114,7 @@
 		              <img src="data:image/png;base64,<%=base64Image%>" alt="Product Image" class="product" />
 		            </div>
 		            <div class="card-bottom">
-		              <span class="time-left"></span>
+		              <span class="time-left"><%= jad.getTimeTillExpire(a) %></span>
 		              <a href="Navigate?loc=auction&aid=<%=a.getAuctionId()%>">
 		                <button class="bid-btn">
 		                  $<%= jad.getHighestBid(a).getValue() + a.getMinIncrease() %>
@@ -131,16 +127,18 @@
     	  }
     	  else{
     		  %>
+    		  </div>
+    		  <div class="row">
     		    <div class="col-4">
 		          <div class="card">
 		            <div class="card-top">
 		              <p><%= a.getProduct().getName() %></p>
 		            </div>
 		            <div class="card-content">
-		              <img src="img/sample1.png" alt="product 1" class="product" />
+		              <img src="data:image/png;base64,<%=base64Image%>" alt="Product Image" class="product" />
 		            </div>
 		            <div class="card-bottom">
-		              <span class="time-left"></span>
+		              <span class="time-left"><%= jad.getTimeTillExpire(a) %></span>
 		              <a href="Navigate?loc=auction&aid=<%=a.getAuctionId()%>">
 		                <button class="bid-btn">
 		                  $<%= jad.getHighestBid(a).getValue() + a.getMinIncrease() %>
@@ -153,64 +151,7 @@
     	  	}
     	  	counter++;
       	}%>
-      
-      
-<!--       <div class="row">
-        <div class="col-4">
-          <div class="card">
-            <div class="card-top">
-              <p>Product 1</p>
-            </div>
-            <div class="card-content">
-              <img src="img/sample1.png" alt="product 1" class="product" />
-            </div>
-            <div class="card-bottom">
-              <span class="time-left"></span>
-              <a href="auctionpage.html?pid=3">
-                <button class="bid-btn">
-                  $5.15
-                </button>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="card">
-            <div class="card-top">
-              <p>Product 2</p>
-            </div>
-            <div class="card-content">
-              <img src="img/sample2.png" alt="product 2" class="product" />
-            </div>
-            <div class="card-bottom">
-              <span class="time-left"></span>
-              <a href="auctionpage.html?pid=3">
-                <button class="bid-btn">
-                  $7.10
-                </button>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="card">
-            <div class="card-top">
-              <p>Product 3</p>
-            </div>
-            <div class="card-content">
-              <img src="img/sample3.png" alt="product 3" class="product" />
-            </div>
-            <div class="card-bottom">
-              <span class="time-left"></span>
-              <a href="auctionpage.html?pid=3">
-                <button class="bid-btn">
-                  $3.00
-                </button>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div> -->
+      </div>
     </div>
 
     <div class="full-modal" id="full-modal">

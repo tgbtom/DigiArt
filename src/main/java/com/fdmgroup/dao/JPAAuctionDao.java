@@ -1,5 +1,9 @@
 package com.fdmgroup.dao;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -86,12 +90,89 @@ public class JPAAuctionDao implements IAuctionDao{
 		List<Auction> auctions = query.getResultList();
 		return auctions;
 	}
-
-	@Override
-	public void placeBid(Auction auction, User user, double bidAmount) {
-		// TODO Auto-generated method stub	
+	
+	public List<Auction> findTopAuctions(){
+		//All auctions, ordered from highest number of bids to lowest, omit ended auctions
+		List<Auction> listAuctions = findAll();
+		Collections.sort(listAuctions, new Comparator<Auction>() {
+			@Override
+			public int compare(Auction o1, Auction o2) {
+				return o2.getBids().size() - o1.getBids().size();
+			}
+		});
+		return listAuctions;
 	}
 	
+	public List<Auction> findRecentAuctions(){
+		//All auctions ordered from latest start date to earliest, omit ended auctions
+		List<Auction> listAuctions = findAll();
+		Collections.sort(listAuctions, new Comparator<Auction>() {
+			@Override
+			public int compare(Auction o1, Auction o2) {
+				return o2.getStartTime().compareTo(o1.getStartTime());
+			}
+		});
+		return listAuctions;
+	}
+	
+	public List<Auction> findExpiringAuctions(){
+		//All auctions ordered from earliest end date to latest, omit ended auctions
+		List<Auction> listAuctions = findAll();
+		Collections.sort(listAuctions, new Comparator<Auction>() {
+			@Override
+			public int compare(Auction o1, Auction o2) {
+				return o1.getEndTime().compareTo(o2.getEndTime());
+			}
+		});
+		return listAuctions;
+	}
+	
+	public List<Auction> findExpiringAuctionsReverse(){
+		//All auctions ordered from earliest end date to latest, omit ended auctions
+		List<Auction> listAuctions = findAll();
+		Collections.sort(listAuctions, new Comparator<Auction>() {
+			@Override
+			public int compare(Auction o1, Auction o2) {
+				return o2.getEndTime().compareTo(o1.getEndTime());
+			}
+		});
+		return listAuctions;
+	}
+	
+	public List<Auction> allAuctionsOrderedByProductName(){
+		//All auctions ordered from earliest end date to latest, omit ended auctions
+		List<Auction> listAuctions = findAll();
+		Collections.sort(listAuctions, new Comparator<Auction>() {
+			@Override
+			public int compare(Auction o1, Auction o2) {
+				return o1.getProduct().getName().compareToIgnoreCase(o2.getProduct().getName());
+			}
+		});
+		return listAuctions;
+	}
+	
+	public String getTimeTillExpire(Auction auction) {
+		
+		LocalDateTime dateTime = LocalDateTime.now();
+		LocalDateTime endDateTime = LocalDateTime.parse(auction.getEndTime().toString().substring(0, 19).replace(' ', 'T'));
+		Long days = dateTime.until(endDateTime, ChronoUnit.DAYS);
+		Long hours = dateTime.until(endDateTime, ChronoUnit.HOURS) - days * 24;
+		Long mins = dateTime.until(endDateTime, ChronoUnit.MINUTES) - ((hours * 60) + (days * 24 * 60));
+		Long seconds = dateTime.until(endDateTime, ChronoUnit.SECONDS) - ((mins * 60) + (hours * 60 * 60) + (days * 24 * 60 * 60));
+		
+		String daysString = (days < 1) ? "" : padNum(Long.toString(days)) + " days, ";
+		
+		String result = daysString +
+				padNum(Long.toString(hours)) + " hours and " +
+				padNum(Long.toString(mins)) + " minutes";
+		
+			return result;
+	}
+	
+	private String padNum(String n) {
+		return n.length() < 2 ? "0" + n : n;
+	}
+
 	public double getInitialPrice(Auction auction) {
 		List<Bid> bids = auction.getBids();
 		double lowestBid = bids.get(0).getValue();

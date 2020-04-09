@@ -14,9 +14,9 @@ window.onload = function () {
   var pswdWarn = document.getElementById("pass-warning");
   var pageMessage = document.getElementById("page-message");
 
-  if (typeof showTimes === "function") {
-    showTimes();
-  }
+//  if (typeof showTimes === "function") {
+//    showTimes();
+//  }
 
   if (typeof auctionHandler === "function") {
     auctionHandler();
@@ -103,6 +103,20 @@ window.onload = function () {
     imgModal.style.display = "none";
     fullModal.style.display = "none";
   });
+  
+  
+  var sortOption = document.getElementById("sort-by");
+  if(sortOption != null){
+  	sortOption.addEventListener("change", function(){
+  		var xhttp = new XMLHttpRequest();
+  		xhttp.onreadystatechange = function(){
+  			let container = document.getElementById("auction-container");
+  			container.innerHTML = this.responseText;
+  		}
+  		xhttp.open("GET", "SortAuctions?opt="+ sortOption.value, true);
+  		xhttp.send();
+  	});
+  }
 };
 
 function readURL(input) {
@@ -126,19 +140,9 @@ function product(menuNum) {
     case 2:
       loc = "Navigate?loc=uploadproduct";
       break;
-    case 3:
-      loc = "products.html?cat=sold";
-      break;
-    case 4:
-      loc = "products.html?cat=bought";
-      break;
-    case 5:
-      loc = "products.html?cat=bought";
-      break;
     default:
       break;
   }
-
   window.location.href = loc;
 }
 
@@ -154,6 +158,5 @@ function auction(menuNum) {
     default:
       break;
   }
-
   window.location.href = loc;
 }

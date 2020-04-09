@@ -24,7 +24,7 @@
   </head>
   <body>
     <nav id="navigate">
-      <a href="" class="left">
+      <a href="Navigate?loc=dashboard" class="left">
         <img class="small-logo" src="img/sub-logo-clear-back.png" alt="Logo" />
         <p>DigiArt</p>
       </a>
@@ -35,11 +35,6 @@
         <div class="dropdown-content">
           <div class="dropdown-link" onclick="product(1)">My Products</div>
           <div class="dropdown-link" onclick="product(2)">Upload Product</div>
-          <div class="dropdown-link" onclick="product(3)">
-            Available Products
-          </div>
-          <div class="dropdown-link" onclick="product(4)">Sold Products</div>
-          <div class="dropdown-link" onclick="product(5)">Bought Products</div>
         </div>
       </a>
       <a class="right dropdown-btn"

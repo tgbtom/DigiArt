@@ -29,7 +29,7 @@ import javax.persistence.TemporalType;
 	@NamedQuery(name = "auction.findMine", query = "SELECT a from auction a WHERE a.seller = :seller"),
 	@NamedQuery(name = "auction.findByProduct", query = "SELECT a from auction a WHERE a.product = :product")
 })
-public class Auction implements IStorable{
+public class Auction implements IStorable, Comparable<Auction>{
 	
 	@Id
 	@Column(name = "auction_id")
@@ -156,6 +156,13 @@ public class Auction implements IStorable{
 		this.contract = contract;
 	}
 	
+	@Override
+	public String toString() {
+		return "Auction [auctionId=" + auctionId + ", product=" + product + ", startTime=" + startTime + ", endTime="
+				+ endTime + ", minIncrease=" + minIncrease + ", contract=" + contract + ", bids=" + bids + ", seller="
+				+ seller + "]";
+	}
+
 	public String getContractString() {
 		switch (this.contract) {
 		case one :
@@ -171,6 +178,11 @@ public class Auction implements IStorable{
 		default:
 			return "Permanent / Exclusive";
 		}
+	}
+
+	@Override
+	public int compareTo(Auction o) {
+		return  o.getBids().size() - bids.size();
 	}
 	
 }

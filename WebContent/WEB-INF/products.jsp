@@ -31,11 +31,6 @@
         <div class="dropdown-content">
           <div class="dropdown-link" onclick="product(1)">My Products</div>
           <div class="dropdown-link" onclick="product(2)">Upload Product</div>
-          <div class="dropdown-link" onclick="product(3)">
-            Available Products
-          </div>
-          <div class="dropdown-link" onclick="product(4)">Sold Products</div>
-          <div class="dropdown-link" onclick="product(5)">Bought Products</div>
         </div>
       </a>
       <a class="right dropdown-btn"
@@ -108,15 +103,20 @@
 						
 						<%
 					} else {
-						%>
-						
-						<a>
-							<button class="bid-btn green-text">
-								<%= p.getStatus() %>
-							</button>
-						</a>
-						
-						<%
+						if(p.getOwner().getId() == user.getId()){
+							%>
+							<a><button class="bid-btn green-text">
+									BOUGHT
+							</button></a>
+							<%
+						}
+						else{
+							%>
+							<a><button class="bid-btn green-text">
+									<%= p.getStatus() %>
+							</button></a>
+						<%	
+						}
 					}
 					%>			
 					</div>

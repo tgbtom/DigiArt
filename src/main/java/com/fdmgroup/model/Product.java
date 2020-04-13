@@ -55,6 +55,9 @@ public class Product implements IStorable{
 	@Lob
 	@Column(name = "image")
 	private byte[] image;
+	
+	@Column(name = "sell_price")
+	private double sellPrice;
 
 	public Product() {
 		super();
@@ -169,6 +172,14 @@ public class Product implements IStorable{
 
 	public void setCategory(ProductCategory category) {
 		this.category = category;
+	}
+
+	public double getSellPrice() {
+		return sellPrice;
+	}
+
+	public void setSellPrice(double sellPrice) {
+		this.sellPrice = sellPrice;
 	}
 	
 }

@@ -15,7 +15,8 @@ import javax.persistence.Table;
 
 @NamedQueries({
 	@NamedQuery(name="user.findByUsername", query="SELECT u FROM user u WHERE u.username = :username"),
-	@NamedQuery(name="user.authenticate", query="SELECT COUNT(u) FROM user u WHERE u.username = :username AND u.password = :password")
+	@NamedQuery(name="user.authenticate", query="SELECT COUNT(u) FROM user u WHERE u.username = :username AND u.password = :password"),
+	@NamedQuery(name="user.findAll", query="SELECT u FROM user u WHERE role NOT LIKE 'Admin'")
 })
 
 
@@ -52,6 +53,9 @@ public class User implements IStorable{
 	
 	@Column
 	private double wallet;
+	
+	@Column
+	private int locked;
 	
 	@OneToMany(mappedBy = "owner")
 	private List<Product> productsOwned;
@@ -144,6 +148,10 @@ public class User implements IStorable{
 		return salt;
 	}
 	
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+	
 	public List<Product> getProductsOwned() {
 		return productsOwned;
 	}
@@ -170,6 +178,22 @@ public class User implements IStorable{
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public int getLocked() {
+		return locked;
+	}
+
+	public void setLocked(int locked) {
+		this.locked = locked;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	@Override

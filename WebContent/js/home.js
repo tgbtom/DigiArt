@@ -13,10 +13,7 @@ window.onload = function () {
   var pswd2 = document.getElementById("pswd2");
   var pswdWarn = document.getElementById("pass-warning");
   var pageMessage = document.getElementById("page-message");
-
-//  if (typeof showTimes === "function") {
-//    showTimes();
-//  }
+  var adminLocks = document.getElementsByClassName("admin-lock");
 
   if (typeof auctionHandler === "function") {
     auctionHandler();
@@ -55,16 +52,24 @@ window.onload = function () {
 
       document.getElementById("uploadedProd").src =
         "img/" + e.target.files[0].name;
-      
+
       readURL(fileUp);
     });
-    
-  //idk
+  }
 
-//    $("#file-up").input(function () {
-//      readURL(this);
-//    });
-
+  for (let i = 0; i < adminLocks.length; i++) {
+    console.log(adminLocks[i]);
+    let lock = adminLocks[i];
+    lock.addEventListener("click", function () {
+      let userId = lock.id.substring(5, lock.id.length);
+      var xhttp = new XMLHttpRequest();
+      xhttp.open("POST", "LockUser");
+      xhttp.setRequestHeader(
+        "Content-type",
+        "application/x-www-form-urlencoded"
+      );
+      xhttp.send("id=" + userId);
+    });
   }
 
   if (loginBtn != null) {
@@ -103,26 +108,25 @@ window.onload = function () {
     imgModal.style.display = "none";
     fullModal.style.display = "none";
   });
-  
-  
+
   var sortOption = document.getElementById("sort-by");
-  if(sortOption != null){
-  	sortOption.addEventListener("change", function(){
-  		var xhttp = new XMLHttpRequest();
-  		xhttp.onreadystatechange = function(){
-  			let container = document.getElementById("auction-container");
-  			container.innerHTML = this.responseText;
-  		}
-  		xhttp.open("GET", "SortAuctions?opt="+ sortOption.value, true);
-  		xhttp.send();
-  	});
+  if (sortOption != null) {
+    sortOption.addEventListener("change", function () {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        let container = document.getElementById("auction-container");
+        container.innerHTML = this.responseText;
+      };
+      xhttp.open("GET", "SortAuctions?opt=" + sortOption.value, true);
+      xhttp.send();
+    });
   }
 };
 
 function readURL(input) {
   if (input.files && input.files[0]) {
     var reader = new FileReader();
-    
+
     reader.onload = function (e) {
       $("#uploadedProd").attr("src", e.target.result);
     };

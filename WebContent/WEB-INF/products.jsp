@@ -106,14 +106,14 @@
 						if(p.getOwner().getId() == user.getId()){
 							%>
 							<a><button class="bid-btn green-text">
-									BOUGHT
+									BOUGHT (<%=p.getSellPrice() %>)
 							</button></a>
 							<%
 						}
 						else{
 							%>
 							<a><button class="bid-btn green-text">
-									<%= p.getStatus() %>
+									<%= p.getStatus() %> (<%=p.getSellPrice() %>)
 							</button></a>
 						<%	
 						}

@@ -444,3 +444,8 @@ span.left {
 #img-close:hover {
   cursor: pointer;
 }
+
+.head-table{
+	text-decoration: underline;
+	font-weight: 700;
+}

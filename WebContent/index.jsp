@@ -26,7 +26,7 @@ pageEncoding="UTF-8"%>
     <% request.getSession().removeAttribute("message");} %>
 
     <nav id="navigate">
-      <a href="" class="left">
+      <a href="#" class="left">
         <img class="small-logo" src="img/sub-logo-clear-back.png" alt="Logo" />
         <p>DigiArt</p>
       </a>
@@ -126,6 +126,7 @@ pageEncoding="UTF-8"%>
                         type="text"
                         name="fname"
                         placeholder="First Name"
+                        required
                       />
                     </div>
                   </div>
@@ -134,7 +135,7 @@ pageEncoding="UTF-8"%>
                       <label for="lname">Last Name:</label>
                     </div>
                     <div class="col-8">
-                      <input type="text" name="lname" placeholder="Last Name" />
+                      <input type="text" name="lname" placeholder="Last Name" required />
                     </div>
                   </div>
                   <div class="input-group">
@@ -146,6 +147,7 @@ pageEncoding="UTF-8"%>
                         type="text"
                         name="username"
                         placeholder="Username"
+                        required
                       />
                     </div>
                   </div>
@@ -159,6 +161,7 @@ pageEncoding="UTF-8"%>
                         name="pswd1"
                         id="pswd1"
                         placeholder="Password"
+                        required
                       />
                     </div>
                   </div>
@@ -171,6 +174,7 @@ pageEncoding="UTF-8"%>
                         name="pswd2"
                         id="pswd2"
                         placeholder="Repeat Password"
+                        required
                       />
                     </div>
                   </div>
@@ -182,6 +186,7 @@ pageEncoding="UTF-8"%>
                         name="email"
                         id="email"
                         placeholder="Email Address"
+                        required
                       />
                     </div>
                   </div>

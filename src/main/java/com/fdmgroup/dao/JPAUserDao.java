@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import com.fdmgroup.model.User;
@@ -33,8 +34,12 @@ public class JPAUserDao implements IUserDao{
 
 	@Override
 	public List<User> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		EntityManager em = JPAConnection.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		Query query = em.createNamedQuery("user.findAll");
+		List<User> users = query.getResultList();
+		em.close();
+		return users;
 	}
 
 	@Override
@@ -76,7 +81,7 @@ public class JPAUserDao implements IUserDao{
 	}
 
 	@Override
-	public void withdraw(User user, double amountToWithdraw) {
+	public boolean withdraw(User user, double amountToWithdraw) {
 		EntityManager em = JPAConnection.getInstance().createEntityManager();
 		em.getTransaction().begin();
 		user = em.merge(user);
@@ -85,9 +90,11 @@ public class JPAUserDao implements IUserDao{
 			em.getTransaction().commit();
 		}
 		else {
-			System.out.println("Not enough funds to withdraw the amount specified");
+			em.close();
+			return false;
 		}
 		em.close();
+		return true;
 	}
 
 }

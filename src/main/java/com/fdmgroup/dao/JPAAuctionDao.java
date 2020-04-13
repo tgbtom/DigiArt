@@ -104,7 +104,7 @@ public class JPAAuctionDao implements IAuctionDao{
 	}
 	
 	public List<Auction> findRecentAuctions(){
-		//All auctions ordered from latest start date to earliest, omit ended auctions
+		//All auctions ordered from latest start date to earliest
 		List<Auction> listAuctions = findAll();
 		Collections.sort(listAuctions, new Comparator<Auction>() {
 			@Override
@@ -116,7 +116,7 @@ public class JPAAuctionDao implements IAuctionDao{
 	}
 	
 	public List<Auction> findExpiringAuctions(){
-		//All auctions ordered from earliest end date to latest, omit ended auctions
+		//All auctions ordered from earliest end date to latest
 		List<Auction> listAuctions = findAll();
 		Collections.sort(listAuctions, new Comparator<Auction>() {
 			@Override
@@ -128,7 +128,7 @@ public class JPAAuctionDao implements IAuctionDao{
 	}
 	
 	public List<Auction> findExpiringAuctionsReverse(){
-		//All auctions ordered from earliest end date to latest, omit ended auctions
+		//All auctions ordered from latest end date to earliest
 		List<Auction> listAuctions = findAll();
 		Collections.sort(listAuctions, new Comparator<Auction>() {
 			@Override
@@ -140,7 +140,6 @@ public class JPAAuctionDao implements IAuctionDao{
 	}
 	
 	public List<Auction> allAuctionsOrderedByProductName(){
-		//All auctions ordered from earliest end date to latest, omit ended auctions
 		List<Auction> listAuctions = findAll();
 		Collections.sort(listAuctions, new Comparator<Auction>() {
 			@Override

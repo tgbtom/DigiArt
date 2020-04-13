@@ -103,7 +103,7 @@ public class AuthenticationController {
 		}
 	}
 
-	private Password hashPassword(String password) {
+	public Password hashPassword(String password) {
 		MessageDigest md;
 		Password output;
 		try {

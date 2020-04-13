@@ -67,30 +67,36 @@ public class AuctionController{
 	}
 	
 	private void scheduleJob(Auction auction) {
+
 		Connection conn = JDBCConnection.openConnection();
-		String actionQuery = "EXEC end_this_auction("+ auction.getAuctionId() +");";
-		String jobQuery = "BEGIN " + 
-			"    DBMS_SCHEDULER.CREATE_JOB (" + 
-			"            job_name => '\"AUCTION_END"+ auction.getAuctionId() +"\"'," + 
-			"            job_type => 'PLSQL_BLOCK'," + 
-			"            job_action => '" + 
-			actionQuery + "  '," + 
-			"            number_of_arguments => 0," + 
-			"            start_date => TO_DATE('"+ auction.getEndTime().toString().substring(4, 19) + auction.getEndTime().toString().substring(23) +"','Mon dd HH24:mi:ss yyyy')," + 
-			"            repeat_interval => NULL," + 
-			"            end_date => NULL," + 
-			"            enabled => FALSE," + 
-			"            auto_drop => TRUE," + 
-			"            comments => '');" + 
-			"    DBMS_SCHEDULER.SET_ATTRIBUTE( " + 
-			"             name => '\"AUCTION_END"+ auction.getAuctionId() +"\"', " + 
-			"             attribute => 'logging_level', value => DBMS_SCHEDULER.LOGGING_OFF);" + 
-			"    DBMS_SCHEDULER.enable(" + 
-			"             name => '\"AUCTION_END"+ auction.getAuctionId() +"\"');" + 
-			"END;";
+		String query = "BEGIN\r\n" + 
+				"    DBMS_SCHEDULER.CREATE_JOB (\r\n" + 
+				"            job_name => '\"AUCTION_END"+ auction.getAuctionId() +"\"',\r\n" + 
+				"            job_type => 'PLSQL_BLOCK',\r\n" + 
+				"            job_action => '\r\n" + 
+				"  end_this_auction("+ auction.getAuctionId() +");\r\n" + 
+				"  \r\n" + 
+				"  commit;\r\n',\r\n" + 
+				"            number_of_arguments => 0,\r\n" + 
+				"            start_date => TO_DATE('"+ auction.getEndTime().toString().substring(4, 19) + auction.getEndTime().toString().substring(23) +"','Mon dd HH24:mi:ss yyyy')," + 
+				"            repeat_interval => NULL,\r\n" + 
+				"            end_date => NULL,\r\n" + 
+				"            enabled => FALSE,\r\n" + 
+				"            auto_drop => TRUE,\r\n" + 
+				"            comments => '');\r\n" + 
+				"\r\n" + 
+				"         \r\n" + 
+				"     \r\n" + 
+				" \r\n" + 
+				"    DBMS_SCHEDULER.SET_ATTRIBUTE( \r\n" + 
+				"             name => '\"AUCTION_END"+ auction.getAuctionId() +"\"', \r\n" + 
+				"             attribute => 'logging_level', value => DBMS_SCHEDULER.LOGGING_OFF);\r\n" + 
+				"    DBMS_SCHEDULER.enable(\r\n" + 
+				"             name => '\"AUCTION_END"+ auction.getAuctionId() +"\"');\r\n" + 
+				"END;";
 
 		try {
-			PreparedStatement ps = conn.prepareStatement(jobQuery);
+			PreparedStatement ps = conn.prepareStatement(query);
 			ps.execute();
 			conn.close();
 		} catch (SQLException e) {

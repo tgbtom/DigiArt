@@ -60,20 +60,25 @@ public class PlaceBid extends HttpServlet {
 				if(user.getId() != jad.getHighestBid(auction).getBidder().getId()) {
 					if(user.getWallet() >= bidAmt) {
 						if(bidAmt >= jad.getHighestBid(auction).getValue() + auction.getMinIncrease()) {
-							//Refund last highest bidder IF ITS NOT THE SELLER, lockout funds from this bidder
-							Bid oldBid = jad.getHighestBid(auction);
-							if(oldBid.getBidder().getId() != auction.getSeller().getId()) {
-								oldBid.getBidder().setWallet(oldBid.getBidder().getWallet() + oldBid.getValue());
-								jud.update(oldBid.getBidder());
-							}
+							if(user.getLocked() == 0) {
+								//Refund last highest bidder IF ITS NOT THE SELLER, lockout funds from this bidder
+								Bid oldBid = jad.getHighestBid(auction);
+								if(oldBid.getBidder().getId() != auction.getSeller().getId()) {
+									oldBid.getBidder().setWallet(oldBid.getBidder().getWallet() + oldBid.getValue());
+									jud.update(oldBid.getBidder());
+								}
 
-							user.setWallet(user.getWallet() - bidAmt);
-							user = jud.update(user);
-							
-							auction.addBid(new Bid(bidAmt, user, auction));
-							jad.update(auction);
-							
-							request.getSession().setAttribute("message", "Successfully bid $"+ bidAmt + " on auction #"+ auction.getAuctionId());
+								user.setWallet(user.getWallet() - bidAmt);
+								user = jud.update(user);
+								
+								auction.addBid(new Bid(bidAmt, user, auction));
+								jad.update(auction);
+								
+								request.getSession().setAttribute("message", "Successfully bid $"+ bidAmt + " on auction #"+ auction.getAuctionId());
+							}
+							else {
+								request.getSession().setAttribute("message", "You have currently been locked from bidding!");
+							}
 						}
 						else {
 							request.getSession().setAttribute("message", "Bid was not above the minimum threshold");

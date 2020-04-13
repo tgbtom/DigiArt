@@ -23,6 +23,13 @@
     
   </head>
   <body>
+      <% if (request.getSession().getAttribute("message") != null){  %>
+    <div class="page-message" id="page-message">
+      <%= request.getSession().getAttribute("message") %>
+      <img src="img/small-x.png" id="msg-close" alt="close message" />
+    </div>
+    <% request.getSession().removeAttribute("message");} %>
+    
     <nav id="navigate">
       <a href="Navigate?loc=dashboard" class="left">
         <img class="small-logo" src="img/sub-logo-clear-back.png" alt="Logo" />
@@ -77,10 +84,34 @@
               </table>
             </div>
             <div class="card-bottom">
-              <button class="bid-btn">Change My Email</button>
-              <button class="bid-btn">Change my Password</button>
-              <button class="bid-btn">Deposit Funds</button>
-              <button class="bid-btn">Withdraw Funds</button>
+              <details>
+	              <summary class="bid-btn">Change My Email</summary>
+	              <form action="UpdateProfile?task=email" method="POST">
+		              <input type="email" placeholder="new email" name="newValue" required>
+		              <input type="submit" value="Submit">
+	              </form>
+              </details>
+              <details>
+	              <summary class="bid-btn">Change My Password</summary>
+	              <form action="UpdateProfile?task=password" method="POST">
+		              <input type="password" placeholder="new password" name="newValue" required>
+		              <input type="submit" value="Submit">
+	              </form>
+              </details>
+              <details>
+	              <summary class="bid-btn">Deposit Funds</summary>
+	              <form action="UpdateProfile?task=deposit" method="POST">
+		              <input type="number" name="newValue" required>
+		              <input type="submit" value="Submit">
+	              </form>
+              </details>
+              <details>
+	              <summary class="bid-btn">Withdraw Funds</summary>
+	              <form action="UpdateProfile?task=withdraw" method="POST">
+		              <input type="number" name="newValue" required>
+		              <input type="submit" value="Submit">
+	              </form>
+              </details>
             </div>
           </div>
         </div>

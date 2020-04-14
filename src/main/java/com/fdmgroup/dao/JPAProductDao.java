@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import com.fdmgroup.model.Auction;
 import com.fdmgroup.model.Product;
 import com.fdmgroup.model.ProductStatus;
 import com.fdmgroup.model.User;
@@ -12,15 +13,33 @@ import com.fdmgroup.model.User;
 public class JPAProductDao implements IProductDao{
 	
 	@Override
-	public boolean remove(Product t) {
-		// TODO Auto-generated method stub
-		return false;
+	public void remove(Product product) {
+		
+		//remove any auctions that are on product x
+		JPAAuctionDao jpaAuctionDao = new JPAAuctionDao();
+		List<Auction> auctions = jpaAuctionDao.findByProduct(product);
+		
+		for (Auction a : auctions) {
+			jpaAuctionDao.remove(a);
+		}
+		
+		EntityManager em = JPAConnection.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		product = em.merge(product);
+		em.remove(product);
+		em.getTransaction().commit();
+		em.close();
 	}
 
 	@Override
-	public Product update(Product t) {
-		// TODO Auto-generated method stub
-		return null;
+	public Product update(Product product) {
+		EntityManager em = JPAConnection.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		product = em.merge(product);
+		em.getTransaction().commit();
+		em.close();
+		
+		return product;
 	}
 
 	@Override

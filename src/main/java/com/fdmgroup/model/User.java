@@ -2,13 +2,11 @@ package com.fdmgroup.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -17,7 +15,8 @@ import javax.persistence.Table;
 
 @NamedQueries({
 	@NamedQuery(name="user.findByUsername", query="SELECT u FROM user u WHERE u.username = :username"),
-	@NamedQuery(name="user.authenticate", query="SELECT COUNT(u) FROM user u WHERE u.username = :username AND u.password = :password")
+	@NamedQuery(name="user.authenticate", query="SELECT COUNT(u) FROM user u WHERE u.username = :username AND u.password = :password"),
+	@NamedQuery(name="user.findAll", query="SELECT u FROM user u WHERE role NOT LIKE 'Admin'")
 })
 
 
@@ -44,6 +43,9 @@ public class User implements IStorable{
 	private String lastname;
 	
 	@Column
+	private String email;
+	
+	@Column
 	private String role;
 	
 	@Column
@@ -52,10 +54,13 @@ public class User implements IStorable{
 	@Column
 	private double wallet;
 	
-	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+	@Column
+	private int locked;
+	
+	@OneToMany(mappedBy = "owner")
 	private List<Product> productsOwned;
 	
-	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "creator")
+	@OneToMany(mappedBy = "creator")
 	private List<Product> productsCreated;
 	
 	@OneToMany(mappedBy = "bidder")
@@ -79,12 +84,13 @@ public class User implements IStorable{
 		this.salt = salt;
 	}
 	
-	public User(String username, String password, String firstname, String lastname, String role, double wallet, String salt) {
+	public User(String username, String password, String firstname, String lastname, String email, String role, double wallet, String salt) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.firstname = firstname;
 		this.lastname = lastname;
+		this.email = email;
 		this.wallet = wallet;
 		this.role = role;
 		this.salt = salt;
@@ -142,6 +148,10 @@ public class User implements IStorable{
 		return salt;
 	}
 	
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+  
 	public List<Product> getProductsOwned() {
 		return productsOwned;
 	}
@@ -160,6 +170,30 @@ public class User implements IStorable{
 	
 	public void addAuction(Auction auction) {
 		auctions.add(auction);
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public int getLocked() {
+		return locked;
+	}
+
+	public void setLocked(int locked) {
+		this.locked = locked;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	@Override

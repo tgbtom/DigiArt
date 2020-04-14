@@ -1,0 +1,451 @@
+body {
+  background-color: #262524;
+  font-family: "Khand";
+  font-size: 22px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#navigate {
+  background-color: #b2b2b2;
+  color: #6b7f8e;
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: #4d4d4d 3px 3px;
+  height: 40px;
+  min-width: 650px;
+  max-width: 1300px;
+  margin: auto;
+}
+
+#navigate a {
+  background-color: #baab91;
+  /* color: #6b7f8e; */
+  color: white;
+  border-right: 1px solid black;
+  border-left: 1px solid black;
+  border-radius: 5px;
+  height: 100%;
+  width: 16.66%;
+  min-width: 95px;
+  cursor: pointer;
+  text-align: center;
+  line-height: 40px;
+  text-decoration: none;
+}
+
+#navigate a:hover {
+  background-color: #c6c6c6;
+}
+
+.dropdown-content {
+  border: 1px solid #b2b2b2;
+  border-radius: 3px;
+  position: relative;
+  margin-top: -5px;
+  display: none;
+}
+
+.dropdown-btn:hover .dropdown-content {
+  background-color: #262524;
+  display: block;
+}
+
+.dropdown-link {
+  border-bottom: 1px ridge #b2b2b2;
+}
+
+.dropdown-link:hover {
+  opacity: 0.6;
+}
+
+.right {
+  float: right;
+  margin-left: 3px;
+}
+
+.left {
+  float: left;
+}
+
+.left p {
+  display: inline-block;
+  position: relative;
+  top: -20px;
+}
+
+#banner {
+  margin: 3% auto;
+}
+
+#banner img {
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: #4d4d4d 3px 3px;
+  max-width: 650px;
+  min-width: 300px;
+  margin: auto;
+  display: block;
+}
+
+.small-logo {
+  max-width: 32px;
+  display: inline-block;
+  position: relative;
+  top: -13px;
+}
+
+.container {
+  background-color: #b2b2b2;
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: #4d4d4d 3px 3px;
+  width: 100%;
+  min-width: 650px;
+  max-width: 1300px;
+  margin: auto;
+  margin-bottom: 35px;
+  overflow: auto;
+}
+
+.subtitle {
+  background-color: #baab91;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+.card {
+  height: 100%;
+  margin-bottom: 2%;
+}
+
+.card-top {
+  text-align: center;
+  text-decoration: underline;
+}
+
+.card-content {
+  height: 170px;
+  margin: auto;
+}
+
+.card-bottom {
+  padding: 0 15px;
+}
+
+.desc-content {
+  text-align: left;
+  font-size: 0.8em;
+  text-indent: 15px;
+}
+
+.desc-title {
+  text-decoration: underline;
+}
+
+.extendable {
+  display: contents;
+}
+
+.card-content img {
+  border: 2px solid grey;
+  border-radius: 5px;
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto auto 8px;
+}
+
+.card-bottom {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.card-float {
+  background-color: #c6c6c6;
+  border: 1px solid gray;
+  border-radius: 5px;
+  box-shadow: #4d4d4d 3px 3px;
+  margin: auto;
+  min-height: 330px;
+}
+
+.card-modal {
+  max-width: 550px;
+}
+
+.bid-btn {
+  background-color: #ffbd4a;
+  border: 1px solid black;
+  border-radius: 5px;
+  height: 100%;
+  width: 100%;
+  margin-bottom: 5px;
+  cursor: default;
+  text-align: center;
+
+  line-height: 40px;
+  font-family: "Khand";
+  font-size: 22px;
+}
+
+.bid-sm {
+  width: 45%;
+  line-height: 25px;
+}
+
+.bid-btn:enabled:hover {
+  background-color: #baab91;
+  cursor: pointer;
+}
+
+.row {
+  width: 100%;
+  display: block;
+  height: 100%;
+  overflow: auto;
+}
+
+[class*="col-"] {
+  float: left;
+  display: block;
+  padding: 5px;
+  margin: auto;
+  height: 100%;
+}
+
+.col-1 {
+  width: 8.33%;
+}
+.col-2 {
+  width: 16.66%;
+}
+.col-3 {
+  width: 25%;
+}
+.col-4 {
+  width: 33.33%;
+}
+.col-5 {
+  width: 41.66%;
+}
+.col-6 {
+  width: 50%;
+}
+.col-7 {
+  width: 58.33%;
+}
+.col-8 {
+  width: 66.66%;
+}
+.col-9 {
+  width: 75%;
+}
+.col-10 {
+  width: 83.33%;
+}
+.col-11 {
+  width: 91.66%;
+}
+.col-12 {
+  width: 100%;
+}
+
+.br {
+  border-right: 1px solid black;
+}
+
+.bb {
+  border-bottom: 1px dotted black;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.table-details {
+  border-collapse: collapse;
+  width: 100%;
+  margin: auto;
+  text-align: center;
+}
+
+.table-details td {
+  width: 50%;
+  border-bottom: 1px solid black;
+}
+
+.table-details td:nth-child(1) {
+  border-right: 1px solid black;
+}
+
+.table-details td:nth-child(2) {
+  border-left: 1px solid black;
+}
+
+input[type="text"],
+input[type="file"],
+textarea,
+input[type="password"],
+select,
+input[type="email"],
+input[type="search"],
+input[type="date"],
+input[type="time"],
+input[type="submit"] {
+  border-color: #b2b2b2;
+  width: 80%;
+  max-width: 300px;
+  height: 35px;
+  padding: 5px;
+  border-radius: 4px;
+  margin: 8px auto;
+
+  font-family: "Khand";
+  font-size: 18px;
+}
+
+textarea {
+  max-width: 80% !important;
+  height: 200px !important;
+}
+
+input[type="submit"] {
+  background-color: #ffbd4a;
+  cursor: pointer;
+}
+
+input[type="number"] {
+  width: 35%;
+  float: left;
+  margin: auto 5px auto 10px;
+  padding: 3px;
+  height: 25px;
+  font-family: "Khand";
+  font-size: 22px;
+  text-align: right;
+}
+
+.datetime {
+  width: 45% !important;
+  min-width: 130px;
+}
+
+.create-num {
+  width: 65% !important;
+}
+
+span.left {
+  float: left;
+  margin-left: 7px;
+  position: relative;
+  top: -3px;
+}
+
+.full-modal {
+  background-color: rgba(0, 0, 0, 0.4);
+  min-width: 650px;
+  width: 100%;
+  height: 100%;
+  padding-top: 100px;
+  padding-bottom: 50px;
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  overflow: auto;
+}
+
+.product {
+  cursor: pointer;
+}
+
+#img-for-modal {
+  z-index: 2;
+  border: 2px solid grey;
+  border-radius: 5px;
+  display: block;
+  max-width: 80%;
+  margin: auto auto 8px;
+}
+
+#exit-modal {
+  position: fixed;
+  left: 80%;
+  top: 5px;
+}
+
+#exit-modal:hover {
+  opacity: 0.75;
+  cursor: pointer;
+}
+
+#login-modal-content form,
+#register-modal-content form {
+  text-align: center;
+  min-width: 400px;
+}
+
+#login-modal-content label,
+#register-modal-content label {
+  float: right;
+}
+
+#start-time-box {
+  display: none;
+}
+
+.hidden-field {
+  padding-bottom: 3px;
+}
+
+.group-expands {
+  border-bottom: 1px solid gray;
+}
+
+.green-text {
+  color: #257d46;
+}
+
+.red-text {
+  color: #a33c5a;
+}
+
+.content-center {
+  text-align: center;
+}
+
+.page-message {
+  /* position: absolute; */
+  /* z-index: 101; */
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #fde073;
+  text-align: center;
+  line-height: 1.6;
+  height: 35px;
+  overflow: hidden;
+  -webkit-box-shadow: 0 0 5px black;
+  -moz-box-shadow: 0 0 5px black;
+  box-shadow: 0 0 5px black;
+}
+
+#img-close {
+  display: inline-block;
+  position: relative;
+  top: 3px;
+}
+
+#img-close:hover {
+  cursor: pointer;
+}
+
+.head-table{
+	text-decoration: underline;
+	font-weight: 700;
+}

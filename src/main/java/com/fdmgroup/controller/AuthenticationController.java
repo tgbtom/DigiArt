@@ -28,7 +28,7 @@ public class AuthenticationController {
 	
 	public AuthenticationController() {
 		super();
-		this.jpaUserDao = new JPAUserDao();
+		this.userDao = new JPAUserDao();
 	}
 
 	public IUserDao getUserDao() {
@@ -55,37 +55,18 @@ public class AuthenticationController {
 		this.homeView = homeView;
 	}
 
-	public void login(String username, String password) {
+	public boolean login(String username, String password) {
 		Optional<User> user = userDao.findByUsername(username);
 		if (user.isPresent()) {
-			Password hashedPass = checkHash(password, toByteArray(user.get().getSalt()));
+			Password hashedPass = hashPassword(password, toByteArray(user.get().getSalt()));
 			if(authenticateUser(username, hashedPass.getHashedPass())) {
-				dashboardView.showDashboard(user.get().getId());
-				return;
+				return true;
 			}
 		}
-		System.out.println("Error Logging in");
-		homeView.showLoginOptions();
+		System.out.println("user no exist");
+		return false;
 	}
 
-//	private boolean authenticateUser(String username, String hashedPass) {
-//		Connection conn = JDBCConnection.getInstance();
-//		
-//		String query = "SELECT COUNT(*) FROM users WHERE username LIKE ? AND password LIKE ?";
-//		try {
-//			PreparedStatement ps = conn.prepareStatement(query);
-//			ps.setString(1, username);
-//			ps.setString(2, hashedPass);
-//			
-//			ResultSet rs = ps.executeQuery();
-//			rs.next();
-//			
-//			return rs.getInt(1) == 1;
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return false;
-//	}
 	
 	private boolean authenticateUser(String username, String hashedPass) {
 		EntityManager em = JPAConnection.getInstance().createEntityManager();
@@ -108,23 +89,24 @@ public class AuthenticationController {
 		homeView.showInitialOptions();
 	}
 	
-	public void register(String username, String password, String fname, String lname) {
+	public boolean register(String username, String password, String fname, String lname, String email) {
 
 		if(userDao.findByUsername(username).isPresent()) {
 			System.out.println("Username is already in use, please try something new!");
+			return false;
 		}
 		else {
 			Password passwd = hashPassword(password);
 			String hashedPassword = passwd.getHashedPass();
 			String salt = passwd.getSalt();
 			
-			User user = new User(username, hashedPassword, fname, lname, "Member", 0.00d, salt);
-			jpaUserDao.create(user);
+			User user = new User(username, hashedPassword, fname, lname, email, "Member", 0.00d, salt);
+			userDao.create(user);
+			return true;
 		}
-		homeView.showInitialOptions();
 	}
 
-	private Password hashPassword(String password) {
+	public Password hashPassword(String password) {
 		MessageDigest md;
 		Password output;
 		try {
@@ -153,7 +135,8 @@ public class AuthenticationController {
 		return null;
 	}
 	
-	private Password checkHash(String password, byte[] salt) {
+	private Password hashPassword(String password, byte[] salt) {
+
 		MessageDigest md;
 		Password output;
 		try {

@@ -5,6 +5,9 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+
+import javax.persistence.Query;
+
 import javax.persistence.TypedQuery;
 
 import com.fdmgroup.model.User;
@@ -26,25 +29,34 @@ public class JPAUserDao implements IUserDao{
 	public User findById(int id) {
 		EntityManager em = JPAConnection.getInstance().createEntityManager();
 		em.getTransaction().begin();
-		return em.find(User.class, id);
+		User user = em.find(User.class, id);
+		em.close();
+		return user;
 	}
 
 	@Override
 	public List<User> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		EntityManager em = JPAConnection.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		Query query = em.createNamedQuery("user.findAll");
+		List<User> users = query.getResultList();
+		em.close();
+		return users;
 	}
 
 	@Override
-	public User update(User t) {
-		// TODO Auto-generated method stub
-		return null;
+	public User update(User user) {
+		EntityManager em = JPAConnection.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		em.merge(user);
+		em.getTransaction().commit();
+		em.close();
+		return user;
 	}
 
 	@Override
-	public boolean remove(User t) {
+	public void remove(User t) {
 		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override
@@ -61,34 +73,30 @@ public class JPAUserDao implements IUserDao{
 	}
 
 	@Override
-	public List<User> findByFirstname(String firstname) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void deposit(User user, double amountToDeposit) {
 		EntityManager em = JPAConnection.getInstance().createEntityManager();
 		em.getTransaction().begin();
-		User userPersist = em.find(User.class, user.getId());
-		userPersist.setWallet(userPersist.getWallet() + amountToDeposit);
+		user = em.merge(user);
+		user.setWallet(user.getWallet() + amountToDeposit);
 		em.getTransaction().commit();
 		em.close();
 	}
 
 	@Override
-	public void withdraw(User user, double amountToWithdraw) {
+	public boolean withdraw(User user, double amountToWithdraw) {
 		EntityManager em = JPAConnection.getInstance().createEntityManager();
 		em.getTransaction().begin();
-		User userPersist = em.find(User.class, user.getId());
-		if (userPersist.getWallet() - amountToWithdraw >= 0) {
-			userPersist.setWallet(userPersist.getWallet() - amountToWithdraw);
+		user = em.merge(user);
+		if (user.getWallet() - amountToWithdraw >= 0) {
+			user.setWallet(user.getWallet() - amountToWithdraw);
 			em.getTransaction().commit();
 		}
 		else {
-			System.out.println("Not enough funds to withdraw the amount specified");
+			em.close();
+			return false;
 		}
 		em.close();
+		return true;
 	}
 
 }

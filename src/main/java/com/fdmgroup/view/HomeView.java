@@ -78,7 +78,7 @@ public class HomeView {
 		System.out.println("Enter Last name: ");
 		String lname = scanner.nextLine();
 		
-		authenticationController.register(username, password, fname, lname);
+		authenticationController.register(username, password, fname, lname, "sample@console.com");
 	}
 	public void showLoginOptions() {
 		System.out.println("-----Login--------------");

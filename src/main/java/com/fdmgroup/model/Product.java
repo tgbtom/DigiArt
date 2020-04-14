@@ -8,14 +8,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-@NamedQuery(name="product.findMine", query="SELECT p FROM product p WHERE p.creator = :creator")
-
+@NamedQuery(name="product.findMine", query="SELECT p FROM product p WHERE p.creator = :creator OR p.owner = :creator")
 @Entity (name = "product")
 @Table (name = "products")
 public class Product implements IStorable{
@@ -37,12 +37,27 @@ public class Product implements IStorable{
 	@JoinColumn(name = "owner_id", referencedColumnName = "user_id", nullable = false)
 	private User owner;
 	
+
+	@Column
+	private String description;
+	
 	@Enumerated(EnumType.STRING)
 	@Column
 	private ProductStatus status;
 	
+	@Enumerated(EnumType.STRING)
+	@Column
+	private ProductCategory category;
+	
 	@OneToOne(mappedBy = "product")
 	private Auction auction;
+	
+	@Lob
+	@Column(name = "image")
+	private byte[] image;
+	
+	@Column(name = "sell_price")
+	private double sellPrice;
 
 	public Product() {
 		super();
@@ -50,12 +65,27 @@ public class Product implements IStorable{
 		this.creator = (new User());
 	}
 	
-	public Product(String name, User creator) {
+	public Product(String name, User creator, byte[] image, String description, ProductCategory cat) {
 		super();
 		this.name = name;
 		this.creator = creator;
 		this.owner = creator;
 		this.status = ProductStatus.AVAILABLE;
+		this.image = image;
+		this.description = description;
+		this.category = cat;
+	}
+	
+	public Product(int id, String name, User creator, byte[] image, String description, ProductCategory cat) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.creator = creator;
+		this.owner = creator;
+		this.status = ProductStatus.AVAILABLE;
+		this.image = image;
+		this.description = description;
+		this.category = cat;
 	}
 
 	public Product(String name, User creator, User owner) {
@@ -118,6 +148,38 @@ public class Product implements IStorable{
 
 	public void setOwner(User owner) {
 		this.owner = owner;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public ProductCategory getCategory() {
+		return category;
+	}
+
+	public void setCategory(ProductCategory category) {
+		this.category = category;
+	}
+
+	public double getSellPrice() {
+		return sellPrice;
+	}
+
+	public void setSellPrice(double sellPrice) {
+		this.sellPrice = sellPrice;
 	}
 	
 }

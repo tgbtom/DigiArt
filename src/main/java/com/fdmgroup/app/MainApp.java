@@ -34,7 +34,7 @@ public class MainApp {
 		AuthenticationController ac = new AuthenticationController();
 		ProductController pc = new ProductController();
 		UserController uc = new UserController();
-		AuctionController auc = new AuctionController(scanner);
+		AuctionController auc = new AuctionController();
 		
 		hc.setHomeView(hv);
 		ac.setHomeView(hv);

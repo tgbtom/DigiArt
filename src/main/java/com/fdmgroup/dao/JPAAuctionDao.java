@@ -2,6 +2,7 @@ package com.fdmgroup.dao;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -192,5 +193,15 @@ public class JPAAuctionDao implements IAuctionDao{
 			}
 		}
 		return highestBid;
+	}
+
+	public List<Auction> findAuctionsContaining(String val) {
+		List<Auction> auctions = new ArrayList<>();
+		for (Auction a : findAll()) {
+			if (a.getProduct().getName().toUpperCase().contains(val.toUpperCase())) {
+				auctions.add(a);
+			}
+		}
+		return auctions;
 	}
 }

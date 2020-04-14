@@ -37,18 +37,20 @@ public class SortAuctions extends HttpServlet {
 			throws ServletException, IOException {
 		JPAAuctionDao jad = new JPAAuctionDao();
 		List<Auction> auctions = new ArrayList<>();
-		// name, timeasc, timedesc
 		String option = request.getParameter("opt");
-		System.out.println(option);
 		if (option.equals("timeasc")) {
 			auctions = jad.findExpiringAuctions();
 		}
 		else if (option.equals("timedesc")) {
 			auctions = jad.findExpiringAuctionsReverse();
 		}
-		else {
+		else if(option.equals("name")) {
 			auctions = jad.allAuctionsOrderedByProductName();
 		}
+		else if (option.equals("search")) {
+			String val = request.getParameter("val");
+			auctions = jad.findAuctionsContaining(val);
+			}
 		
 		String output = "<div class='row'>";
 		int counter = 0;
@@ -100,7 +102,6 @@ public class SortAuctions extends HttpServlet {
 			counter++;
 		}
 		response.getWriter().append(output);
-		response.getWriter().append(option);
 	}
 
 	/**

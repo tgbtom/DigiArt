@@ -106,14 +106,14 @@
 						if(p.getOwner().getId() == user.getId()){
 							%>
 							<a><button class="bid-btn green-text">
-									BOUGHT (<%=p.getSellPrice() %>)
+									BOUGHT ($ <%=p.getSellPrice() %>)
 							</button></a>
 							<%
 						}
 						else{
 							%>
 							<a><button class="bid-btn green-text">
-									<%= p.getStatus() %> (<%=p.getSellPrice() %>)
+									<%= p.getStatus() %> ($ <%=p.getSellPrice() %>)
 							</button></a>
 						<%	
 						}
@@ -158,15 +158,20 @@
 						
 						<%
 					} else {
-						%>
-						
-						<a>
-							<button class="bid-btn green-text">
-								<%= p.getStatus() %>
-							</button>
-						</a>
-						
-						<%
+						if(p.getOwner().getId() == user.getId()){
+							%>
+							<a><button class="bid-btn green-text">
+									BOUGHT ($ <%=p.getSellPrice() %>)
+							</button></a>
+							<%
+						}
+						else{
+							%>
+							<a><button class="bid-btn green-text">
+									<%= p.getStatus() %> ($ <%=p.getSellPrice() %>)
+							</button></a>
+						<%	
+						}
 					}
 					%>	
 					</div>

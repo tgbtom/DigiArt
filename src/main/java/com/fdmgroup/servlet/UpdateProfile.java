@@ -48,7 +48,6 @@ public class UpdateProfile extends HttpServlet {
 			String value = (String) request.getParameter("newValue");
 			user.setEmail(value);
 			jud.update(user);
-			System.out.println("value is"+ value);
 			response.sendRedirect("Navigate?loc=profile");
 		} else if (task.equals("password")) {
 			String value = (String) request.getParameter("newValue");

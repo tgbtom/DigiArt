@@ -81,7 +81,7 @@
           </div>
           <div class="col-6">
             <div class="input-group content-center">
-              <input type="search" name="" id="" />
+              <input type="search" name="search-contains" id="search-contains" />
             </div>
           </div>
         </div>
@@ -152,6 +152,7 @@
     	  	counter++;
       	}%>
       </div>
+    </div>
     </div>
 
     <div class="full-modal" id="full-modal">

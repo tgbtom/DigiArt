@@ -14,6 +14,7 @@ window.onload = function () {
   var pswdWarn = document.getElementById("pass-warning");
   var pageMessage = document.getElementById("page-message");
   var adminLocks = document.getElementsByClassName("admin-lock");
+  var searchInput = document.getElementById("search-contains");
 
   if (typeof auctionHandler === "function") {
     auctionHandler();
@@ -118,6 +119,18 @@ window.onload = function () {
         container.innerHTML = this.responseText;
       };
       xhttp.open("GET", "SortAuctions?opt=" + sortOption.value, true);
+      xhttp.send();
+    });
+  }
+
+  if (searchInput != null) {
+    searchInput.addEventListener("change", function () {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+          let container = document.getElementById("auction-container");
+          container.innerHTML = this.responseText;
+        };
+      xhttp.open("GET", "SortAuctions?opt=search&val=" + searchInput.value, true);
       xhttp.send();
     });
   }

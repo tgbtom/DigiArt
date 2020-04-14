@@ -80,7 +80,9 @@
       for (Auction a : topAuctions){
     	  
     	  String base64Image = new String(Base64.getEncoder().encode(a.getProduct().getImage()));
-    	  
+    	  if(counter == 6){
+    		  break;
+    	  }
     	  if(counter % 3 != 0 || counter == 0){
     		  %>
     		  <div class="col-4">
@@ -148,7 +150,9 @@
 	      for (Auction a : recentAuctions){
 	    	  
 	    	  String base64Image = new String(Base64.getEncoder().encode(a.getProduct().getImage()));
-	    	  
+	    	  if(counter == 6){
+	    		  break;
+	    	  }
 	    	  if(counter % 3 != 0 || counter == 0){
 	    		  %>
 	    		  <div class="col-4">
@@ -210,6 +214,9 @@
 		      for (Auction a : expiringAuctions){
 		    	  
 		    	  String base64Image = new String(Base64.getEncoder().encode(a.getProduct().getImage()));
+		    	  if(counter == 6){
+		    		  break;
+		    	  }
 		    	  
 		    	  if(counter % 3 != 0 || counter == 0){
 		    		  %>
@@ -259,8 +266,7 @@
 		    	  	counter++;
 		      	}%>
         </div>
-
-
+	</div>
     </div>
 
     <div class="full-modal" id="full-modal">

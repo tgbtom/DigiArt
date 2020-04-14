@@ -441,7 +441,7 @@ span.left {
   top: 3px;
 }
 
-#img-close:hover {
+#img-close:hover, #msg-close:hover {
   cursor: pointer;
 }
 

@@ -24,6 +24,8 @@ public class AuthenticationController {
 	private DashboardView dashboardView;
 	private HomeView homeView;
 	
+	private JPAUserDao jpaUserDao;
+	
 	public AuthenticationController() {
 		super();
 		this.userDao = new JPAUserDao();

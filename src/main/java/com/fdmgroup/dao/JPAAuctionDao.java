@@ -1,5 +1,6 @@
 package com.fdmgroup.dao;
 
+
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
@@ -25,7 +26,6 @@ public class JPAAuctionDao implements IAuctionDao{
 		em.close();
 		return auctions;
 	}
-	
 	@Override
 	public Auction create(Auction auction) {
 		EntityManager em = JPAConnection.getInstance().createEntityManager();
@@ -44,7 +44,6 @@ public class JPAAuctionDao implements IAuctionDao{
 		Auction auction = em.find(Auction.class, id);
 		em.close();
 		return auction;
-		
 	}
 
 	@Override

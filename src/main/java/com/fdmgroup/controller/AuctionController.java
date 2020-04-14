@@ -57,7 +57,7 @@ public class AuctionController{
 			
 			auction = jpaAuctionDao.create(auction);
 			jpaProductDao.updateStatus(product.getProduct_id(), ProductStatus.AUCTIONED);
-			
+
 			scheduleJob(auction);
 
 		}

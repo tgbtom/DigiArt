@@ -24,6 +24,8 @@ public class AuthenticationController {
 	private DashboardView dashboardView;
 	private HomeView homeView;
 	
+	private JPAUserDao jpaUserDao;
+	
 	public AuthenticationController() {
 		super();
 		this.userDao = new JPAUserDao();
@@ -64,6 +66,7 @@ public class AuthenticationController {
 		System.out.println("user no exist");
 		return false;
 	}
+
 	
 	private boolean authenticateUser(String username, String hashedPass) {
 		EntityManager em = JPAConnection.getInstance().createEntityManager();
@@ -133,6 +136,7 @@ public class AuthenticationController {
 	}
 	
 	private Password hashPassword(String password, byte[] salt) {
+
 		MessageDigest md;
 		Password output;
 		try {

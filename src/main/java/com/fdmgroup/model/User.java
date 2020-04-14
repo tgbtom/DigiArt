@@ -151,7 +151,7 @@ public class User implements IStorable{
 	public void setSalt(String salt) {
 		this.salt = salt;
 	}
-	
+  
 	public List<Product> getProductsOwned() {
 		return productsOwned;
 	}

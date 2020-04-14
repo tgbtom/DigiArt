@@ -5,7 +5,9 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+
 import javax.persistence.Query;
+
 import javax.persistence.TypedQuery;
 
 import com.fdmgroup.model.User;

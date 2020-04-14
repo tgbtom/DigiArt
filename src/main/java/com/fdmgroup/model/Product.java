@@ -16,7 +16,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @NamedQuery(name="product.findMine", query="SELECT p FROM product p WHERE p.creator = :creator OR p.owner = :creator")
-
 @Entity (name = "product")
 @Table (name = "products")
 public class Product implements IStorable{
@@ -38,6 +37,7 @@ public class Product implements IStorable{
 	@JoinColumn(name = "owner_id", referencedColumnName = "user_id", nullable = false)
 	private User owner;
 	
+
 	@Column
 	private String description;
 	

@@ -55,7 +55,6 @@ public class Auction implements IStorable, Comparable<Auction>{
 	@Enumerated(EnumType.STRING)
 	@Column
 	private ContractType contract;
-	
 	@OneToMany(mappedBy = "auction")
 	private List<Bid> bids;
 	
